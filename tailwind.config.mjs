@@ -7,9 +7,18 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+      fontFamily :{
+        sans: ['Noto Sans KR', 'sans-serif'],
+        baskin: ['BaskinRobbins', 'Noto Sans KR'],  //  className="font-baskin" 으로 사용 
+      },
+
+      colors: { //시그마 디자인 시안에서 확인하고 커스텀으로 만든 컬러들입니다
+            //className="bg-customColor"
+        customRed: '#FF483D',   // RED
+        customBlue: '#29C9F9',  // BLUE
+        customPurple: '#A77EFF', //PURPLE
+        customPink: '#FF2A6A',   //PINK
+        customMain: '#EFFF04',  //main (노란색)
       },
     },
   },

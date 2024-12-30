@@ -2,20 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {      /*  Noto Sans KR을 전역으로 공통폰트, 배스킨라빈스체는 tailwind.config 참조  */
+  font-family: 'Noto Sans KR', sans-serif; 
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@font-face {
+  font-family: 'BaskinRobbins';
+  src: url('/fonts/br-font.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
