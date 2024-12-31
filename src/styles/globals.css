@@ -9,7 +9,8 @@
 }
 
 body {      /*  Noto Sans KR을 전역으로 공통폰트, 배스킨라빈스체는 tailwind.config 참조  */
-  font-family: 'Noto Sans KR', sans-serif; 
+  font-family: 'Noto Sans KR', sans-serif;
+  min-width: 375px;
 }
 
 @font-face {
