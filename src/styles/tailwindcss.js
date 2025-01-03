@@ -7,11 +7,13 @@ const stitle = "font-normal text-xl";
 const pointtext = "font-bold text-2xl";
 const afborder =
   " after:content-[''] after:block after:w-full after:h-px after:bg-customGrey01 after:bottom-0 after:mt-5";
-const h3font = "text-2xl font-bold ";
 const titleborder = "w-[2px] h-[30px] mx-[15px] bg-customGrey03";
 const contentborder = "w-full h-[1px] bg-customGrey03";
 const btn = " bg-customMain flexcenter font-bold ";
 const btnabsol = "absolute right-0 bottom-5";
+const dimbg =
+  "fixed inset-0 z-10 bg-black bg-opacity-80 flex items-center justify-center";
+// const modalstandard = ""
 
 const tail = {
   flexstanderd,
@@ -20,12 +22,12 @@ const tail = {
   header,
   titles,
   afborder,
-  h3font,
   titleborder,
   contentborder,
   stitle,
   pointtext,
   btn,
   btnabsol,
+  dimbg,
 };
 export default tail;

@@ -1,55 +1,51 @@
 import tail from "@/styles/tailwindcss";
+import { useState } from "react";
 
-export function Btn({ btname, width, height, mt, fontsize, absolute }) {
+export function Btn({ btname, width, height, ma, fontsize, absolute }) {
   const { btn } = tail;
   return (
     <button
-      className={`${btn} ${width} ${height} ${fontsize} ${mt} ${absolute}`}
+      className={`${btn} ${width} ${height} ${fontsize} ${ma} ${absolute}`}
     >
       {btname}
     </button>
   );
 }
 
-export function Gradetitle({ rating, title, color, mt }) {
-  const { flexstanderd, h3font, titleborder } = tail;
-  if (rating === "LEGENDARY") {
-  }
+export function Gradetitle({ rating, type, mt }) {
+  const { flexstanderd, pointtext, titleborder } = tail;
+  const ratingColors = {
+    LEGENDARY: "text-customPink",
+    "SUPER RARE": "text-customPurple",
+    RARE: "text-customBlue",
+    COMMON: "text-customMain",
+  };
+  const ratingClass = ratingColors[rating];
+
   return (
     <div className={`${flexstanderd} ${mt} relative`}>
-      <h3 className={`${h3font} ${color} `}>{rating}</h3>
+      <h3 className={`${pointtext} ${ratingClass}`}>{rating}</h3>
       <div className={`${titleborder}`}></div>
-      <h3 className={`${h3font} text-customGrey01`}>{title}</h3>
+      <h3 className={`${pointtext} text-customGrey01`}>{type}</h3>
     </div>
   );
 }
 
 export default function Buyer({
-  rating,
-  title,
   nickname,
   content,
   price,
   buyphoto,
   totalphoto,
-  purchasequantity,
 }) {
-  const {
-    flexstanderd,
-    flexcenter,
-    h3font,
-    contentborder,
-    stitle,
-    pointtext,
-    btn,
-  } = tail;
+  const { flexstanderd, contentborder, stitle, pointtext } = tail;
 
   return (
     <div className={`flex flex-col gap-[30px] max-w-[440px]`}>
       <div className={`${flexstanderd} justify-between`}>
-        <Gradetitle rating="LEGENDARY" title="풍경" color="text-customPink " />
+        <Gradetitle rating="LEGENDARY" type="풍경" />
         <h3
-          className={`${h3font} decoration-2 underline text-white decoration-white`}
+          className={`${pointtext} decoration-2 underline text-white decoration-white`}
         >
           {nickname}
         </h3>
@@ -111,12 +107,9 @@ export default function Buyer({
         btname="포토카드 구매하기"
         width="w-full"
         height="h-[80px]"
-        mt="mt-[50px]"
+        ma="mt-[50px]"
         fontsize="text-xl"
       />
-      {/* <button className={`${btn} h-[80px] text-xl mt-[50px]`}>
-        포토카드 구매하기
-      </button> */}
     </div>
   );
 }
