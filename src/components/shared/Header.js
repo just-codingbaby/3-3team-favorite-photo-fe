@@ -17,10 +17,9 @@ export default function Header() {
   }
 
   return (
-    <div>
-      {/* 기본 헤더 - 375px 이상에서 사용 */}
-      <header className="fixed flex items-center justify-between bg-black h-20 w-full sm:px-[100px] lg:px-[200px]">
-        <button onClick={handleLogo} className="relative sm:w-[111px] sm:h-5 lg:w-[139px] lg:h-6 w-[83px] h-4">
+    <div>₩
+      <header className="fixed flex items-center justify-between bg-black h-20 w-full tb:px-[100px] lt:px-[200px]">
+        <button onClick={handleLogo} className="relative tb:w-[111px] tb:h-5 lt:w-[139px] lt:h-6 w-[83px] h-4">
           <Image src="/images/main_logo.png" alt="logo image" fill priority />
         </button>
 
@@ -46,7 +45,7 @@ export default function Header() {
         </div>
       </header>
 
-      <header className="fixed flex items-center justify-between bg-black h-20 w-full sm:hidden px-4">
+      <header className="fixed flex items-center justify-between bg-black h-20 w-full tb:hidden px-4">
         
         <button>
           <Image
