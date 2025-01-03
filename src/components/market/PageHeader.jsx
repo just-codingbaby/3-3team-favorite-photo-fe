@@ -1,13 +1,16 @@
+import { Button } from "@/components/ui/button"
+
 export default function PageHeader() {
-  return <section>
+  return (
+    <section>
     <div className="tb:block lt:py-[60px] hidden py-10">
       <div className="flex justify-between pb-5 border-b-2">
         <h1 className="font-baskin lt:text-[62px] text-5xl">
           마켓플레이스
         </h1>
-        <button className="bg-customMain w-[342px] p-4 font-bold lt:w-[440px] flex justify-center items-center">
+        <Button className="bg-customMain w-[342px] p-4 font-bold lt:w-[440px] flex justify-center items-center">
           나의 포토카드 판매하기
-        </button>
+        </Button>
       </div>
       <div className="flex justify-between py-5">
         <div className="flex gap-[30px]">
@@ -69,5 +72,6 @@ export default function PageHeader() {
         </div>
       </div>
     </div>
-  </section>;
+  </section>
+  );
 }
