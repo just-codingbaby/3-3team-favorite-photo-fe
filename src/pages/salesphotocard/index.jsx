@@ -3,6 +3,7 @@ import Buyer, { Btn } from "@/components/buyer";
 import { Gradetitle } from "@/components/buyer";
 import ModalStandard from "@/components/modal";
 import { useState } from "react";
+import { BorderBtn } from "@/components/modal";
 
 export default function Salesphotocard({ rating, type, color, ma, buyphoto }) {
   const {
@@ -15,14 +16,57 @@ export default function Salesphotocard({ rating, type, color, ma, buyphoto }) {
     btnabsol,
   } = tail;
 
-  const [title, setTitle] = useState("우리집 앞마당");
+  const [example, setExample] = useState({
+    title: "우리집 앞마당",
+    rating: "LEGENDARY",
+    buyphoto: 2,
+  });
+
+  const su = `[${example.rating} | ${example.title}] ${example.buyphoto}장 구매에 성공했습니다!`;
+
   return (
     <div>
-      {/* <ModalStandard rating="LEGENDARY" title={title} /> */}
+      {/* <ModalStandard
+        modalbox="w-[560px] h-[352px] bg-[#161616]"
+        modaltitle="포토카드 구매"
+        modaltext={`[${example.rating} | ${example.title}] ${example.buyphoto}장을 구매하시겠습니까?`}
+        rating={example.rating}
+        title={example.title}
+        modaltextClass="text-customGrey01 "
+              btn={
+          <Btn
+            btname="구매하기"
+            width="w-[170px]"
+            height="h-[60px]"
+            ma="mt-[60px] mb-[60px]"
+            fontsize="text-lg"
+          />
+        }
+      /> */}
+      <ModalStandard
+        modalbox="relative w-[660px] h-[452px] bg-[#161616] border border-white"
+        // closeposition="top-[30px] right-[30px] w-8 h-8`"
+        closeposition="top-0 right-0 w-8 h-8`"
+        modaltitle={
+          <>
+            <span className="text-white font-baskin text-[46px] font-bold">
+              구매{" "}
+            </span>
+            <span className="text-customMain font-baskin text-[46px] font-bold">
+              성공
+            </span>
+          </>
+        }
+        modaltext={su}
+        rating={example.rating}
+        title={example.title}
+        modaltextClass="text-white font-bold text-xl"
+        btn={<BorderBtn text="마이갤러리에서 확인하기" ma="mt-[60px]" />}
+      />
       <div className={`${header} text-white`}>헤더야</div>
       <div className={`mx-56 mb-[2000px] border border-customBlue`}>
         <div className={`${marketlogo}  `}>마켓플레이스</div>
-        <h2 className={`${titles} ${afborder} text-white`}>{title}</h2>
+        <h2 className={`${titles} ${afborder} text-white`}>{example.title}</h2>
         <div className={`flex gap-[80px] mt-[60px]`}>
           <img
             src="images/type=sample_img1.png"

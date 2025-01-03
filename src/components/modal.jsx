@@ -12,27 +12,39 @@ export function CloseBtn({ position }) {
   );
 }
 
-export default function ModalStandard({ rating, title, buyphoto = "2" }) {
+export function BorderBtn({ text, ma }) {
+  const { flexcenter } = tail;
+
+  return (
+    <div
+      className={`${flexcenter} ${ma} w-[440px] h-[60px] border border-white`}
+    >
+      <span className={`text-lg text-white font-medium`}>{text}</span>
+    </div>
+  );
+}
+
+export default function ModalStandard({
+  modalbox,
+  modaltitle,
+  modaltext,
+  modaltextClass,
+  rating,
+  title,
+  buyphoto,
+  btn,
+  closeposition,
+}) {
   const { dimbg, flexcenter } = tail;
   return (
     <div className={`${dimbg}`}>
-      <div
-        className={`relative w-[560px] h-[352px] bg-[#161616] ${flexcenter} flex-col`}
-      >
-        <CloseBtn position="top-[30px] right-[30px] w-8 h-8" />
+      <div className={`${modalbox}  ${flexcenter} flex-col`}>
+        <CloseBtn position={`${closeposition}`} />
         <h3 className={`text-xl font-bold text-white mt-[80px]`}>
-          포토카드 구매
+          {modaltitle}
         </h3>
-        <span className={`text-customGrey01 mt-[40px]`}>
-          [{rating} | {title}] {buyphoto}장을 구매하시겠습니까?
-        </span>
-        <Btn
-          btname="구매하기"
-          width="w-[170px]"
-          height="h-[60px]"
-          ma="mt-[60px] mb-[60px]"
-          fontsize="text-lg"
-        />
+        <span className={`${modaltextClass} mt-[40px]`}>{modaltext}</span>
+        {btn}
       </div>
     </div>
   );
