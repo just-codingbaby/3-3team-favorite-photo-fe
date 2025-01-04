@@ -28,7 +28,7 @@ body {      /*  Noto Sans KR을 전역으로 공통폰트, 배스킨라빈스체
     --card-foreground: 224 71.4% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
-    --primary:64 100% 51%;
+    --primary: 64 100% 51%;
     --primary-foreground: 0 0% 6%;
     --secondary: 220 14.3% 95.9%;
     --secondary-foreground: 220.9 39.3% 11%;
