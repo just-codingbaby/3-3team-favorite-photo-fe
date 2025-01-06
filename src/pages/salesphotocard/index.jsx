@@ -20,8 +20,6 @@ export default function Salesphotocard() {
     rating: "LEGENDARY",
     buyphoto: 2,
   });
-  const [modalTextSate, setModalTextState] = useState(true);
-  const str = `[${example.rating} | ${example.title}] ${example.buyphoto}장 구매에 성공했습니다!`;
 
   return (
     <div>

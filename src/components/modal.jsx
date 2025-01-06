@@ -1,6 +1,7 @@
 import tail from "@/styles/tailwindcss";
 import { Btn } from "./buyer";
 import Link from "next/link";
+import { useState } from "react";
 
 export function CloseBtn({ position, onClose }) {
   const closeBtn = `absolute top-1/2 left-1/2 w-6 h-[2px] bg-customGrey01 transform -translate-x-1/2 -translate-y-1/2`;
@@ -25,39 +26,6 @@ export function BorderBtn({ children, ma, href, onClick }) {
     >
       <span className={`text-lg text-white font-medium`}>{children}</span>
     </Link>
-  );
-}
-
-export default function ModalStandard({
-  modalbox,
-  modaltitle,
-  modaltext,
-  closeposition,
-  onClose,
-}) {
-  const { dimbg, flexcenter, stitle } = tail;
-  return (
-    <div className={`${dimbg}`}>
-      <div className={`${modalbox}  ${flexcenter} flex-col relative`}>
-        <h3 className={`${stitle} font-sans text-white mt-[80px]`}>
-          {modaltitle}
-        </h3>
-        <span className={`text-white text-[16px] font-normal mt-[40px]`}>
-          {modaltext}
-        </span>
-        <CloseBtn
-          position={`${closeposition} top-0 right-0`}
-          onClose={onClose}
-        />
-        <Btn
-          btname="구매하기"
-          width="w-[170px]"
-          height="h-[60px]"
-          ma="mt-[60px] mb-[60px]"
-          fontsize="text-lg"
-        />
-      </div>
-    </div>
   );
 }
 
@@ -90,5 +58,43 @@ export function ModalContent({
         {btnText}
       </BorderBtn>
     </>
+  );
+}
+
+export default function ModalStandard({
+  modalbox,
+  modaltitle,
+  modaltext,
+  closeposition,
+  onClick,
+  onClose,
+}) {
+  const { dimbg, flexcenter, stitle } = tail;
+
+  // const [modalTextSate, setModalTextSate] = useState(true);
+
+  return (
+    <div className={`${dimbg}`}>
+      <div className={`${modalbox}  ${flexcenter} flex-col relative`}>
+        <h3 className={`${stitle} font-sans text-white mt-[80px]`}>
+          {modaltitle}
+        </h3>
+        <span className={`text-white text-[16px] font-normal mt-[40px]`}>
+          {modaltext}
+        </span>
+        <CloseBtn
+          position={`${closeposition} top-0 right-0`}
+          onClose={onClose}
+        />
+        <Btn
+          btname="구매하기"
+          width="w-[170px]"
+          height="h-[60px]"
+          ma="mt-[60px] mb-[60px]"
+          fontsize="text-lg"
+          onClick={onClick}
+        />
+      </div>
+    </div>
   );
 }

@@ -105,23 +105,30 @@ export function QuantityBtn({ buyphoto }) {
 }
 
 export default function Buyer({ content, buyphoto }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState(null); // 모달 상태
+
   const [example, setExample] = useState({
     rating: "LEGENDARY",
     title: "포토카드",
     buyphoto: 1,
   });
 
-  function handleClick() {
+  const str = `[${example.rating} | ${example.title}] ${example.buyphoto}장 구매에 성공했습니다!`;
+
+  function BuyModalOpen() {
+    setModalType("buy");
+  }
+
+  function ModalStandardOpen() {
     if (example.buyphoto >= 1) {
-      setIsModalOpen(true);
+      setModalType("standard");
     } else {
       alert("수량을 선택하시오");
     }
   }
 
   function handleCloseModal() {
-    setIsModalOpen(false);
+    setIsModalOpen(null);
   }
 
   const { flexstanderd, contentborder } = tail;
@@ -146,16 +153,27 @@ export default function Buyer({ content, buyphoto }) {
         height="h-[80px]"
         ma="mt-[50px]"
         fontsize="text-xl"
-        onClick={handleClick}
+        onClick={ModalStandardOpen}
       />
-      {isModalOpen && (
+      {modalType === "standard" && (
         <ModalStandard
           modalbox="w-[560px] h-[352px] bg-[#161616]"
           modaltitle="포토카드 구매"
           modaltext={`[${example.rating} | ${example.title}] ${example.buyphoto}장을 구매하시겠습니까?`}
           closeposition="absolute"
+          onClick={BuyModalOpen}
           onClose={handleCloseModal} // 모달 닫기 함수 전달
         />
+      )}
+      {modalType === "buy" && (
+        <ModalContent
+          text="구매"
+          state={modalTextSate}
+          btnText="마이갤러리 확인하기"
+          href="/test/test"
+        >
+          {str}
+        </ModalContent>
       )}
     </div>
   );

@@ -13,7 +13,6 @@ const btn = " bg-customMain flexcenter font-bold ";
 const btnabsol = "absolute right-0 bottom-5";
 const dimbg =
   "fixed inset-0 z-10 bg-black bg-opacity-80 flex items-center justify-center";
-// const modalstandard = ""
 
 const tail = {
   flexstanderd,
