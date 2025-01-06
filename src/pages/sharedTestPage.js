@@ -1,6 +1,7 @@
 import CustomDropDown from "@/components/shared/CustomDropDown";
 import GradeCard from "@/components/shared/GradeCard";
 import Header from "@/components/shared/Header";
+import Primarybutton from "@/components/shared/PrimaryButton";
 import { useState } from "react";
 
 export default function SharedTestPage() {
@@ -31,7 +32,7 @@ export default function SharedTestPage() {
           <GradeCard grade="legendary" amount="5" size="S" />
         </div>
 
-        <div className="flex flex-col gap-5 border-dashed border-purple-400 border-[1px] px-5 py-5 w-[400px]">
+        <div className="flex flex-col gap-5 border-dashed border-purple-400 border-[1px] px-5 py-5 w-[200px]">
           <CustomDropDown
             label="등급"
             options={gradeOptions}
@@ -44,6 +45,12 @@ export default function SharedTestPage() {
             value={sales}
             onChange={setSales}
           />
+        </div>
+
+        <div className="flex flex-col gap-5 border-dashed border-purple-400 border-[1px] px-5 py-5 w-[500px]">
+          <Primarybutton label="포토카드 구매하기" width="440px" height="80px" textSize="xl" />
+          <Primarybutton label="포토카드 교환하기" width="342px" height="75px" textSize="lg" />
+          <Primarybutton label="승인" width="150px" height="40px" textSize="xs" />
         </div>
       </div>
     </div>
