@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Search, SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -8,8 +7,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import SearchInput from "@/components/shared/SearchInput";
+import SortBtn from "@/components/shared/SortBtn";
 
-const FILLTER_LIST = [
+const FILTER_LIST = [
   {
     label: "등급",
     category: "rate",
@@ -66,22 +67,6 @@ const FILLTER_LIST = [
   },
 ];
 
-function SortBtn() {
-  return (
-    <Select>
-      <SelectTrigger className="border w-[130px] tb:w-[180px]">
-        <SelectValue placeholder="정렬" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="latest">최신 순</SelectItem>
-        <SelectItem value="oldest">오래된 순</SelectItem>
-        <SelectItem value="highPrice">높은 가격순</SelectItem>
-        <SelectItem value="lowPrice">낮은 가격순</SelectItem>
-      </SelectContent>
-    </Select>
-  );
-}
-
 export default function PageHeader() {
   return (
     <section>
@@ -94,21 +79,9 @@ export default function PageHeader() {
         </div>
         <div className="py-5 grid grid-flow-col gap-1">
           <div className="grid grid-flow-col gap-1">
-            <label className="flex gap-1 border w-full">
-              <Input
-                className="border-0 focus-visible:outline-none focus-visible:ring-inset bg-none"
-                type="search"
-                placeholder="검색"
-                name="search"
-                aria-label="검색"
-              />
-              <Button variant="ghost" size="icon" type="submit">
-                <Search size="24" />
-              </Button>
-            </label>
-
+            <SearchInput />
             <div className="flex gap-2">
-              {FILLTER_LIST.map((selectBox) => {
+              {FILTER_LIST.map((selectBox) => {
                 return (
                   <Select key={selectBox.category}>
                     <SelectTrigger className="w-[120px] border-none">
@@ -135,28 +108,10 @@ export default function PageHeader() {
       {/* 모바일일떄 */}
       <div className="tb:hidden">
         <div className="flex flex-col py-5">
-          <div className="">
-            <label className="flex gap-1 border w-full">
-              <Input
-                className="border-none h-[45px]"
-                type="search"
-                placeholder="검색"
-                name="search"
-                aria-label="검색"
-              />
-              <Button
-                className="my-auto"
-                variant="ghost"
-                size="icon"
-                type="submit"
-              >
-                <Search />
-              </Button>
-            </label>
-          </div>
+          <SearchInput />
           <hr className="my-[15px]" />
           <div className="flex justify-between">
-            <Button variant="outline" size="icon" className="tb:hidden">
+            <Button variant="outline" size="icon">
               <SlidersHorizontal />
             </Button>
             <SortBtn />
