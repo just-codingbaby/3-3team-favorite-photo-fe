@@ -1,13 +1,8 @@
 import PageHeader from "@/components/market/PageHeader";
 import { ProductCard } from "@/components/market/ProductCard";
 
-export async function getStaticProps() {
-  const res = await fetch('http://localhost:8000/shop/cards')
-  const cards = await res.json()
-  return { props: { cards } }
-}
-
-export default function MarketPage({ cards }) {
+export default function MarketPage() {
+  const cards = [];
   return (
     <main>
       <header className="bg-gray-500 lt:h-[80px] tb:h-[70px] h-[60px] text-white text-center flex items-center justify-center">
