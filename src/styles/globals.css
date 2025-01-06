@@ -18,6 +18,7 @@ body {      /*  Noto Sans KR을 전역으로 공통폰트, 배스킨라빈스체
   src: url('/fonts/br-font.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap
 }
 
 @layer base {
