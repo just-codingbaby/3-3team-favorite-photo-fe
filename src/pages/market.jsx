@@ -4,10 +4,10 @@ import { ProductCard } from "@/components/market/ProductCard";
 export default function MarketPage() {
   const cards = [];
   return (
-    <main>
-      <header className="bg-gray-500 lt:h-[80px] tb:h-[70px] h-[60px] text-white text-center flex items-center justify-center">
+    <>
+      {/* <header className="bg-gray-500 lt:h-[80px] tb:h-[70px] h-[60px] text-white text-center flex items-center justify-center">
         헤더(임시)
-      </header>
+      </header> */}
       <article className="container mx-auto px-[15px] tb:px-5">
         <PageHeader />
         <section>
@@ -18,6 +18,6 @@ export default function MarketPage() {
           </div>
         </section>
       </article>
-    </main>
+    </>
   );
 }
