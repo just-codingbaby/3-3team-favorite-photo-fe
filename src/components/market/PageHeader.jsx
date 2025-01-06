@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, SlidersHorizontal } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -66,6 +66,22 @@ const FILLTER_LIST = [
   },
 ];
 
+function SortBtn() {
+  return (
+    <Select>
+      <SelectTrigger className="border w-[130px] tb:w-[180px]">
+        <SelectValue placeholder="정렬" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="latest">최신 순</SelectItem>
+        <SelectItem value="oldest">오래된 순</SelectItem>
+        <SelectItem value="highPrice">높은 가격순</SelectItem>
+        <SelectItem value="lowPrice">낮은 가격순</SelectItem>
+      </SelectContent>
+    </Select>
+  );
+}
+
 export default function PageHeader() {
   return (
     <section>
@@ -112,17 +128,7 @@ export default function PageHeader() {
           </div>
 
           <div className="ml-auto">
-            <Select>
-              <SelectTrigger className="border w-[180px]">
-                <SelectValue placeholder="정렬" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="latest">최신 순</SelectItem>
-                <SelectItem value="oldest">오래된 순</SelectItem>
-                <SelectItem value="highPrice">높은 가격순</SelectItem>
-                <SelectItem value="lowPrice">낮은 가격순</SelectItem>
-              </SelectContent>
-            </Select>
+            <SortBtn />
           </div>
         </div>
       </div>
@@ -130,23 +136,30 @@ export default function PageHeader() {
       <div className="tb:hidden">
         <div className="flex flex-col py-5">
           <div className="">
-            <input
-              className="flex-1 w-full px-5 py-3 border border-black"
-              type="search"
-              placeholder="검색"
-            />
+            <label className="flex gap-1 border w-full">
+              <Input
+                className="border-none h-[45px]"
+                type="search"
+                placeholder="검색"
+                name="search"
+                aria-label="검색"
+              />
+              <Button
+                className="my-auto"
+                variant="ghost"
+                size="icon"
+                type="submit"
+              >
+                <Search />
+              </Button>
+            </label>
           </div>
           <hr className="my-[15px]" />
           <div className="flex justify-between">
-            <button className="tb:hidden aspect-square w-[35px] bg-slate-400">
-              =
-            </button>
-            <select name="order">
-              <option>최신 순</option>
-              <option>오래된 순</option>
-              <option>높은 가격순</option>
-              <option selected>낮은 가격순</option>
-            </select>
+            <Button variant="outline" size="icon" className="tb:hidden">
+              <SlidersHorizontal />
+            </Button>
+            <SortBtn />
           </div>
         </div>
       </div>
