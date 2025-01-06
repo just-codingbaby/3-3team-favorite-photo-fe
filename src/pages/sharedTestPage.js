@@ -2,6 +2,7 @@ import CustomDropDown from "@/components/shared/CustomDropDown";
 import GradeCard from "@/components/shared/GradeCard";
 import Header from "@/components/shared/Header";
 import Primarybutton from "@/components/shared/PrimaryButton";
+import SecondaryButton from "@/components/shared/SecondaryButton";
 import { useState } from "react";
 
 export default function SharedTestPage() {
@@ -23,7 +24,7 @@ export default function SharedTestPage() {
   return (
     <div className="bg-black w-full h-[2000px]">
       <Header />
-      <div className="flex relative top-20 gap-5">
+      <div className="flex relative top-20 gap-5 flex-wrap">
         <div className="flex flex-col gap-5 border-dashed border-purple-400 border-[1px] px-5 py-5 w-[200px]">
           <h1 className="text-white">GradeCard</h1>
           <GradeCard grade="common" amount="20" size="L" />
@@ -33,6 +34,7 @@ export default function SharedTestPage() {
         </div>
 
         <div className="flex flex-col gap-5 border-dashed border-purple-400 border-[1px] px-5 py-5 w-[200px]">
+          <h1 className="text-white">CustomDropDown</h1>
           <CustomDropDown
             label="등급"
             options={gradeOptions}
@@ -48,9 +50,47 @@ export default function SharedTestPage() {
         </div>
 
         <div className="flex flex-col gap-5 border-dashed border-purple-400 border-[1px] px-5 py-5 w-[500px]">
-          <Primarybutton label="포토카드 구매하기" width="440px" height="80px" textSize="xl" />
-          <Primarybutton label="포토카드 교환하기" width="342px" height="75px" textSize="lg" />
-          <Primarybutton label="승인" width="150px" height="40px" textSize="xs" />
+          <h1 className="text-white">PrimaryButton</h1>
+          <Primarybutton
+            label="포토카드 구매하기"
+            width="440px"
+            height="80px"
+            textSize="xl"
+          />
+          <Primarybutton
+            label="포토카드 교환하기"
+            width="342px"
+            height="75px"
+            textSize="lg"
+          />
+          <Primarybutton
+            label="승인"
+            width="150px"
+            height="40px"
+            textSize="xs"
+          />
+        </div>
+
+        <div className="flex flex-col gap-5 border-dashed border-purple-400 border-[1px] px-5 py-5 w-[470px]">
+          <h1 className="text-white">SecondaryButton</h1>
+          <SecondaryButton
+            label="판매 내리기"
+            width="440px"
+            height="80px"
+            textSize="xl"
+          />
+          <SecondaryButton
+            label="포토카트 교환하기"
+            width="342px"
+            height="55px"
+            textSize="sm"
+          />
+          <SecondaryButton
+            label="거절"
+            width="150px"
+            height="40px"
+            textSize="xs"
+          />
         </div>
       </div>
     </div>
