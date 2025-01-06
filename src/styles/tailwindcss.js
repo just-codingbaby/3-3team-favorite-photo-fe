@@ -3,7 +3,7 @@ const flexcenter = "flex items-center justify-center";
 const header = "h-[80px] border border-customPink";
 const marketlogo = "font-normal text-2xl font-baskin text-customGrey01 my-16";
 const titles = "font-bold text-xl4";
-const stitle = "font-normal text-xl";
+const stitle = "font-normal text-xl"; //text-xl=20px
 const pointtext = "font-bold text-2xl";
 const afborder =
   " after:content-[''] after:block after:w-full after:h-px after:bg-customGrey01 after:bottom-0 after:mt-5";
