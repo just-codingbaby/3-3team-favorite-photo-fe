@@ -13,8 +13,9 @@ export function Btn({ className, btname, absolute, onClick }) {
   );
 }
 
-export function Gradetitle({ rating, type, nickname, mt }) {
-  const { flexstanderd, pointtext, titleborder } = tail;
+export function Gradetitle({ className, rating, type, nickname, titleborder }) {
+  const { flexstanderd, pointtext } = tail;
+
   const ratingColors = {
     LEGENDARY: "text-customPink",
     "SUPER RARE": "text-customPurple",
@@ -24,28 +25,28 @@ export function Gradetitle({ rating, type, nickname, mt }) {
   const ratingClass = ratingColors[rating];
 
   return (
-    <>
-      <div className={`${flexstanderd} ${mt} relative`}>
-        <h3 className={`${pointtext} ${ratingClass}`}>{rating}</h3>
-        <div className={`${titleborder}`}></div>
-        <h3 className={`${pointtext} text-customGrey01`}>{type}</h3>
+    <div className={`${className} ${pointtext} flex justify-between w-full`}>
+      <div className={`${flexstanderd} relative`}>
+        <h3 className={` ${ratingClass}`}>{rating}</h3>
+        <div
+          className={`${titleborder} w-[2px] h-[30px] mx-[15px] bg-customGrey03`}
+        ></div>
+        <h3 className={`text-customGrey01`}>{type}</h3>
       </div>
-      <h3
-        className={`${pointtext} decoration-2 underline text-white decoration-white`}
-      >
+      <h3 className={`decoration-2 underline text-white decoration-white`}>
         {nickname}
       </h3>
-    </>
+    </div>
   );
 }
 
-export function Price({ price, children }) {
+export function Price({ price, children, titletext, pricetext }) {
   const { flexstanderd, stitle, pointtext } = tail;
 
   return (
     <div className={`${flexstanderd} justify-between`}>
-      <span className={`${stitle} text-customGrey01`}>가격</span>
-      <span className={`${pointtext} text-white`}>
+      <span className={`${stitle} ${titletext} text-customGrey01`}>가격</span>
+      <span className={`${pointtext} ${pricetext} text-white`}>
         {price} P{" "}
         <span className={`font-normal text-xl text-customGrey01`}>
           {children}
@@ -55,23 +56,34 @@ export function Price({ price, children }) {
   );
 }
 
-export function Remaining({ buyphoto, totalphoto }) {
+export function Remaining({
+  titletext,
+  buytext,
+  remaintext,
+  buyphoto,
+  totalphoto,
+}) {
   const { flexstanderd, stitle, pointtext } = tail;
 
   return (
-    <div className={`flex flex-col gap-[10px]`}>
-      <Price price="4" />
-      <div className={`${flexstanderd} justify-between`}>
-        <span className={`${stitle} text-customGrey01`}>잔여</span>
-        <div>
-          <span className={`${pointtext} text-white`}>{buyphoto} </span>
-          <span className={`font-normal text-2xl text-customGrey01`}>
-            / {totalphoto}
-          </span>
-        </div>
+    <div className={`${flexstanderd} justify-between`}>
+      <span className={`${stitle} ${titletext} text-customGrey01`}>잔여</span>
+      <div>
+        <span className={`${pointtext} ${buytext} text-white`}>
+          {buyphoto}{" "}
+        </span>
+        <span
+          className={`${remaintext} font-normal text-2xl text-customGrey01`}
+        >
+          / {totalphoto}
+        </span>
       </div>
     </div>
   );
+}
+
+export function PriceRemaining({ children }) {
+  return <div className={`flex flex-col gap-[10px]`}>{children}</div>;
 }
 
 export function QuantityBtn({ buyphoto }) {
@@ -126,18 +138,40 @@ export default function Buyer({ content, buyphoto }) {
   const { flexstanderd, contentborder } = tail;
 
   return (
-    <div className={`flex flex-col gap-[30px] max-w-[440px]`}>
+    <div
+      className={`flex flex-col gap-[30px] max-w-[440px] tablet:max-w-[342px]`}
+    >
       {/* <ModalExchange modalbox="max-w-[1160px] w-full h-[1000px]">
         {" "}
         123
       </ModalExchange> */}
       <div className={`${flexstanderd} justify-between`}>
-        <Gradetitle rating="LEGENDARY" type="풍경" nickname="미쓰손" />
+        <Gradetitle
+          rating="LEGENDARY"
+          type="풍경"
+          nickname="미쓰손"
+          className="tablet:text-lg"
+          titleborder={`tablet:h-[18px] mx-[10px]`}
+        />
       </div>
       <div className={`${contentborder}`}></div>
       <p className={`text-white`}>{content}</p>
       <div className={`${contentborder}`}></div>
-      <Remaining price="4" buyphoto="2" totalphoto="5" />
+      <PriceRemaining>
+        <Price
+          price="4"
+          titletext="tablet:text-lg"
+          pricetext="tablet:text-xl"
+        />
+        <Remaining
+          titletext="tablet:text-lg"
+          buytext="tablet:text-xl"
+          remaintext="tablet:text-xl"
+          buyphoto="2"
+          totalphoto="5"
+        />
+      </PriceRemaining>
+      {/* <Remaining buyphoto="2" totalphoto="5" /> */}
       <div className={`${contentborder}`}></div>
       <div className={`flex flex-col gap-[20px] `}>
         <QuantityBtn buyphoto="2" />

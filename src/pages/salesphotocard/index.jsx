@@ -40,7 +40,7 @@ export default function Salesphotocard() {
         className={`max-w-[1480px] w-full mx-auto tablet:max-w-[704px] border border-customBlue`}
       >
         <Title location="마켓플레이스" title={example.title} />
-        <div className={`flex justify-between mt-[60px]`}>
+        <div className={`flex justify-between mt-[60px] tablet:mt-[40px]`}>
           <div
             className={`relative w-full max-w-[960px]  h-[720px] tablet:max-w-[342px] tablet:h-[256px] overflow-hidden`}
           >
@@ -49,27 +49,6 @@ export default function Salesphotocard() {
               className={`w-[960px] h-[720px] tablet:w-[342px] tablet:h-[256px] absolute object-cover`}
             />
           </div>
-          {/* <div
-            className="imgBox"
-            style={{
-              position: "relative",
-              maxWidth: 960,
-              width: "100%",
-              height: 720,
-              overflow: "hidden",
-            }}
-          >
-            <img
-              src="images/type=sample_img1.png"
-              className={`w-[960px] h-[720px]`}
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%,-50%)",
-              }}
-            />
-          </div> */}
           <Buyer
             nickname="미쓰손"
             content="우리집 앞마당 포토카드입니다. 우리집 앞마당 포토카드입니다. 우리집 앞마당 포토카드입니다. "
