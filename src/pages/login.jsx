@@ -22,7 +22,7 @@ const Join = () => {
           <div className="mb-4">
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-300 mb-2"
+              className="block text-lg font-normal text-gray-300 mb-2"
             >
               이메일
             </label>
@@ -38,7 +38,7 @@ const Join = () => {
           <div className="mb-6 relative">
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-300 mb-2"
+              className="block text-lg font-normal text-gray-300 mb-2"
             >
               비밀번호
             </label>
@@ -76,7 +76,7 @@ const Join = () => {
         </form>
 
         {/* 회원가입 안내문 (중앙 정렬) */}
-        <p className="mt-6 text-center text-gray-400 text-sm">
+        <p className="mt-6 text-center text-white font-normal text-base">
           최애의 포토가 처음이신가요?{" "}
           <a href="/signup" className="text-customMain underline hover:no-underline">
             회원가입하기
