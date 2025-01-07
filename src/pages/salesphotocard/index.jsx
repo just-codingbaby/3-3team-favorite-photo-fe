@@ -1,19 +1,21 @@
 import tail from "@/styles/tailwindcss";
 import Buyer, { Btn } from "@/components/buyer";
 import { Gradetitle } from "@/components/buyer";
-import ModalStandard from "@/components/modal";
 import { useState } from "react";
+import { ModalExchange } from "@/components/modal";
+
+export function Title({ location, title, className }) {
+  const { marketlogo, titles, afborder } = tail;
+  return (
+    <div className={`${className}`}>
+      <div className={`${marketlogo}`}>{location}</div>
+      <h2 className={`${titles} ${afborder} text-white`}>{title}</h2>
+    </div>
+  );
+}
 
 export default function Salesphotocard() {
-  const {
-    header,
-    marketlogo,
-    titles,
-    afborder,
-    pointtext,
-    flexstanderd,
-    btnabsol,
-  } = tail;
+  const { header, titles, afborder, pointtext, flexstanderd, btnabsol } = tail;
 
   const [example, setExample] = useState({
     title: "우리집 앞마당",
@@ -21,31 +23,33 @@ export default function Salesphotocard() {
     buyphoto: 2,
   });
 
+  const [Modal, setModal] = useState(false);
+
+  function Modalhandle() {
+    setModal(true);
+  }
+
+  function handleCloseModal() {
+    setModal(false);
+  }
+
   return (
     <div>
-      {/* <ModalStandard
-        modalbox="relative w-[660px] h-[452px] bg-[#161616] border border-white"
-        closeposition="top-0 right-0 w-8 h-8`"
-        rating={example.rating}
-      >
-        <ModalContent
-          text="구매"
-          state={modalTextSate}
-          btnText="마이갤러리 확인하기"
-          href="/test/test"
-        >
-          {str}
-        </ModalContent>
-      </ModalStandard> */}
-
       <div className={`${header} text-white`}>헤더야</div>
       <div
-        className={`max-w-[1480px] mx-auto mb-[2000px] border border-customBlue`}
+        className={`max-w-[1480px] w-full mx-auto tablet:max-w-[704px] border border-customBlue`}
       >
-        <div className={`${marketlogo}  `}>마켓플레이스</div>
-        <h2 className={`${titles} ${afborder} text-white`}>{example.title}</h2>
+        <Title location="마켓플레이스" title={example.title} />
         <div className={`flex justify-between mt-[60px]`}>
           <div
+            className={`relative w-full max-w-[960px]  h-[720px] tablet:max-w-[342px] tablet:h-[256px] overflow-hidden`}
+          >
+            <img
+              src="images/type=sample_img1.png"
+              className={`w-[960px] h-[720px] tablet:w-[342px] tablet:h-[256px] absolute object-cover`}
+            />
+          </div>
+          {/* <div
             className="imgBox"
             style={{
               position: "relative",
@@ -65,7 +69,7 @@ export default function Salesphotocard() {
                 transform: "translate(-50%,-50%)",
               }}
             />
-          </div>
+          </div> */}
           <Buyer
             nickname="미쓰손"
             content="우리집 앞마당 포토카드입니다. 우리집 앞마당 포토카드입니다. 우리집 앞마당 포토카드입니다. "
@@ -80,12 +84,16 @@ export default function Salesphotocard() {
           </h2>
           <Btn
             btname="포토카드 교환하기"
-            width="w-[440px]"
-            height="h-[60px]"
-            ma="mt-[120px]"
-            fontsize="text-lg"
+            className="w-[440px] h-[60px] mt-[120px] text-lg"
             absolute={btnabsol}
+            onClick={Modalhandle}
           />
+          {Modal && (
+            <ModalExchange
+              modalbox="max-w-[1160px] w-full h-[1000px]"
+              onClose={handleCloseModal} // 모달 닫기 함수 전달
+            ></ModalExchange>
+          )}
         </div>
         <p className={`text-white mt-[60px] ${pointtext}`}>
           푸릇푸릇한 여름 풍경, 눈 많이 내린 겨울 풍경 사진에 관심이 많습니다.

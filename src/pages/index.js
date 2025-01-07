@@ -14,7 +14,6 @@ export default function Home({ title }) {
         className={`${flexcenter} text-[80px] text-customPink`}
       >
         Sales photo card
-        {/* <Salesphotocard title="우리집 앞마당" /> */}
       </Link>
     </div>
   );

@@ -2,7 +2,7 @@ const flexstanderd = "flex flex-row items-center";
 const flexcenter = "flex items-center justify-center";
 const header = "h-[80px] border border-customPink";
 const marketlogo = "font-normal text-2xl font-baskin text-customGrey01 my-16";
-const titles = "font-bold text-xl4";
+const titles = "font-bold text-[40px]";
 const stitle = "font-normal text-xl"; //text-xl=20px
 const pointtext = "font-bold text-2xl";
 const afborder =
@@ -11,8 +11,7 @@ const titleborder = "w-[2px] h-[30px] mx-[15px] bg-customGrey03";
 const contentborder = "w-full h-[1px] bg-customGrey03";
 const btn = " bg-customMain flexcenter font-bold ";
 const btnabsol = "absolute right-0 bottom-5";
-const dimbg =
-  "fixed inset-0 z-10 bg-black bg-opacity-80 flex items-center justify-center";
+const dimbg = "fixed inset-0 z-10 bg-black flex items-center justify-center";
 
 const tail = {
   flexstanderd,

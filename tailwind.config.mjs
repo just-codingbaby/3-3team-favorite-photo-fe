@@ -26,13 +26,11 @@ export default {
         customGrey03: "#5A5A5A", // grey (title border)
       },
 
-      fontSize: {
-        xl4: [
-          "40px",
-          {
-            lineHeight: "44px", //40px
-          },
-        ],
+      screens: {
+        tablet: { max: "1199px" },
+        // => @media (max-width: 1199px) {...}
+        mobile: { max: "743px" },
+        // => @media (max-width: 743px) {...}
       },
     },
   },

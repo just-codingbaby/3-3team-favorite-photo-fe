@@ -1,22 +1,13 @@
 import tail from "@/styles/tailwindcss";
 import { useState } from "react";
 import ModalStandard from "./modal";
+import { ModalContent } from "./modal";
+import { ModalExchange } from "./modal";
 
-export function Btn({
-  btname,
-  width,
-  height,
-  ma,
-  fontsize,
-  absolute,
-  onClick,
-}) {
+export function Btn({ className, btname, absolute, onClick }) {
   const { btn } = tail;
   return (
-    <button
-      onClick={onClick}
-      className={`${btn} ${width} ${height} ${fontsize} ${ma} ${absolute}`}
-    >
+    <button onClick={onClick} className={`${btn} ${className} ${absolute}`}>
       {btname}
     </button>
   );
@@ -106,6 +97,7 @@ export function QuantityBtn({ buyphoto }) {
 
 export default function Buyer({ content, buyphoto }) {
   const [modalType, setModalType] = useState(null); // 모달 상태
+  const [modalTextSate, setModalTextSate] = useState(true);
 
   const [example, setExample] = useState({
     rating: "LEGENDARY",
@@ -128,13 +120,17 @@ export default function Buyer({ content, buyphoto }) {
   }
 
   function handleCloseModal() {
-    setIsModalOpen(null);
+    setModalType(null);
   }
 
   const { flexstanderd, contentborder } = tail;
 
   return (
     <div className={`flex flex-col gap-[30px] max-w-[440px]`}>
+      {/* <ModalExchange modalbox="max-w-[1160px] w-full h-[1000px]">
+        {" "}
+        123
+      </ModalExchange> */}
       <div className={`${flexstanderd} justify-between`}>
         <Gradetitle rating="LEGENDARY" type="풍경" nickname="미쓰손" />
       </div>
@@ -148,11 +144,8 @@ export default function Buyer({ content, buyphoto }) {
         <Price price="8">({buyphoto}장)</Price>
       </div>
       <Btn
+        className="w-full h-[80px] mt-[50px] text-xl"
         btname="포토카드 구매하기"
-        width="w-full"
-        height="h-[80px]"
-        ma="mt-[50px]"
-        fontsize="text-xl"
         onClick={ModalStandardOpen}
       />
       {modalType === "standard" && (
@@ -160,17 +153,18 @@ export default function Buyer({ content, buyphoto }) {
           modalbox="w-[560px] h-[352px] bg-[#161616]"
           modaltitle="포토카드 구매"
           modaltext={`[${example.rating} | ${example.title}] ${example.buyphoto}장을 구매하시겠습니까?`}
-          closeposition="absolute"
           onClick={BuyModalOpen}
-          onClose={handleCloseModal} // 모달 닫기 함수 전달
+          onClose={handleCloseModal}
         />
       )}
       {modalType === "buy" && (
         <ModalContent
+          modalbox="w-[560px] h-[352px]"
           text="구매"
           state={modalTextSate}
           btnText="마이갤러리 확인하기"
           href="/test/test"
+          onClose={handleCloseModal} // 모달 닫기 함수 전달
         >
           {str}
         </ModalContent>
