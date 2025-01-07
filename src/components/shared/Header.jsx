@@ -7,24 +7,31 @@ export default function Header() {
   const router = useRouter();
 
   const handleLogOut = () => {
-    {/* 로그아웃 관련 기능 
-      나중에 로그인,아웃에 대한 상태관리도 코드  
-      */}
+    {
+      /* 로그아웃 관련 기능
+      나중에 로그인,아웃에 대한 상태관리도 코드
+      */
+    }
   };
 
   const handleLogo = () => {
-    router.push('/');
-  }
+    router.push("/market");
+  };
 
   return (
-    <div>
-      <header className="fixed flex items-center justify-between bg-black h-20 w-full sm:px-[100px] lg:px-[200px] z-50">
-        <button onClick={handleLogo} className="relative sm:w-[111px] sm:h-5 lg:w-[139px] lg:h-6 w-[83px] h-4">
+    <div className="sticky top-0 z-50">
+      <header className="flex items-center justify-between bg-black h-20 w-full sm:px-[100px] lg:px-[200px]">
+        <button
+          onClick={handleLogo}
+          className="relative sm:w-[111px] sm:h-5 lg:w-[139px] lg:h-6 w-[83px] h-4"
+        >
           <Image src="/images/main_logo.png" alt="logo image" fill priority />
         </button>
 
         <div className="flex gap-7 items-center">
-          <p className="text-gray-200 font-bold leading-5 text-sm">포인트 부분</p>
+          <p className="text-gray-200 font-bold leading-5 text-sm">
+            포인트 부분
+          </p>
 
           <button>
             <Image
@@ -46,8 +53,7 @@ export default function Header() {
         </div>
       </header>
 
-      <header className="fixed flex items-center justify-between bg-black h-20 w-full sm:hidden px-4 z-50">
-        
+      <header className="sticky top-0 flex items-center justify-between bg-black h-20 w-full sm:hidden px-4 z-50">
         <button>
           <Image
             src="/images/type=menu.png"

@@ -23,8 +23,6 @@ export default function MarketPage() {
       {/* <header className="bg-gray-500 lt:h-[80px] tb:h-[70px] h-[60px] text-white text-center flex items-center justify-center">
         헤더(임시)
       </header> */}
-      {/* TODO: 나중에 header position: fixed -> sticky로 변경 요청 */}
-      <div className="pt-20"></div>
       <article className="container mx-auto px-[15px] tb:px-5">
         <PageHeader />
         <section>
