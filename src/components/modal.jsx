@@ -1,7 +1,7 @@
 import tail from "@/styles/tailwindcss";
 import { Btn } from "./buyer";
 import Link from "next/link";
-import { Title } from "@/pages/salesphotocard";
+import { Title } from "@/pages/salesphotocard/detailsalesphotocard";
 
 export function CloseBtn({ position, onClose }) {
   const closeBtn = `absolute top-1/2 left-1/2 w-6 h-[2px] bg-customGrey01 transform -translate-x-1/2 -translate-y-1/2`;
@@ -109,9 +109,14 @@ export function ModalExchange({ modalbox, children, onClose }) {
 
   return (
     <div className={`${dimbg}  bg-opacity-80`}>
-      <div className={`${modalbox} mx-auto bg-[#161616] relative`}>
-        <CloseBtn position="top-[46px] right-[46px]" onClose={onClose} />
-        <div className={`max-w-[920px] mx-auto bg-[#161616]`}>
+      <div
+        className={`${modalbox} mx-auto bg-[#161616] relative border border-white`}
+      >
+        <CloseBtn
+          position="top-[150px] right-[180px] absolute"
+          onClose={onClose}
+        />
+        <div className={`max-w-[920px] mx-auto bg-[#161616] `}>
           <Title
             location="마이갤러리"
             title="포토카드 교환하기"

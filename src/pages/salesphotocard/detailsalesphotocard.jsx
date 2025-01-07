@@ -35,17 +35,14 @@ export default function Salesphotocard() {
 
   return (
     <div>
-      <div className={`${header} text-white`}>헤더야</div>
-      <div
-        className={`max-w-[1480px] w-full mx-auto tablet:max-w-[704px] border border-customBlue`}
-      >
+      <div className={`max-w-[1480px] w-full mx-auto tablet:max-w-[704px]`}>
         <Title location="마켓플레이스" title={example.title} />
         <div className={`flex justify-between mt-[60px] tablet:mt-[40px]`}>
           <div
             className={`relative w-full max-w-[960px]  h-[720px] tablet:max-w-[342px] tablet:h-[256px] overflow-hidden`}
           >
             <img
-              src="images/type=sample_img1.png"
+              src="/images/type=sample_img1.png"
               className={`w-[960px] h-[720px] tablet:w-[342px] tablet:h-[256px] absolute object-cover`}
             />
           </div>
@@ -63,15 +60,17 @@ export default function Salesphotocard() {
           </h2>
           <Btn
             btname="포토카드 교환하기"
-            className="w-[440px] h-[60px] mt-[120px] text-lg"
+            className="w-[440px] h-[60px] mt-[120px] text-lg text-[#0F0F0F]"
             absolute={btnabsol}
             onClick={Modalhandle}
           />
           {Modal && (
             <ModalExchange
-              modalbox="max-w-[1160px] w-full h-[1000px]"
+              modalbox="max-w-[1160px] w-full h-[1000px] z-10000"
               onClose={handleCloseModal} // 모달 닫기 함수 전달
-            ></ModalExchange>
+            >
+              123
+            </ModalExchange>
           )}
         </div>
         <p className={`text-white mt-[60px] ${pointtext}`}>

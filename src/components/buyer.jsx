@@ -141,10 +141,6 @@ export default function Buyer({ content, buyphoto }) {
     <div
       className={`flex flex-col gap-[30px] max-w-[440px] tablet:max-w-[342px]`}
     >
-      {/* <ModalExchange modalbox="max-w-[1160px] w-full h-[1000px]">
-        {" "}
-        123
-      </ModalExchange> */}
       <div className={`${flexstanderd} justify-between`}>
         <Gradetitle
           rating="LEGENDARY"
@@ -178,7 +174,7 @@ export default function Buyer({ content, buyphoto }) {
         <Price price="8">({buyphoto}장)</Price>
       </div>
       <Btn
-        className="w-full h-[80px] mt-[50px] text-xl"
+        className="w-full h-[80px] mt-[50px] text-xl text-[#0F0F0F]"
         btname="포토카드 구매하기"
         onClick={ModalStandardOpen}
       />
