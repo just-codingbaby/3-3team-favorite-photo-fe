@@ -1,8 +1,9 @@
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -39,9 +40,9 @@ export function ProductCard({ cardProps }) {
     <>
       <Card>
         <CardHeader>
-          <div className="relative aspect-video">
+          <div className="relative aspect-[150/112]">
             <Image
-              className="object-center object-cover"
+              className="object-center object-contain object-cover"
               src={str}
               alt={name}
               fill
@@ -53,20 +54,35 @@ export function ProductCard({ cardProps }) {
         </CardHeader>
         <CardContent>
           <div className="grid grid-flow-col">
-            <div>
+            <div className="flex gap-[1ch]">
               <span>{grade}</span>
+              <Separator orientation="vertical" />
               <span>{genre}</span>
             </div>
-            <div className="text-right">{owner.nickName}</div>
+            <div className="text-right underline underline-offset-1 text-white font-normal">
+              {owner.nickName}
+            </div>
           </div>
-          <hr />
-          <ul>
-            <li>가격 {price} P</li>
-            <li>잔여 n / m</li>
+          <hr className="my-2.5" />
+          <ul className="*:justify-between *:flex *:tabular-nums">
+            <li>
+              <span>가격</span>
+              <span className="text-white font-normal">{price} P</span>
+            </li>
+            <li>
+              <span>잔여</span>
+              <span>n / m</span>
+            </li>
           </ul>
         </CardContent>
-        <CardFooter>
-          <p>Card Footer</p>
+        <CardFooter className="justify-center hidden tb:flex">
+          <Image
+            src="/images/main_logo.png"
+            alt="최애의포토 로고"
+            width={99}
+            height={18}
+            priority={true}
+          />
         </CardFooter>
       </Card>
       {/* <div className="bg-gray-200 min-w-[170px] min-h-[234px] justify-center p-2.5 grid grid-cols-1 grid-rows-2 tb:w-[342px] tb:h-[517px] tb:p-5 lt:w-[440px] lt:p-10 lt:h-[600px]">
