@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontSize: {
+        xs: "0.625rem",
+      },
       fontFamily: {
         sans: ["Noto Sans KR", "sans-serif"],
         baskin: ["BaskinRobbins", "Noto Sans KR"],
@@ -68,6 +71,9 @@ export default {
         lg: "calc(var(--radius) / 2)",
         md: "calc(var(--radius) / 4)",
         sm: "calc(var(--radius) / 8)",
+      },
+      space: {
+        55: "13.75rem",
       },
     },
   },
