@@ -1,11 +1,8 @@
 import Image from "next/image";
-import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function Header() {
   const name = "닉네임";
-
-  const router = useRouter();
-
   const handleLogOut = () => {
     {
       /* 로그아웃 관련 기능
@@ -14,19 +11,20 @@ export default function Header() {
     }
   };
 
-  const handleLogo = () => {
-    router.push("/market");
-  };
-
   return (
-    <div className="sticky top-0 z-50">
-      <header className="flex items-center justify-between bg-black h-20 w-full sm:px-[100px] lg:px-[200px]">
-        <button
-          onClick={handleLogo}
-          className="relative sm:w-[111px] sm:h-5 lg:w-[139px] lg:h-6 w-[83px] h-4"
+    <div className="sticky top-0 z-50 w-full bg-background whitespace-nowrap">
+      <header className="hidden tb:flex items-center justify-between h-20 w-full px-20 py-6 lt:px-55 lt:py-7">
+        <Link
+          href="/market"
+          className="min-w-[111px] h-5 lt:w-[138.9px] lt:h-[25.2px]"
         >
-          <Image src="/images/main_logo.png" alt="logo image" fill priority />
-        </button>
+          <Image
+            src="/images/main_logo.png"
+            alt="최애의 포토 로고"
+            width={138}
+            height={25}
+          />
+        </Link>
 
         <div className="flex gap-7 items-center">
           <p className="text-gray-200 font-bold leading-5 text-sm">
@@ -53,7 +51,7 @@ export default function Header() {
         </div>
       </header>
 
-      <header className="sticky top-0 flex items-center justify-between bg-black h-20 w-full sm:hidden px-4 z-50">
+      <header className="sticky top-0 flex items-center justify-between bg-background h-20 w-full tb:hidden px-4 z-50">
         <button>
           <Image
             src="/images/type=menu.png"
@@ -63,8 +61,13 @@ export default function Header() {
           />
         </button>
 
-        <div className="relative w-[83px] h-4">
-          <Image src="/images/main_logo.png" alt="logo image" fill priority />
+        <div>
+          <Image
+            src="/images/main_logo.png"
+            alt="최애의포토 로고"
+            width={83}
+            height={15}
+          />
         </div>
 
         <button>
