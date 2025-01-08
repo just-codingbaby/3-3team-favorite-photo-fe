@@ -1,3 +1,5 @@
+//미완성성
+
 import { useState, useEffect } from "react";
 
 export default function RandomPointModal() {
@@ -5,26 +7,24 @@ export default function RandomPointModal() {
   const [points, setPoints] = useState(null); // 랜덤 포인트
   const [timer, setTimer] = useState(3600); // 타이머: 1시간 (초 단위)
 
+  // 초기 설정: 마지막 모달 오픈 시간 확인
   useEffect(() => {
-    // 로컬 스토리지에서 마지막으로 모달을 본 시간을 가져옴
     const lastOpenedTime = localStorage.getItem("lastModalTime");
     const currentTime = Math.floor(Date.now() / 1000);
 
     if (lastOpenedTime) {
       const timeDifference = currentTime - parseInt(lastOpenedTime, 10);
       if (timeDifference >= 3600) {
-        // 1시간이 지났다면 모달 열기
-        setIsOpen(true); 
+        setIsOpen(true); // 1시간이 지났다면 모달 열기
       } else {
-        // 남은 시간 계산
-        setTimer(3600 - timeDifference);
+        setTimer(3600 - timeDifference); // 남은 시간 계산
       }
     } else {
-      // 처음 방문한 경우 모달 열기
-      setIsOpen(true); 
+      setIsOpen(true); // 처음 방문한 경우 모달 열기
     }
   }, []);
 
+  // 타이머 업데이트
   useEffect(() => {
     if (timer > 0 && !isOpen) {
       const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
@@ -44,20 +44,23 @@ export default function RandomPointModal() {
     localStorage.setItem("lastModalTime", currentTime.toString());
   };
 
-  const handleRandomPoint = () => {
+  const handleRandomPoint = (boxId) => {
     const randomPoints = [500, 1000, 1500];
     const selectedPoints = randomPoints[Math.floor(Math.random() * randomPoints.length)];
     setPoints(selectedPoints);
+    console.log(`🎁 선택한 상자 ID: ${boxId}, 지급된 포인트: ${selectedPoints}`);
     handleCloseModal();
     setTimer(3600); // 타이머 초기화
   };
 
   return (
     <div>
+      {/* 모달 열기 버튼 */}
       <button onClick={handleOpenModal} disabled={timer > 0} className="open-modal-btn">
         랜덤 포인트 받기
       </button>
 
+      {/* 타이머 표시 */}
       {timer > 0 && (
         <p className="timer-text">
           다음 기회까지 남은 시간:{" "}
@@ -67,14 +70,44 @@ export default function RandomPointModal() {
         </p>
       )}
 
+      {/* 모달 */}
       {isOpen && (
         <div className="modal-overlay">
           <div className="modal-container">
             <h2 className="modal-title">랜덤포인트</h2>
             <p className="modal-description">랜덤 상자를 열어 포인트를 얻어보세요!</p>
-            <button onClick={handleRandomPoint} className="modal-open-btn">
-              🎁 상자 열기
-            </button>
+
+            {/* 선물 상자 버튼 */}
+            <div className="gift-box-container flex justify-center space-x-4">
+              {/* 상자 1 */}
+              <button onClick={() => handleRandomPoint(1)} className="gift-box">
+                <img
+                  src="/images/gift-box-1.png"
+                  alt="선물 상자 1"
+                  className="gift-box-img"
+                />
+              </button>
+
+              {/* 상자 2 */}
+              <button onClick={() => handleRandomPoint(2)} className="gift-box">
+                <img
+                  src="/images/gift-box-2.png"
+                  alt="선물 상자 2"
+                  className="gift-box-img"
+                />
+              </button>
+
+              {/* 상자 3 */}
+              <button onClick={() => handleRandomPoint(3)} className="gift-box">
+                <img
+                  src="/images/gift-box-3.png"
+                  alt="선물 상자 3"
+                  className="gift-box-img"
+                />
+              </button>
+            </div>
+
+            {/* 모달 닫기 버튼 */}
             <button onClick={handleCloseModal} className="modal-close-btn">
               ✖
             </button>
@@ -82,7 +115,9 @@ export default function RandomPointModal() {
         </div>
       )}
 
+      {/* 포인트 결과 */}
       {points && <p className="points-text">축하합니다! {points} 포인트를 얻으셨습니다!</p>}
     </div>
   );
 }
+
