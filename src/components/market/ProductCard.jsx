@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import FallbackImg from '../../../public/images/card/img_default-temp.webp'
+import fallbackImg from '../../../public/images/card/img_default-temp.webp'
 import Image from "next/image";
 import {
   Card,
@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useState } from "react";
 
 /**
  *
@@ -27,14 +28,15 @@ import {
  */
 export function ProductCard({ cardProps }) {
   const { id, name, price, grade, genre, imgUrl, owner } = cardProps;
+  const [ isValidImgUrl, setIsValidImgUrl ] = useState(true);
   return (
     <Card className="border-white/10">
       <CardHeader>
         <div className="relative aspect-[150/112]">
           <Image
-            onError={(e) => e.target.src = FallbackImg.src }
+            onError={() => setIsValidImgUrl(false)}
             className="object-center object-cover"
-            src={imgUrl}
+            src={isValidImgUrl ? imgUrl : fallbackImg}
             alt={name}
             fill
             sizes="(max-width: 744px) 50vw, (max-width: 1200px) 33vw"
