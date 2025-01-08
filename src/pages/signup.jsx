@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,10 +17,12 @@ const Signup = () => {
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center">
       {/* 로고 */}
-      <img
+      <Image
         src="/images/main_logo.png"
-        alt="Logo"
-        className="mb-12 w-[330.82px] h-auto"
+        alt="최애의포토 로고"
+        width={330.82}
+        height={60}
+        className="mb-12"
       />
 
       <div className="w-full max-w-[520px] bg-black p-8">
@@ -75,14 +79,15 @@ const Signup = () => {
               className="absolute top-[62px] transform -translate-y-1/2 right-4 flex items-center justify-center "
               style={{ width: "24px", height: "24px" }}
             >
-              <img
+              <Image
+                width={24}
+                height={24}
                 src={
                   showPassword
-                    ? "/images/type=visible.png"
-                    : "/images/type=invisible.png"
+                    ? "/images/type=visible.png" // 눈 떠진 아이콘 경로
+                    : "/images/type=invisible.png" // 눈 감긴 아이콘 경로
                 }
                 alt="Toggle Password Visibility"
-                className="w-6 h-6"
               />
             </button>
           </div>
@@ -107,14 +112,15 @@ const Signup = () => {
               className="absolute top-[62px] transform -translate-y-1/2 right-4 flex items-center justify-center"
               style={{ width: "24px", height: "24px" }}
             >
-              <img
+              <Image
+                width={24}
+                height={24}
                 src={
                   showConfirmPassword
-                    ? "/images/type=visible.png"
-                    : "/images/type=invisible.png"
+                    ? "/images/type=visible.png" // 눈 떠진 아이콘 경로
+                    : "/images/type=invisible.png" // 눈 감긴 아이콘 경로
                 }
                 alt="Toggle Confirm Password Visibility"
-                className="w-6 h-6"
               />
             </button>
           </div>
@@ -131,9 +137,12 @@ const Signup = () => {
         {/* 로그인 안내문 */}
         <p className="mt-6 text-center text-white font-noraml text-base">
           이미 최애의 포토 회원이신가요?{" "}
-          <a href="/login" className="text-customMain underline hover:no-underline">
+          <Link
+            href="/login"
+            className="text-customMain underline hover:no-underline"
+          >
             로그인하기
-          </a>
+          </Link>
         </p>
       </div>
     </div>
