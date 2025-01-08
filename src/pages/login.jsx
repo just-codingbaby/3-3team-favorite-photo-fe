@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 const Join = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -10,10 +12,12 @@ const Join = () => {
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center">
       {/* 로고 */}
-      <img
+      <Image
         src="/images/main_logo.png"
-        alt="Logo"
-        className="mb-12 w-[330.82px] h-auto"
+        alt="최애의포토 로고"
+        width={330.82}
+        height={60}
+        className="mb-12"
       />
 
       <div className="w-full max-w-[520px] bg-black p-8 rounded-lg">
@@ -51,17 +55,17 @@ const Join = () => {
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className="absolute flex right-5 top-0.5 mt-10 items-center justify-center "
-              style={{ width: "24px", height: "24px" }}
+              className="absolute flex right-5 top-0.5 mt-10 items-center justify-center"
             >
-              <img
+              <Image
+                width={24}
+                height={24}
                 src={
                   showPassword
                     ? "/images/type=visible.png" // 눈 떠진 아이콘 경로
                     : "/images/type=invisible.png" // 눈 감긴 아이콘 경로
                 }
                 alt="Toggle Password Visibility"
-                className="w-6 h-6"
               />
             </button>
           </div>
@@ -78,9 +82,12 @@ const Join = () => {
         {/* 회원가입 안내문 (중앙 정렬) */}
         <p className="mt-6 text-center text-white font-normal text-base">
           최애의 포토가 처음이신가요?{" "}
-          <a href="/signup" className="text-customMain underline hover:no-underline">
+          <Link
+            href="/signup"
+            className="text-customMain underline hover:no-underline"
+          >
             회원가입하기
-          </a>
+          </Link>
         </p>
       </div>
     </div>

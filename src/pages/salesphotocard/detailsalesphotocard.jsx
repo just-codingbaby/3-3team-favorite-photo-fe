@@ -3,6 +3,7 @@ import Buyer, { Btn } from "@/components/buyer";
 import { Gradetitle } from "@/components/buyer";
 import { useState } from "react";
 import { ModalExchange } from "@/components/modal";
+import Image from "next/image";
 
 export function Title({ location, title, className }) {
   const { marketlogo, titles, afborder } = tail;
@@ -41,9 +42,11 @@ export default function Salesphotocard() {
           <div
             className={`relative w-full max-w-[960px]  h-[720px] tablet:max-w-[342px] tablet:h-[256px] overflow-hidden`}
           >
-            <img
+            <Image
+              width={960}
+              height={720}
               src="/images/type=sample_img1.png"
-              className={`w-[960px] h-[720px] tablet:w-[342px] tablet:h-[256px] absolute object-cover`}
+              className={`tb:w-[342px] tb:h-[256px] absolute object-cover`}
             />
           </div>
           <Buyer
