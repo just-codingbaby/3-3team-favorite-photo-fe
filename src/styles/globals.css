@@ -25,8 +25,8 @@ body {      /*  Noto Sans KR을 전역으로 공통폰트, 배스킨라빈스체
   :root {
     --background: 0 0% 9%;
     --foreground: 0 0% 100%;
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
+    --card: 0 0% 9%;
+    --card-foreground: 0 0% 35%;
     --popover: 224 71.4% 4.1%;
     --popover-foreground: 210 20% 98%;
     --primary: 210 20% 98%;
@@ -39,7 +39,7 @@ body {      /*  Noto Sans KR을 전역으로 공통폰트, 배스킨라빈스체
     --accent-foreground: 210 20% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 20% 98%;
-    --border: 0 0% 87%;
+    --border:  0 0% 35%;
     --input:  0 0% 87%;
     --ring: 216 12.2% 83.9%;
     --chart-1: 220 70% 50%;
@@ -48,6 +48,9 @@ body {      /*  Noto Sans KR을 전역으로 공통폰트, 배스킨라빈스체
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
     --radius: 0.5rem;
+    --gray-100: 0 0% 93%;
+    --gray-300: 0 0% 64%;
+    --gray-400: 0 0% 35%;
   }
 
 }

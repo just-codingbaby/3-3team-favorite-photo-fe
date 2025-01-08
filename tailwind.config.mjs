@@ -26,6 +26,11 @@ export default {
         // => @media (max-width: 743px) {...}
       },
       colors: {
+        gray: {
+          100: "hsl(var(--gray-100))",
+          300: "hsl(var(--gray-300))",
+          400: "hsl(var(--gray-400))",
+        },
         customRed: "#FF483D",
         customBlue: "#29C9F9",
         customPurple: "#A77EFF",

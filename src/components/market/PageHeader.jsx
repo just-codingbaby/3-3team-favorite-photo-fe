@@ -71,7 +71,7 @@ export default function PageHeader() {
   return (
     <section>
       <div className="tb:block lt:py-[60px] hidden py-10">
-        <div className="flex justify-between pb-5 border-b-2">
+        <div className="flex justify-between pb-5 border-b-2 border-gray-100">
           <h1 className="font-baskin lt:text-[62px] text-5xl">마켓플레이스</h1>
           <Button className="bg-customMain w-[342px] p-4 font-bold lt:w-[440px] flex justify-center items-center">
             나의 포토카드 판매하기
@@ -80,7 +80,7 @@ export default function PageHeader() {
         <div className="py-5 grid grid-flow-col gap-1">
           <div className="grid grid-flow-col gap-1">
             <SearchInput />
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               {FILTER_LIST.map((selectBox) => {
                 return (
                   <Select key={selectBox.category}>

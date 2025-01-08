@@ -3,13 +3,11 @@ import PageHeader from "@/components/market/PageHeader";
 import { ProductCard } from "@/components/market/ProductCard";
 
 export default function MarketPage() {
-  const API_URL = 'https://three-3team-favorite-photo-be.onrender.com';
+  const API_URL = "https://three-3team-favorite-photo-be.onrender.com";
   const { isPending, error, data, isFetching } = useQuery({
     queryKey: ["cards"],
     queryFn: async () => {
-      const response = await fetch(
-        `${API_URL}/shop/cards`
-      );
+      const response = await fetch(`${API_URL}/shop/cards`);
       const data = await response.json();
       return data;
     },
