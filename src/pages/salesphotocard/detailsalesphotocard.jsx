@@ -22,6 +22,7 @@ export default function Salesphotocard() {
     rating: "LEGENDARY",
     buyphoto: 2,
   });
+  // ??
 
   const [Modal, setModal] = useState(false);
 
