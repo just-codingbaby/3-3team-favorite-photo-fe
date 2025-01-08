@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import fallbackImg from '../../../public/images/card/img_default-temp.webp'
+import fallbackImg from '@/public/images/card/img_default-temp.webp'
 import Image from "next/image";
 import {
   Card,
@@ -14,6 +14,8 @@ import { useState } from "react";
  *
  * @typedef {Object} CardProps
  * @property {number} id
+ * @property {number} remainingQuantity
+ * @property {number} totalQuantity
  * @property {string} name
  * @property {number} price
  * @property {string} grade
@@ -23,11 +25,10 @@ import { useState } from "react";
  */
 
 /**
- * 할일 목록
- * @type {CardProps[]}
+ * @param {CardProps} cardProps
  */
-export function ProductCard({ cardProps }) {
-  const { id, name, price, grade, genre, imgUrl, owner } = cardProps;
+export function ProductCard({ cardProps })  {
+  const { id, name, price, grade, genre, imgUrl, owner, remainingQuantity, totalQuantity } = cardProps;
   const [ isValidImgUrl, setIsValidImgUrl ] = useState(true);
   return (
     <Card className="border-white/10">
@@ -47,9 +48,9 @@ export function ProductCard({ cardProps }) {
       <CardContent>
         <div className="grid grid-flow-col">
           <div className="flex gap-[1ch]">
-            <span>{grade}</span>
+            <span aria-label={`상품 등급: ${grade}`}>{grade}</span>
             <Separator orientation="vertical" />
-            <span>{genre}</span>
+            <span aria-label={`장르: ${genre}`}>{genre}</span>
           </div>
           <div className="text-right underline underline-offset-1 text-white font-normal">
             {owner.nickName}
@@ -64,7 +65,7 @@ export function ProductCard({ cardProps }) {
           <li>
             <span>잔여</span>
             <span>
-              <span className="text-white">n</span> / m
+              <span className="text-white">{remainingQuantity}</span> / {totalQuantity}
             </span>
           </li>
         </ul>
