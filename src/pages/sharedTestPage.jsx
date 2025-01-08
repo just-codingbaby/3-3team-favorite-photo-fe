@@ -1,13 +1,32 @@
 import CustomDropDown from "@/components/shared/CustomDropDown";
+import EmailInput from "@/components/shared/EmailInput";
 import GradeCard from "@/components/shared/GradeCard";
 import Header from "@/components/shared/Header";
+import PasswordInput from "@/components/shared/PasswordInput";
 import Primarybutton from "@/components/shared/PrimaryButton";
 import SecondaryButton from "@/components/shared/SecondaryButton";
+import TextFieldInput from "@/components/shared/TextFieldInput";
 import { useState } from "react";
 
 export default function SharedTestPage() {
   const [grade, setGrade] = useState("");
   const [sales, setSales] = useState("");
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [cardName, setCardName] = useState("");
+
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  }
+
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  }
+
+  const handleCardName = (e) => {
+    setCardName(e.target.value);
+  }
 
   const gradeOptions = [
     { value: "COMMON", label: "COMMON" },
@@ -91,6 +110,20 @@ export default function SharedTestPage() {
             height="40px"
             textSize="xs"
           />
+        </div>
+        <div className="flex flex-col gap-5 border-dashed border-purple-400 border-[1px] px-5 py-5 w-auto">
+          <EmailInput size='L' value={email} handleChange={handleEmail} />
+          <EmailInput size='M' value={email} handleChange={handleEmail} />
+          <EmailInput size='S' value={email} handleChange={handleEmail} />
+        </div>
+
+        <div className="flex flex-col gap-5 border-dashed border-purple-400 border-[1px] px-5 py-5 w-auto">
+          <PasswordInput size='L' value={password} handleChange={handlePassword} />
+          <PasswordInput label="비밀번호 확인" size='L' value={password} handleChange={handlePassword} />
+        </div>
+
+        <div className="flex flex-col gap-5 border-dashed border-purple-400 border-[1px] px-5 py-5 w-auto">
+          <TextFieldInput size='L' value={cardName} handleChange={handleCardName} />
         </div>
       </div>
     </div>
