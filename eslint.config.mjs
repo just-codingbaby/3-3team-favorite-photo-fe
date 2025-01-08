@@ -18,7 +18,8 @@ export default [
     plugins: {
       "@next/next": pluginNext,
     },
-    files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
+    files: ["src/**/*.{js,mjs,cjs,ts,jsx}"],
+    ignores: ["**/*.test.{js,jsx}", "**/*.config.*"],
     rules: {
       ...pluginNext.configs.recommended.rules,
       ...pluginNext.configs["core-web-vitals"].rules,

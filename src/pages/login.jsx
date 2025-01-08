@@ -18,6 +18,7 @@ const Join = () => {
         width={330.82}
         height={60}
         className="mb-12"
+        priority
       />
 
       <div className="w-full max-w-[520px] bg-black p-8 rounded-lg">

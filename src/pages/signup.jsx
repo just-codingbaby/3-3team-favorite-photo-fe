@@ -116,7 +116,7 @@ const Signup = () => {
                 width={24}
                 height={24}
                 src={
-                  showPassword
+                  showConfirmPassword
                     ? "/images/type=visible.png" // 눈 떠진 아이콘 경로
                     : "/images/type=invisible.png" // 눈 감긴 아이콘 경로
                 }

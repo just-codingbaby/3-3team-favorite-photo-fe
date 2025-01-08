@@ -46,7 +46,9 @@ export default function Salesphotocard() {
               width={960}
               height={720}
               src="/images/type=sample_img1.png"
+              alt="우리집 앞마당 포토카드 이미지"
               className={`tb:w-[342px] tb:h-[256px] absolute object-cover`}
+              priority
             />
           </div>
           <Buyer
