@@ -3,7 +3,7 @@ import Link from "next/link";
 import axios from "axios";
 import Image from "next/image";
 import EmailInput from "@/components/shared/EmailInput";
-import NickNameInput from "@/components/signUp/nickNameInput";
+import NickNameInput from "@/components/signUp/NickNameInput";
 import PasswordInput from "@/components/shared/PasswordInput";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 
