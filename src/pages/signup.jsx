@@ -2,7 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-const Signup = () => {
+export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -149,4 +149,8 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+Signup.getLayout = function getLayout(page) {
+  return (
+    <>{page}</>
+  )
+}
