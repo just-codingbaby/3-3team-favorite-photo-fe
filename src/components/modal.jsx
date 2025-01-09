@@ -1,7 +1,7 @@
 import tail from "@/styles/tailwindcss";
 import { Btn } from "./buyer";
 import Link from "next/link";
-import { Title } from "@/pages/salesphotocard/detailsalesphotocard";
+import { Title } from "@/pages/buyphoto";
 
 export function CloseBtn({ position, onClose }) {
   const closeBtn = `absolute top-1/2 left-1/2 w-6 h-[2px] bg-customGrey01 transform -translate-x-1/2 -translate-y-1/2`;
@@ -16,16 +16,28 @@ export function CloseBtn({ position, onClose }) {
   );
 }
 
-export function BorderBtn({ children, ma, href, onClick }) {
+// export function BorderBtn({ children, btnstyle, href, onClick, onClose }) {
+//   const { flexcenter } = tail;
+//   return (
+//     <Link
+//       href={href}
+//       onClick={onClick}
+//       onClose={onClose}
+//       className={`${flexcenter} ${btnstyle} bg-transparent border border-white`}
+//     >
+//       <span className={`text-lg text-white font-medium`}>{children}</span>
+//     </Link>
+//   );
+// }
+export function BorderBtn({ children, btnstyle, onClick }) {
   const { flexcenter } = tail;
   return (
-    <Link
-      href={href}
+    <button
       onClick={onClick}
-      className={`${flexcenter} ${ma} w-[440px] h-[60px] border border-white`}
+      className={`${flexcenter} ${btnstyle} bg-transparent border border-white`}
     >
       <span className={`text-lg text-white font-medium`}>{children}</span>
-    </Link>
+    </button>
   );
 }
 
@@ -61,7 +73,7 @@ export function ModalContent({
         <span className={`text-white font-bold text-xl mt-[40px]`}>
           {children}
         </span>
-        <BorderBtn href={href} ma="mt-[60px]">
+        <BorderBtn href={href} btnstyle="mt-[60px]">
           {btnText}
         </BorderBtn>
       </div>
@@ -96,7 +108,7 @@ export default function ModalStandard({
         />
         <Btn
           btname="구매하기"
-          className="w-[170px] h-[60px] mt-[60px] mb-[60px] text-lg"
+          className="w-[170px] h-[60px] mt-[60px] mb-[60px] text-lg text-[#0F0F0F]"
           onClick={onClick}
         />
       </div>
@@ -104,11 +116,11 @@ export default function ModalStandard({
   );
 }
 
-export function ModalExchange({ modalbox, children, onClose }) {
+export function ModalExchange({ modalbox, children, onClick, onClose }) {
   const { dimbg } = tail;
 
   return (
-    <div className={`${dimbg}  bg-opacity-80`}>
+    <div className={`${dimbg}  bg-opacity-80`} onClick={onClick}>
       <div
         className={`${modalbox} mx-auto bg-[#161616] relative border border-white`}
       >
@@ -116,15 +128,63 @@ export function ModalExchange({ modalbox, children, onClose }) {
           position="top-[150px] right-[180px] absolute"
           onClose={onClose}
         />
-        <div className={`max-w-[920px] mx-auto bg-[#161616] `}>
-          <Title
-            location="마이갤러리"
-            title="포토카드 교환하기"
-            className="mb-[20px]"
-          />
-          {children}
-        </div>
+        <div className={`max-w-[920px] mx-auto bg-[#161616] `}>{children}</div>
       </div>
+    </div>
+  );
+}
+
+export function Ex({ className, onClick }) {
+  const { flexcenter } = tail;
+  return (
+    <div className={`${className} ${flexcenter}`} onClick={onClick}>
+      <div>img</div>
+      <div>text</div>
+    </div>
+  );
+}
+
+export function ExchangeDetail({ onClose }) {
+  const { flexstanderd } = tail;
+
+  return (
+    <div>
+      <ModalExchange
+        modalbox="max-w-[1160px] w-full h-[1000px] z-10000"
+        children=""
+        //  onClick={}
+        onClose={onClose}
+      >
+        <Title
+          location="포토카드 교환하기"
+          title="How Far I’ll Go"
+          className="mb-[20px]"
+        />
+        <div className={`flex justify-between mt-[20px]`}>
+          <Ex className={`w-[440px] h-[600px] border border-white`} />
+          <div className={`max-w-[440px] w-full flex flex-col`}>
+            <h3 className="text-xl font-bold mb-[10px]">교환 제시 내용</h3>
+            <div>
+              <input
+                className="border border-white w-full h-[120px] px-5
+                py-5 bg-transparent text-[16px] font-light"
+                placeholder="내용을 입력해 주세요"
+              />
+            </div>
+            <div className={` ${flexstanderd} justify-between mt-[60px]`}>
+              <BorderBtn
+                btnstyle={`w-[210px] h-[60px] text-white`}
+                onClick={onClose} // onClose를 onClick에 연결
+              >
+                취소하기
+              </BorderBtn>
+              <Btn className={` w-[210px] h-[60px] text-[#0F0F0F] `}>
+                교환하기
+              </Btn>
+            </div>
+          </div>
+        </div>
+      </ModalExchange>
     </div>
   );
 }

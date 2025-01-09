@@ -4,11 +4,14 @@ import ModalStandard from "./modal";
 import { ModalContent } from "./modal";
 import { ModalExchange } from "./modal";
 
-export function Btn({ className, btname, absolute, onClick }) {
+export function Btn({ className, children, absolute, onClick }) {
   const { btn } = tail;
   return (
-    <button onClick={onClick} className={`${btn} ${className} ${absolute}`}>
-      {btname}
+    <button
+      onClick={onClick}
+      className={`${btn} ${className} ${absolute} text-[#0F0F0F]`}
+    >
+      {children}
     </button>
   );
 }
@@ -174,10 +177,11 @@ export default function Buyer({ content, buyphoto }) {
         <Price price="8">({buyphoto}장)</Price>
       </div>
       <Btn
-        className="w-full h-[80px] mt-[50px] text-xl text-[#0F0F0F]"
-        btname="포토카드 구매하기"
+        className="w-full h-[80px] mt-[50px] text-xl "
         onClick={ModalStandardOpen}
-      />
+      >
+        포토카드 구매하기
+      </Btn>
       {modalType === "standard" && (
         <ModalStandard
           modalbox="w-[560px] h-[352px] bg-[#161616]"
