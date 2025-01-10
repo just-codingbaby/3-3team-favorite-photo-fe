@@ -6,8 +6,10 @@ import EmailInput from "@/components/shared/EmailInput";
 import NickNameInput from "@/components/signUp/NickNameInput";
 import PasswordInput from "@/components/shared/PasswordInput";
 import PrimaryButton from "@/components/shared/PrimaryButton";
+import SignUpModal from "@/components/signUp/SignUpModal";
 
 export default function Signup() {
+  const [isOpen, setIsOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -17,6 +19,10 @@ export default function Signup() {
     confirmPassword: "",
   });
 
+  const handleOpen = () => {
+    setIsOpen((prev) => !prev);
+  }
+
   const handleFormData = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -24,6 +30,8 @@ export default function Signup() {
       [name]: value,
     }));
   };
+
+  const [result, setResult] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,9 +43,12 @@ export default function Signup() {
         nickName,
         password,
       });
-      alert("성공");
+      setResult("회원가입이 완료되었습니다");
     } catch (error) {
-      alert(error.response.data.message);
+      setResult(error.response.data.message);
+    }
+    finally {
+      handleOpen();
     }
   };
 
@@ -137,6 +148,8 @@ export default function Signup() {
           로그인하기
         </Link>
       </p>
+
+      {isOpen && <SignUpModal handleClick={handleOpen}>{result}</SignUpModal>}
     </div>
   );
 }
