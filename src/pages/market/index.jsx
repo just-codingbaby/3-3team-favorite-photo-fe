@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import {useQuery} from "@tanstack/react-query";
 import PageHeader from "@/components/market/PageHeader";
-import { ProductCard } from "@/components/market/ProductCard";
+import {ProductCard} from "@/components/market/ProductCard";
 import Link from "next/link";
 
 export default function MarketPage() {
@@ -26,7 +26,10 @@ export default function MarketPage() {
         <section>
           <div className="grid grid-cols-2 gap-[5px] tb:gap-5 lt:grid-cols-3 lt:gap-20">
             {data.map((card) => (
-              <Link href={`/market/${card.id}`} key={card.id} >
+              <Link href={`/market/${card.id}`}
+                    key={card.id}
+                    className="block"
+                    aria-label={`${card.name} 카드 상세보기`}>
                 <ProductCard cardProps={card} />
               </Link>
             ))}
