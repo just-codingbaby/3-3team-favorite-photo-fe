@@ -64,10 +64,10 @@ export function ProductCard({ cardProps }) {
         <div className="grid grid-flow-col">
           <div className="flex gap-[1ch]">
             <span aria-label={`상품 등급: ${grade}`} className={cn({
-              'text-common': grade === 'COMMON',
-              'text-rare': grade === 'RARE',
-              'text-super-rare': grade === 'SUPER_RARE',
-              'text-legendary': grade === 'LEGENDARY',
+              'text-grade-common': grade === 'COMMON',
+              'text-grade-rare': grade === 'RARE',
+              'text-grade-super-rare': grade === 'SUPER_RARE',
+              'text-grade-legendary': grade === 'LEGENDARY',
             })}>
               {grade.replace('_', ' ')}
             </span>
