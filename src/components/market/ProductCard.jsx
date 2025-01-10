@@ -3,9 +3,15 @@ import fallbackImg from '@/public/images/card/img_default-temp.webp';
 import Image from 'next/image';
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
 import {useState} from 'react';
-import {cn} from "@/lib/utils";
 import Link from "next/link";
 import soldOutImg from '@/public/images/type=soldout.png'
+
+const GRADE_STYLES = {
+    COMMON: 'text-grade-common',
+    RARE: 'text-grade-rare',
+    SUPER_RARE: 'text-grade-super-rare',
+    LEGENDARY: 'text-grade-legendary',
+  };
 
 const genreToKr = {
   TRAVEL : "여행",
@@ -17,7 +23,7 @@ const genreToKr = {
 /**
  *
  * @typedef {Object} CardProps
- * @property {number} id
+ * @property {number} _id
  * @property {number} remainingQuantity
  * @property {number} totalQuantity
  * @property {string} name
@@ -63,12 +69,7 @@ export function ProductCard({ cardProps }) {
       <CardContent className="tb:text-base pt-[5px] tb:pt-[10px]">
         <div className="grid grid-flow-col">
           <div className="flex gap-[1ch]">
-            <span aria-label={`상품 등급: ${grade}`} className={cn({
-              'text-grade-common': grade === 'COMMON',
-              'text-grade-rare': grade === 'RARE',
-              'text-grade-super-rare': grade === 'SUPER_RARE',
-              'text-grade-legendary': grade === 'LEGENDARY',
-            })}>
+            <span aria-label={`상품 등급: ${grade}`} className={GRADE_STYLES[grade]}>
               {grade.replace('_', ' ')}
             </span>
             <Separator orientation="vertical" />
