@@ -4,6 +4,7 @@ export default {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/styles/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
@@ -19,13 +20,25 @@ export default {
         mb: "375px",
         tb: "744px",
         lt: "1200px",
+        tablet: { max: "1199px" },
+        // => @media (max-width: 1199px) {...}
+        mobile: { max: "743px" },
+        // => @media (max-width: 743px) {...}
       },
       colors: {
+        gray: {
+          100: "hsl(var(--gray-100))",
+          300: "hsl(var(--gray-300))",
+          400: "hsl(var(--gray-400))",
+        },
         customRed: "#FF483D",
         customBlue: "#29C9F9",
         customPurple: "#A77EFF",
         customPink: "#FF2A6A",
         customMain: "#EFFF04",
+        customGrey01: "#A4A4A4", // grey (마켓플레이스)
+        customGrey02: "##EEEEEE", // grey (border)
+        customGrey03: "#5A5A5A", // grey (title border)
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

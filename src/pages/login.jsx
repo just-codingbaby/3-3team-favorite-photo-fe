@@ -31,10 +31,13 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center">
       {/* 로고 */}
-      <img
+      <Image
         src="/images/main_logo.png"
-        alt="Logo"
-        className="mb-12 w-[330.82px] h-auto"
+        alt="최애의포토 로고"
+        width={330.82}
+        height={60}
+        className="mb-12"
+        priority
       />
 
       <div className="w-full max-w-[520px] bg-black p-8 rounded-lg">
@@ -79,14 +82,15 @@ const Login = () => {
               className="absolute flex right-5 top-0.5 mt-10 items-center justify-center"
               style={{ width: "24px", height: "24px" }}
             >
-              <img
+              <Image
+                width={24}
+                height={24}
                 src={
                   showPassword
                     ? "/images/type=visible.png" // 눈 떠짐
                     : "/images/type=invisible.png" // 눈 감음
                 }
                 alt="Toggle Password Visibility"
-                className="w-6 h-6"
               />
             </button>
           </div>
@@ -113,7 +117,7 @@ const Login = () => {
             className="text-customMain underline hover:no-underline"
           >
             회원가입하기
-          </a>
+          </Link>
         </p>
       </div>
     </div>

@@ -6,11 +6,13 @@ import Layout from "@/components/layout";
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }) {
+  const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>)
+
   return (
     <QueryClientProvider client={queryClient}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      
+      {getLayout(<Component {...pageProps} />)}
+      
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
