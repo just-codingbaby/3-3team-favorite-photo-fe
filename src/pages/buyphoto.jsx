@@ -1,16 +1,21 @@
 import tail from "@/styles/tailwindcss";
-import { useState } from "react";
+import { Children, useState } from "react";
 import { useRouter } from "next/router";
 import Buyer, { Btn, Gradetitle } from "@/components/buyer";
 import { ExchangeDetail, ModalExchange, Ex } from "@/components/modal";
+import ModalStandard from "@/components/modal";
+import { ExchangeList } from "@/components/modal";
 import PageHeader, { DetailPheader } from "@/components/market/PageHeader";
 
-export function Title({ location, title, className }) {
+//Ex컴포넌트 부분 다 갈아끼워야 함
+
+export function Title({ location, title, className, children }) {
   const { marketlogo, titles, afborder } = tail;
   return (
-    <div className={`${className}`}>
+    <div className={`${className} mb-[60px]`}>
       <div className={`${marketlogo}`}>{location}</div>
       <h2 className={`${titles} ${afborder} text-white`}>{title}</h2>
+      {children}
     </div>
   );
 }
@@ -26,9 +31,9 @@ export default function Salesphotocard() {
     buyphoto: 2,
   });
 
+  // 원래 모달 기능 해뒀던거
   const [isModal, setIsModal] = useState(false);
   const [isExchangeModal, setIsExchangeModal] = useState(false);
-
   const openModal = () => setIsModal(true);
   const closeModal = () => {
     setIsModal(false);
@@ -38,49 +43,35 @@ export default function Salesphotocard() {
   const openExchangeModal = () => {
     setIsExchangeModal(true);
   };
+
+  //실험 2
+  const [modalType, setModalType] = useState({
+    standard: null,
+    cancel: "cancel",
+    close: "close",
+  }); // 모달 상태
+
+  const OM = (type) => {
+    setModalType(type);
+  };
+
+  const CM = (type) => {
+    setModalType(type);
+  };
+
   //example.title
   return (
     <div>
-      {/* <ModalExchange
-        modalbox="max-w-[1160px] w-full h-[1000px] z-10000"
-        children=""
-        //  onClick={}
-        onClose={closeModal}
-      >
-        <Title
-          location="포토카드 교환하기"
-          title="How Far I’ll Go"
-          className="mb-[20px]"
-        />
-        <div className={`flex justify-between mt-[20px]`}>
-          <Ex className={`w-[440px] h-[600px] border border-white`} />
-          <div className={`max-w-[440px] w-full flex flex-col`}>
-            <h3 className="text-xl font-bold mb-[10px]">교환 제시 내용</h3>
-            <div>
-              <input
-                className="border border-white w-full h-[120px] px-5
-                py-5 bg-transparent text-[16px] font-light"
-                placeholder="내용을 입력해 주세요"
-              />
-            </div>
-            <div className={` ${flexstanderd} justify-between mt-[60px]`}>
-              <BorderBtn
-                href="#"
-                btnstyle={` w-[210px] h-[60px] text-white`}
-                onClose={closeModal}
-              >
-                취소하기
-              </BorderBtn>
-              <Btn className={` w-[210px] h-[60px] text-[#0F0F0F] `}>
-                교환하기
-              </Btn>
-            </div>
-          </div>
-        </div>
-      </ModalExchange> */}
       <div className={`max-w-[1480px] w-full mx-auto tablet:max-w-[704px]`}>
+        {/* <ModalStandard
+          modalbox="w-[560px] h-[352px] bg-[#161616]"
+          modaltitle="교환 제시 취소"
+          modaltext={`[${example.rating} | ${example.title}] ${example.buyphoto}장을 구매하시겠습니까?`}
+          // onClick={BuyModalOpen}
+          // onClose={closeModal}
+        /> */}
         <Title location="마켓플레이스" title={name} />
-        <div className={`flex justify-between mt-[60px] tablet:mt-[40px]`}>
+        <div className={`flex justify-between tablet:mt-[40px]`}>
           <div
             className={`relative w-full max-w-[960px]  h-[720px] tablet:max-w-[342px] tablet:h-[256px] overflow-hidden`}
           >
@@ -98,18 +89,19 @@ export default function Salesphotocard() {
           />
         </div>
         <div className={`${flexstanderd} relative`}>
-          <Title title="교환 희망 정보" className="mt-[120px] w-full" />
-          <Btn
-            className="w-[440px] h-[60px] mt-[120px] text-lg "
-            absolute={btnabsol}
-            onClick={openModal}
-          >
-            포토카드 교환하기
-          </Btn>
+          <Title title="교환 희망 정보" className="mt-[120px] w-full">
+            <Btn
+              className="w-[440px] h-[60px] text-lg bottom-[80px]"
+              absolute={btnabsol}
+              onClick={openModal}
+            >
+              포토카드 교환하기
+            </Btn>
+          </Title>
           {isModal && (
             <ModalExchange
               modalbox="max-w-[1160px] w-full h-[1000px] z-10000"
-              onClose={closeModal} // 모달 닫기 함수 전달
+              onClose={closeModal}
             >
               {" "}
               <Title
@@ -120,6 +112,7 @@ export default function Salesphotocard() {
               <div className={``}>
                 <DetailPheader />
                 <div className={`${flexstanderd} justify-between`}>
+                  {/* 이 부분 갈아끼워야 함 */}
                   <Ex
                     onClick={openExchangeModal}
                     className={`w-[440px] h-[600px] mt-[40px] border border-white`}
@@ -133,7 +126,7 @@ export default function Salesphotocard() {
             </ModalExchange>
           )}
         </div>
-        <p className={`text-white mt-[60px] ${pointtext}`}>
+        <p className={`text-white ${pointtext}`}>
           푸릇푸릇한 여름 풍경, 눈 많이 내린 겨울 풍경 사진에 관심이 많습니다.
           나중에 뚫어야할 부분임
         </p>
@@ -142,6 +135,23 @@ export default function Salesphotocard() {
           type="풍경"
           className="mt-[20px] mb-[180px]"
         />
+        {/* 실험중 */}
+        <ExchangeList onClick={() => OM("cancel")} />
+        {modalType === "cancel" && (
+          <ModalStandard
+            modalbox="w-[560px] h-[352px] bg-[#161616]"
+            modaltitle="교환 제시 취소"
+            modaltext={`[${example.rating} | ${example.title}] 교환 제시를 취소하시겠습니까?`}
+            onClose={() => CM("close")}
+          >
+            <Btn
+              className="w-[170px] h-[60px] mt-[60px] mb-[60px] text-lg text-[#0F0F0F]"
+              onClick={() => CM("close")}
+            >
+              취소하기
+            </Btn>
+          </ModalStandard>
+        )}
       </div>
     </div>
   );

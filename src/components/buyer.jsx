@@ -189,7 +189,14 @@ export default function Buyer({ content, buyphoto }) {
           modaltext={`[${example.rating} | ${example.title}] ${example.buyphoto}장을 구매하시겠습니까?`}
           onClick={BuyModalOpen}
           onClose={handleCloseModal}
-        />
+        >
+          <Btn
+            className="w-[170px] h-[60px] mt-[60px] mb-[60px] text-lg text-[#0F0F0F]"
+            onClick={onClick}
+          >
+            구매하기
+          </Btn>
+        </ModalStandard>
       )}
       {modalType === "buy" && (
         <ModalContent
@@ -198,7 +205,7 @@ export default function Buyer({ content, buyphoto }) {
           state={modalTextSate}
           btnText="마이갤러리 확인하기"
           href="/test/test"
-          onClose={handleCloseModal} // 모달 닫기 함수 전달
+          onClose={handleCloseModal}
         >
           {str}
         </ModalContent>

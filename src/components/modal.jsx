@@ -2,6 +2,7 @@ import tail from "@/styles/tailwindcss";
 import { Btn } from "./buyer";
 import Link from "next/link";
 import { Title } from "@/pages/buyphoto";
+import { useState } from "react";
 
 export function CloseBtn({ position, onClose }) {
   const closeBtn = `absolute top-1/2 left-1/2 w-6 h-[2px] bg-customGrey01 transform -translate-x-1/2 -translate-y-1/2`;
@@ -73,9 +74,7 @@ export function ModalContent({
         <span className={`text-white font-bold text-xl mt-[40px]`}>
           {children}
         </span>
-        <BorderBtn href={href} btnstyle="mt-[60px]">
-          {btnText}
-        </BorderBtn>
+        <BorderBtn btnstyle="mt-[60px]">{btnText}</BorderBtn>
       </div>
     </div>
   );
@@ -83,13 +82,13 @@ export function ModalContent({
 
 // 포토카드 구매 모달, 교환 제시 취소
 export default function ModalStandard({
-  className,
   modalbox,
   modaltitle,
   modaltext,
   closeposition,
   onClick,
   onClose,
+  children,
 }) {
   const { dimbg, flexcenter, stitle } = tail;
 
@@ -106,11 +105,13 @@ export default function ModalStandard({
           position={`${closeposition} top-[46px] right-[46px]`}
           onClose={onClose}
         />
-        <Btn
-          btname="구매하기"
+        {children}
+        {/* <Btn
           className="w-[170px] h-[60px] mt-[60px] mb-[60px] text-lg text-[#0F0F0F]"
           onClick={onClick}
-        />
+        >
+          구매하기
+        </Btn> */}
       </div>
     </div>
   );
@@ -134,12 +135,41 @@ export function ModalExchange({ modalbox, children, onClick, onClose }) {
   );
 }
 
-export function Ex({ className, onClick }) {
+export function ExchangeList({ onClick, onClose }) {
+  const [isEx, setIsEx] = useState(true); // 상태 관리
+
+  return (
+    <div>
+      <Title title="내가 제시한 교환 목록" className="mt-[120px] w-full" />
+      {isEx && (
+        <Ex
+          className={`w-[440px] h-[600px] mt-[40px] border border-white`}
+          // onClose={onClose}
+          onClick={onClick}
+        >
+          <BorderBtn
+            btnstyle={`w-[210px] h-[60px] text-white`}
+            onClick={onClick}
+            onClose={(e) => {
+              e.stopPropagation(); // 이벤트 전파 방지
+              onClose;
+            }}
+          >
+            취소하기
+          </BorderBtn>
+        </Ex>
+      )}
+    </div>
+  );
+}
+
+export function Ex({ className, onClick, children }) {
   const { flexcenter } = tail;
   return (
-    <div className={`${className} ${flexcenter}`} onClick={onClick}>
+    <div className={`${className} ${flexcenter} flex-col`} onClick={onClick}>
       <div>img</div>
       <div>text</div>
+      {children}
     </div>
   );
 }
@@ -174,7 +204,7 @@ export function ExchangeDetail({ onClose }) {
             <div className={` ${flexstanderd} justify-between mt-[60px]`}>
               <BorderBtn
                 btnstyle={`w-[210px] h-[60px] text-white`}
-                onClick={onClose} // onClose를 onClick에 연결
+                onClick={onClose}
               >
                 취소하기
               </BorderBtn>
