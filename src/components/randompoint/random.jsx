@@ -82,7 +82,7 @@ export default function RandomPointModal() {
               {/* 상자 1 */}
               <button onClick={() => handleRandomPoint(1)} className="gift-box">
                 <img
-                  src="/images/gift-box-1.png"
+                  src="/images/gift-box-1.png"//png 추가가
                   alt="선물 상자 1"
                   className="gift-box-img"
                 />
@@ -91,7 +91,7 @@ export default function RandomPointModal() {
               {/* 상자 2 */}
               <button onClick={() => handleRandomPoint(2)} className="gift-box">
                 <img
-                  src="/images/gift-box-2.png"
+                  src="/images/gift-box-2.png" //png 추가가
                   alt="선물 상자 2"
                   className="gift-box-img"
                 />
@@ -100,7 +100,7 @@ export default function RandomPointModal() {
               {/* 상자 3 */}
               <button onClick={() => handleRandomPoint(3)} className="gift-box">
                 <img
-                  src="/images/gift-box-3.png"
+                  src="/images/gift-box-3.png" //png 추가
                   alt="선물 상자 3"
                   className="gift-box-img"
                 />
