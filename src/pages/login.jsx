@@ -1,30 +1,42 @@
 import React, { useState } from "react";
-import { login } from "./api/api"; 
-const Login = () => {
+import axios from "axios";
+import Image from "next/image";
+import Link from "next/link";
+
+export default function Login() {
   const [email, setEmail] = useState(""); // 이메일 상태
   const [password, setPassword] = useState(""); // 비밀번호 상태
-  const [showPassword, setShowPassword] = useState(false); //비밀번호 보여주기
-  const [message, setMessage] = useState(""); // 로그인 결과 메시지
+  const [showPassword, setShowPassword] = useState(false); // 비밀번호 보여주기 상태
+  const [message, setMessage] = useState(""); // 로그인 메시지
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   const handleLogin = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     try {
-      const data = await login(email, password); // 로그인 API 호출
+      const response = await axios.post("http://localhost:8000/api/v1/auth/login", {
+        email,
+        password,
+      });
+      const data = response.data;
+
+      // 로그인 성공 처리
       setMessage(`로그인 성공! 환영합니다, ${data.user.nickName}`);
       console.log("로그인 성공:", data);
 
-      
+      // 토큰 저장
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
 
-     
+      // 페이지 이동
       window.location.href = "/market";
     } catch (error) {
-      setMessage(error.message || "로그인 실패");
+      // 오류 메시지 처리
+      const errorMessage = error.response?.data?.message || "로그인 실패";
+      setMessage(errorMessage);
+      console.error("로그인 실패:", errorMessage);
     }
   };
 
@@ -55,8 +67,8 @@ const Login = () => {
               id="email"
               placeholder="이메일을 입력해 주세요"
               className="w-full h-[60px] px-4 border border-gray-200 bg-black text-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-              value={email} // 이메일 상태 연결
-              onChange={(e) => setEmail(e.target.value)} // 상태 업데이트
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -73,8 +85,8 @@ const Login = () => {
               id="password"
               placeholder="비밀번호를 입력해 주세요"
               className="w-full h-[60px] px-4 pr-12 border border-gray-200 bg-black text-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-              value={password} // 비밀번호 상태 연결
-              onChange={(e) => setPassword(e.target.value)} // 상태 업데이트
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <button
               type="button"
@@ -87,10 +99,10 @@ const Login = () => {
                 height={24}
                 src={
                   showPassword
-                    ? "/images/type=visible.png" // 눈 떠짐
-                    : "/images/type=invisible.png" // 눈 감음
+                    ? "/images/type=visible.png"
+                    : "/images/type=invisible.png"
                 }
-                alt="Toggle Password Visibility"
+                alt="비밀번호 표시 토글"
               />
             </button>
           </div>
@@ -104,15 +116,15 @@ const Login = () => {
           </button>
         </form>
 
-        {/* 로그인 메시지 출력 */}
+        {/* 로그인 메시지 */}
         {message && (
           <p className="mt-4 text-center text-yellow-400 font-medium">{message}</p>
         )}
 
-        {/* 회원가입 안내문 (중앙 정렬) */}
+        {/* 회원가입 안내문 */}
         <p className="mt-6 text-center text-white font-normal text-base">
           최애의 포토가 처음이신가요?{" "}
-          <a
+          <Link
             href="/signup"
             className="text-customMain underline hover:no-underline"
           >
@@ -122,6 +134,8 @@ const Login = () => {
       </div>
     </div>
   );
-};
+}
 
-export default Login;
+Login.getLayout = function getLayout(page) {
+  return <>{page}</>;
+};
