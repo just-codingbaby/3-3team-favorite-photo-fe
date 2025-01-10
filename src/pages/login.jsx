@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import { useAuth } from "@/contexts/AuthProvider";
 
 export default function Login() {
+  const {user, login, logout} = useAuth();
+
   const [email, setEmail] = useState(""); // 이메일 상태
   const [password, setPassword] = useState(""); // 비밀번호 상태
   const [showPassword, setShowPassword] = useState(false); // 비밀번호 보여주기 상태
@@ -23,15 +26,15 @@ export default function Login() {
       const data = response.data;
 
       // 로그인 성공 처리
-      setMessage(`로그인 성공! 환영합니다, ${data.user.nickName}`);
-      console.log("로그인 성공:", data);
+      login({ email, password });
+      setMessage(`로그인 성공! 환영합니다, ${user.nickName}`);
 
       // 토큰 저장
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
 
       // 페이지 이동
-      window.location.href = "/market";
+      // window.location.href = "/market";
     } catch (error) {
       // 오류 메시지 처리
       const errorMessage = error.response?.data?.message || "로그인 실패";
