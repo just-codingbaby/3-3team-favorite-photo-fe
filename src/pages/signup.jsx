@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
-import axios from "axios";
+import axios from "@/lib/axios";
 import Image from "next/image";
 import EmailInput from "@/components/shared/EmailInput";
 import NickNameInput from "@/components/signUp/NickNameInput";
@@ -10,8 +10,6 @@ import SignUpModal from "@/components/signUp/SignUpModal";
 
 export default function Signup() {
   const [isOpen, setIsOpen] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -38,7 +36,7 @@ export default function Signup() {
 
     const { email, nickName, password } = formData;
     try {
-      const res = await axios.post("http://localhost:8000/api/v1/auth/signup", {
+      const res = await axios.post("/api/v1/auth/signup", {
         email,
         nickName,
         password,
