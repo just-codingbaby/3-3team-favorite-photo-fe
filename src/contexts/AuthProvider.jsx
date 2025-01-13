@@ -51,7 +51,7 @@ export default function AuthProvider({ children }) {
   async function logout() {
     //임시입니다
     try {
-      await axios.post("/api/v1/auth/logout");
+      // await axios.post("/api/v1/auth/logout");
       setUser(null);
     } catch (err) {
       console.error("로그아웃 에러:", err);
