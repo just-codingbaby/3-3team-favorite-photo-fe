@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"; 
-import {getUsersMyCardList} from "@/pages/api/api";
+import {getUsersMyCardList, getUsersMyCards} from "@/pages/api/api";
 import { QUERY_KEYS } from "@/lib/queryKeys";
 
 // 보유한 카드목록
@@ -42,3 +42,13 @@ import { QUERY_KEYS } from "@/lib/queryKeys";
     });
   }
   
+  // 카드상세 조회
+export function useUsersMyCardsQuery({ id }) {
+  return useQuery({
+    queryKey: [QUERY_KEYS.USERS_MY_CARDS, id],
+    queryFn: () => getUsersMyCards({ id }),
+    keepPreviousData: true,
+    enabled: !!id,
+    retry: false,
+  });
+}

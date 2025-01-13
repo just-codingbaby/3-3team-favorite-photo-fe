@@ -5,22 +5,32 @@ const AuthContext = createContext();
 
 // AuthProvider 컴포넌트
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => {  // user: 로그인한 사용자 정보
-    // 세션 스토리지에서 사용자 데이터를 가져옴
-    const storedUser = sessionStorage.getItem("userData");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
+  const [user, setUser] = useState(null); // 사용자 상태 초기화
+
+  // 브라우저 환경에서 세션 스토리지에서 사용자 데이터를 가져오기
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedUser = sessionStorage.getItem("userData");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser)); // 사용자 데이터를 상태에 설정
+      }
+    }
+  }, []);
 
   // 로그인 함수
   const login = (userData) => {
     setUser(userData);
-    sessionStorage.setItem("userData", JSON.stringify(userData)); // 세션 스토리지에 저장
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("userData", JSON.stringify(userData)); // 세션 스토리지에 저장
+    }
   };
 
   // 로그아웃 함수
   const logout = () => {
     setUser(null);
-    sessionStorage.removeItem("userData"); // 세션 스토리지에서 제거
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem("userData"); // 세션 스토리지에서 제거
+    }
   };
 
   // 포인트 업데이트 함수
@@ -36,20 +46,19 @@ export function AuthProvider({ children }) {
         },
       };
 
-      sessionStorage.setItem("userData", JSON.stringify(updatedUser)); // 업데이트된 사용자 데이터 저장
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("userData", JSON.stringify(updatedUser)); // 세션 스토리지에 저장
+      }
+
       return updatedUser;
     });
   };
 
-  // AuthContext에서 제공할 값
-  const value = {
-    user,
-    login,
-    logout,
-    updatePoints,
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, login, logout, updatePoints }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 // useAuthStore 훅 (Zustand와 동일한 사용법 제공)
