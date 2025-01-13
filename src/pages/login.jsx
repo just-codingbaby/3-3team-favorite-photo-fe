@@ -2,10 +2,17 @@ import React, { useState } from 'react';
 import axios from "axios";
 import Image from 'next/image';
 import Link from 'next/link';
+import { useAuth } from "@/contexts/AuthProvider";
+import { useRouter } from "next/router";
 
 export default function Login() {
+  const { user, login, logout } = useAuth();
+
+  const router = useRouter();
+
   const [email, setEmail] = useState(""); // 이메일 상태
   const [password, setPassword] = useState(""); // 비밀번호 상태
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false); // 비밀번호 보여주기 상태
   const [message, setMessage] = useState(""); // 로그인 메시지
 
@@ -15,28 +22,19 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      const response = await axios.post("http://localhost:8000/api/v1/auth/login", {
-        email,
-        password,
-      });
-      const data = response.data;
+      const data = await login({ email, password });
+      setMessage(`로그인 성공! 환영합니다, ${data.nickName}`);
 
-      // 로그인 성공 처리
-      setMessage(`로그인 성공! 환영합니다, ${data.user.nickName}`);
-      console.log("로그인 성공:", data);
-
-      // 토큰 저장
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
-
-      // 페이지 이동
-      window.location.href = "/market";
+      router.push('/me');
     } catch (error) {
       // 오류 메시지 처리
       const errorMessage = error.response?.data?.message || "로그인 실패";
       setMessage(errorMessage);
       console.error("로그인 실패:", errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -108,14 +106,12 @@ export default function Login() {
             type="submit"
             className="w-full h-[60px] bg-customMain text-black font-semibold hover:bg-customMain/80 transition"
           >
-            로그인
+            {loading ? "로그인 중..." : "로그인"}
           </button>
         </form>
 
         {/* 로그인 메시지 */}
-        {message && (
-          <p className="mt-4 text-center text-yellow-400 font-medium">{message}</p>
-        )}
+        {message && <p className="mt-4 text-center text-yellow-400 font-medium">{message}</p>}
 
         {/* 회원가입 안내문 */}
         <p className="mt-6 text-center text-white font-normal text-base">
