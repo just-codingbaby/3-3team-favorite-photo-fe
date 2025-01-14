@@ -31,3 +31,17 @@ export const signUp = async (email, password, nickName) => {
     throw error.response?.data || error;
   }
 };
+
+
+export const logout = (req, res) => {
+  try {
+    // 쿠키 삭제
+    res.clearCookie("accessToken", { httpOnly: true, secure: true, sameSite: "Strict" });
+    res.clearCookie("refreshToken", { httpOnly: true, secure: true, sameSite: "Strict" });
+
+    return res.status(200).json({ message: "로그아웃 성공" });
+  } catch (error) {
+    console.error("로그아웃 실패:", error);
+    return res.status(500).json({ message: "로그아웃 실패" });
+  }
+};
