@@ -31,3 +31,16 @@ export const signUp = async (email, password, nickName) => {
     throw error.response?.data || error;
   }
 };
+
+
+export const logout = async () => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/api/v1/auth/logout`, null, {
+      withCredentials: true, // 쿠키 전송 활성화
+    });
+    return response.data;
+  } catch (error) {
+    console.error("로그아웃 실패:", error.response?.data?.message || error.message);
+    throw error.response?.data || error;
+  }
+};
