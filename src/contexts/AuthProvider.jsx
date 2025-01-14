@@ -49,12 +49,17 @@ export default function AuthProvider({ children }) {
   }
 
   async function logout() {
-    //임시입니다
     try {
-      // await axios.post("/api/v1/auth/logout");
+      // 로그아웃 API 호출
+      await axios.post("/api/v1/auth/logout", null, {
+        withCredentials: true, // 쿠키를 포함해 요청 전송
+      });
+  
+      // 유저 상태 초기화
       setUser(null);
     } catch (err) {
-      console.error("로그아웃 에러:", err);
+      console.error("로그아웃 에러:", err.response?.data?.message || err.message);
+      throw new Error("로그아웃 실패");
     }
   }
 
