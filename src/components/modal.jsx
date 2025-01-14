@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Title } from "@/pages/buyphoto";
 import { useState } from "react";
 
+// 기본 노랑색 버튼
 export function CloseBtn({ position, onClose }) {
   const closeBtn = `absolute top-1/2 left-1/2 w-6 h-[2px] bg-customGrey01 transform -translate-x-1/2 -translate-y-1/2`;
   return (
@@ -30,6 +31,8 @@ export function CloseBtn({ position, onClose }) {
 //     </Link>
 //   );
 // }
+
+// 흰선 버튼 (예:취소하기)
 export function BorderBtn({ children, btnstyle, onClick }) {
   const { flexcenter } = tail;
   return (
@@ -74,13 +77,15 @@ export function ModalContent({
         <span className={`text-white font-bold text-xl mt-[40px]`}>
           {children}
         </span>
-        <BorderBtn btnstyle="mt-[60px]">{btnText}</BorderBtn>
+        <BorderBtn btnstyle=" w-full max-w-[440px] h-[60px] mt-[60px]">
+          {btnText}
+        </BorderBtn>
       </div>
     </div>
   );
 }
 
-// 포토카드 구매 모달, 교환 제시 취소
+// 포토카드 구매 모달, 교환 제시 취소 (처음 나오는 기본 모달)
 export default function ModalStandard({
   modalbox,
   modaltitle,
@@ -106,22 +111,23 @@ export default function ModalStandard({
           onClose={onClose}
         />
         {children}
-        {/* <Btn
-          className="w-[170px] h-[60px] mt-[60px] mb-[60px] text-lg text-[#0F0F0F]"
-          onClick={onClick}
-        >
-          구매하기
-        </Btn> */}
       </div>
     </div>
   );
 }
 
-export function ModalExchange({ modalbox, children, onClick, onClose }) {
+// 포토카드 교환하기 모달 창
+export function ModalExchange({
+  modalbox,
+  children,
+  onClick,
+  onClose,
+  className,
+}) {
   const { dimbg } = tail;
 
   return (
-    <div className={`${dimbg}  bg-opacity-80`} onClick={onClick}>
+    <div className={`${dimbg} ${className} bg-opacity-80`} onClick={onClick}>
       <div
         className={`${modalbox} mx-auto bg-[#161616] relative border border-white`}
       >
@@ -135,6 +141,7 @@ export function ModalExchange({ modalbox, children, onClick, onClose }) {
   );
 }
 
+// ㄷEx 빼고 넣고 하려고 만든건데 다시 한 번 생각해봐야 할 듯
 export function ExchangeList({ onClick, onClose }) {
   const [isEx, setIsEx] = useState(true); // 상태 관리
 
@@ -145,7 +152,10 @@ export function ExchangeList({ onClick, onClose }) {
         <Ex
           className={`w-[440px] h-[600px] mt-[40px] border border-white`}
           // onClose={onClose}
-          onClick={onClick}
+          onClick={(e) => {
+            e.stopPropagation();
+            onClick;
+          }}
         >
           <BorderBtn
             btnstyle={`w-[210px] h-[60px] text-white`}
@@ -163,6 +173,7 @@ export function ExchangeList({ onClick, onClose }) {
   );
 }
 
+// 임시로 만든거 여기에 지연님 포토카드 컴포넌트 넣을꺼임
 export function Ex({ className, onClick, children }) {
   const { flexcenter } = tail;
   return (
@@ -180,6 +191,7 @@ export function ExchangeDetail({ onClose }) {
   return (
     <div>
       <ModalExchange
+        className="bg-opacity-0"
         modalbox="max-w-[1160px] w-full h-[1000px] z-10000"
         children=""
         //  onClick={}
@@ -208,7 +220,10 @@ export function ExchangeDetail({ onClose }) {
               >
                 취소하기
               </BorderBtn>
-              <Btn className={` w-[210px] h-[60px] text-[#0F0F0F] `}>
+              <Btn
+                className={` w-[210px] h-[60px] text-[#0F0F0F]`}
+                // onClick={}
+              >
                 교환하기
               </Btn>
             </div>

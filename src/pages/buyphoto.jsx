@@ -1,10 +1,13 @@
 import tail from "@/styles/tailwindcss";
-import { Children, useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Buyer, { Btn, Gradetitle } from "@/components/buyer";
-import { ExchangeDetail, ModalExchange, Ex } from "@/components/modal";
-import ModalStandard from "@/components/modal";
-import { ExchangeList } from "@/components/modal";
+import ModalStandard, {
+  ExchangeDetail,
+  ModalExchange,
+  ExchangeList,
+  Ex,
+} from "@/components/modal";
 import PageHeader, { DetailPheader } from "@/components/market/PageHeader";
 
 //Ex컴포넌트 부분 다 갈아끼워야 함
@@ -21,56 +24,38 @@ export function Title({ location, title, className, children }) {
 }
 
 export default function Salesphotocard() {
-  const { flexcenter, pointtext, flexstanderd, btnabsol } = tail;
+  const { pointtext, flexstanderd, btnabsol } = tail;
   const router = useRouter();
   const { name } = router.query;
 
   const [example, setExample] = useState({
-    // title: "우리집 앞마당",
+    title: "우리집 앞마당",
     rating: "LEGENDARY",
-    buyphoto: 2,
+    // buyphoto: 2,
   });
 
-  // 원래 모달 기능 해뒀던거
-  const [isModal, setIsModal] = useState(false);
-  const [isExchangeModal, setIsExchangeModal] = useState(false);
-  const openModal = () => setIsModal(true);
-  const closeModal = () => {
-    setIsModal(false);
-    setIsExchangeModal(false);
+  const initModal = {
+    standard: false,
+    exchange: false,
+    cancel: false,
   };
 
-  const openExchangeModal = () => {
-    setIsExchangeModal(true);
-  };
+  const [openModal, setOpenModal] = useState({
+    standard: false,
+    exchange: false,
+    cancel: false,
+    initModal: false,
+  });
 
-  //실험 2
-  const [modalType, setModalType] = useState({
-    standard: null,
-    cancel: "cancel",
-    close: "close",
-  }); // 모달 상태
-
-  const OM = (type) => {
-    setModalType(type);
-  };
-
-  const CM = (type) => {
-    setModalType(type);
+  const CloseModal = () => {
+    setOpenModal(initModal);
   };
 
   //example.title
   return (
     <div>
       <div className={`max-w-[1480px] w-full mx-auto tablet:max-w-[704px]`}>
-        {/* <ModalStandard
-          modalbox="w-[560px] h-[352px] bg-[#161616]"
-          modaltitle="교환 제시 취소"
-          modaltext={`[${example.rating} | ${example.title}] ${example.buyphoto}장을 구매하시겠습니까?`}
-          // onClick={BuyModalOpen}
-          // onClose={closeModal}
-        /> */}
-        <Title location="마켓플레이스" title={name} />
+        <Title location="마켓플레이스" title={example.title} />
         <div className={`flex justify-between tablet:mt-[40px]`}>
           <div
             className={`relative w-full max-w-[960px]  h-[720px] tablet:max-w-[342px] tablet:h-[256px] overflow-hidden`}
@@ -84,7 +69,7 @@ export default function Salesphotocard() {
             nickname="미쓰손"
             content="우리집 앞마당 포토카드입니다. 우리집 앞마당 포토카드입니다. 우리집 앞마당 포토카드입니다. "
             price="4"
-            buyphoto="2"
+            // buyphoto="2"
             totalphoto="5"
           />
         </div>
@@ -93,17 +78,16 @@ export default function Salesphotocard() {
             <Btn
               className="w-[440px] h-[60px] text-lg bottom-[80px]"
               absolute={btnabsol}
-              onClick={openModal}
+              onClick={() => setOpenModal({ ...openModal, standard: true })}
             >
               포토카드 교환하기
             </Btn>
           </Title>
-          {isModal && (
+          {openModal.standard && (
             <ModalExchange
               modalbox="max-w-[1160px] w-full h-[1000px] z-10000"
-              onClose={closeModal}
+              onClose={CloseModal}
             >
-              {" "}
               <Title
                 location="마이갤러리"
                 title="포토카드 교환하기"
@@ -114,10 +98,15 @@ export default function Salesphotocard() {
                 <div className={`${flexstanderd} justify-between`}>
                   {/* 이 부분 갈아끼워야 함 */}
                   <Ex
-                    onClick={openExchangeModal}
+                    // onClick={openExchangeModal}
+                    onClick={() =>
+                      setOpenModal({ ...openModal, exchange: true })
+                    }
                     className={`w-[440px] h-[600px] mt-[40px] border border-white`}
                   />
-                  {isExchangeModal && <ExchangeDetail onClose={closeModal} />}
+                  {openModal.exchange && (
+                    <ExchangeDetail onClose={CloseModal} />
+                  )}
                   <Ex
                     className={`w-[440px] h-[600px] mt-[40px] border border-white`}
                   />
@@ -136,17 +125,19 @@ export default function Salesphotocard() {
           className="mt-[20px] mb-[180px]"
         />
         {/* 실험중 */}
-        <ExchangeList onClick={() => OM("cancel")} />
-        {modalType === "cancel" && (
+        <ExchangeList
+          onClick={() => setOpenModal({ ...openModal, cancel: true })}
+        />
+        {openModal.cancel && (
           <ModalStandard
             modalbox="w-[560px] h-[352px] bg-[#161616]"
             modaltitle="교환 제시 취소"
             modaltext={`[${example.rating} | ${example.title}] 교환 제시를 취소하시겠습니까?`}
-            onClose={() => CM("close")}
+            onClose={CloseModal}
           >
             <Btn
               className="w-[170px] h-[60px] mt-[60px] mb-[60px] text-lg text-[#0F0F0F]"
-              onClick={() => CM("close")}
+              onClick={CloseModal}
             >
               취소하기
             </Btn>
