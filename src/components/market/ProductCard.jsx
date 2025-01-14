@@ -1,8 +1,14 @@
-import {Separator} from '@/components/ui/separator';
+import { Separator } from '@/components/ui/separator';
 import fallbackImg from '@/public/images/card/img_default-temp.webp';
 import Image from 'next/image';
-import {Card, CardContent, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
-import {useState} from 'react';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card';
+import { useState } from 'react';
 import Link from "next/link";
 import soldOutImg from '@/public/images/type=soldout.png'
 

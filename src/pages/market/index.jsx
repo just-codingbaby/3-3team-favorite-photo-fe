@@ -1,39 +1,75 @@
-import {useQuery} from '@tanstack/react-query';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+  useQuery
+} from '@tanstack/react-query';
 import PageHeader from '@/components/market/PageHeader';
-import {ProductCard} from '@/components/market/ProductCard';
+import { ProductCard } from '@/components/market/ProductCard';
 import Link from 'next/link';
+import { useState } from 'react';
+import { SORT_OPTS } from "@/constants/martket";
 
-export default function MarketPage() {
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
-  const { isPending, error, data, _isFetching } = useQuery({
+
+async function getCards(query) {
+  try {
+    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + '/shop/cards?' + SORT_OPTS.get(query.sortOptionKey).value);
+    return response.json();
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getStaticProps() {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
     queryKey: ['cards'],
-    queryFn: async () => {
-      const response = await fetch(`${API_URL}/shop/cards`);
-      return await response.json();
+    queryFn: getCards,
+  });
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
     },
+  };
+}
+
+export default function MarketPage({ dehydratedState }) {
+  const [ page, setPage ] = useState(1);
+  const [ search, setSearch ] = useState('');
+  const [ filter, setFilter ] = useState('');
+  const [ sortOptionKey, setSortOptionKey ] = useState('LATEST');
+
+  const {data, isLoading, isError} = useQuery({
+    queryKey: [ 'cards', page, search, filter, sortOptionKey ],
+    queryFn: () => getCards({sortOptionKey}),
   });
 
-  if (isPending) return 'Loading...';
+  if (isLoading) return 'Loading...';
 
-  if (error) return 'An error has occurred: ' + error.message;
+  if (isError) return 'An error has occurred: ';
+
   return (
-    <article className=" tb:container mx-auto px-[15px] tb:px-5">
-      <PageHeader />
-      <section>
-        <div className="grid grid-cols-2 gap-[5px] tb:gap-5 lt:grid-cols-3 lt:gap-20">
-          {data.map((card) => (
-            <Link
-              href={`/market/${card.id}`}
-              key={card.id}
-              className="block"
-              aria-label={`${card.name} 카드 상세보기`}
-              onClick={(e) => {e.stopPropagation()}}
-            >
-              <ProductCard cardProps={card} />
-            </Link>
-          ))}
-        </div>
-      </section>
-    </article>
+    <HydrationBoundary state={dehydratedState}>
+      <article className=" tb:container mx-auto px-[15px] tb:px-5">
+        <PageHeader {...{sortOptionKey, setSortOptionKey}}/>
+        <section>
+          <div className="grid grid-cols-2 gap-[5px] tb:gap-5 lt:grid-cols-3 lt:gap-20">
+            {data?.cards?.map((card) => (
+              <Link
+                href={`/market/${card.id}`}
+                key={card.id}
+                className="block"
+                aria-label={`${card.name} 카드 상세보기`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <ProductCard cardProps={card} />
+              </Link>
+            ))}
+          </div>
+        </section>
+      </article>
+    </HydrationBoundary>
   );
 }

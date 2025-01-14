@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import axios from "axios";
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 import { useAuth } from "@/contexts/AuthProvider";
 import { useRouter } from "next/router";
 
@@ -54,7 +54,8 @@ export default function Login() {
         <form onSubmit={handleLogin} className="text-left">
           {/* 이메일 입력 */}
           <div className="mb-4">
-            <label htmlFor="email" className="block text-lg font-normal text-gray-300 mb-2">
+            <label htmlFor="email"
+                   className="block text-lg font-normal text-gray-300 mb-2">
               이메일
             </label>
             <input
@@ -69,11 +70,12 @@ export default function Login() {
 
           {/* 비밀번호 입력 */}
           <div className="mb-6 relative">
-            <label htmlFor="password" className="block text-lg font-normal text-gray-300 mb-2">
+            <label htmlFor="password"
+                   className="block text-lg font-normal text-gray-300 mb-2">
               비밀번호
             </label>
             <input
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               id="password"
               placeholder="비밀번호를 입력해 주세요"
               className="w-full h-[60px] px-4 pr-12 border border-gray-200 bg-black text-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
@@ -89,7 +91,11 @@ export default function Login() {
               <Image
                 width={24}
                 height={24}
-                src={showPassword ? "/images/type=visible.png" : "/images/type=invisible.png"}
+                src={
+                  showPassword
+                    ? '/images/type=visible.png' // 눈 떠진 아이콘 경로
+                    : '/images/type=invisible.png' // 눈 감긴 아이콘 경로
+                }
                 alt="비밀번호 표시 토글"
               />
             </button>
@@ -109,8 +115,9 @@ export default function Login() {
 
         {/* 회원가입 안내문 */}
         <p className="mt-6 text-center text-white font-normal text-base">
-          최애의 포토가 처음이신가요?{" "}
-          <Link href="/signup" className="text-customMain underline hover:no-underline">
+          최애의 포토가 처음이신가요?{' '}
+          <Link href="/signup"
+                className="text-customMain underline hover:no-underline">
             회원가입하기
           </Link>
         </p>
