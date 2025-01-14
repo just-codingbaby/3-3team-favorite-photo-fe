@@ -6,6 +6,7 @@ import PasswordInput from "@/components/shared/PasswordInput";
 import Primarybutton from "@/components/shared/PrimaryButton";
 import SecondaryButton from "@/components/shared/SecondaryButton";
 import TextFieldInput from "@/components/shared/TextFieldInput";
+import SignUpModal from "@/components/signUp/SignUpModal";
 import { useState } from "react";
 
 export default function SharedTestPage() {
@@ -15,6 +16,12 @@ export default function SharedTestPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cardName, setCardName] = useState("");
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpen = () => {
+    setIsOpen((prev) => !prev);
+  }
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -124,6 +131,13 @@ export default function SharedTestPage() {
 
         <div className="flex flex-col gap-5 border-dashed border-purple-400 border-[1px] px-5 py-5 w-auto">
           <TextFieldInput size='L' value={cardName} handleChange={handleCardName} />
+        </div>
+
+        <div className="flex flex-col gap-5 border-dashed border-purple-400 border-[1px] px-5 py-5 w-auto">
+          <Primarybutton label="회원가입" width="150px" height="50px" textSize="lg"  handleClick={handleOpen}/>
+          {
+            isOpen && <SignUpModal handleClick={handleOpen}>성공</SignUpModal>
+          }
         </div>
       </div>
     </div>

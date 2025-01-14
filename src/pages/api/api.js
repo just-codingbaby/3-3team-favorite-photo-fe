@@ -1,37 +1,33 @@
-const API_URL = "https://three-3team-favorite-photo-be.onrender.com";
+import axios from "axios";
 
-// 보유한 카드목록
-export async function getUsersMyCardList({
-    sort,
-    genre,
-    sellout,
-    grade,
-    ownerId,
-    pageNum,
-    pageSize,
-    keyword,
-  }) {
-    try {
-      console.log(`/users/my-cards`);
-      const response = null;    
-      return response;
-    } catch (error) {
-      setError(error.response.data.message, "/");
-      throw error;
-    }
-  }
-  
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// 보유한 포토 카드 카드상세 조회
-export async function getUsersMyCards({ id }) {
+export const login = async (email, password) => {
   try {
-    console.log(`/users/my-cards/${id}`);
-    const response = null;    
-    return response;
-  } catch (error) {
-    setError(error.response.data.message, "back");
-    throw error;
-  }
-}
+    console.log("API_BASE_URL:", API_BASE_URL);
 
-  
+    const response = await axios.post(`${API_BASE_URL}/api/auth/login`, {
+      email,
+      password,
+    });
+    return response.data;
+    
+  } catch (error) {
+    console.error("로그인 실패:", error.response?.data?.message || error.message);
+    throw error.response?.data || error;
+  }
+};
+
+export const signUp = async (email, password, nickName) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/api/auth/signUp`, {
+      email,
+      password,
+      nickName,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("회원가입 실패:", error.response?.data?.message || error.message);
+    throw error.response?.data || error;
+  }
+};
