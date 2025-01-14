@@ -33,15 +33,14 @@ export const signUp = async (email, password, nickName) => {
 };
 
 
-export const logout = (req, res) => {
+export const logout = async () => {
   try {
-    // 쿠키 삭제
-    res.clearCookie("accessToken", { httpOnly: true, secure: true, sameSite: "Strict" });
-    res.clearCookie("refreshToken", { httpOnly: true, secure: true, sameSite: "Strict" });
-
-    return res.status(200).json({ message: "로그아웃 성공" });
+    const response = await axios.post(`${API_BASE_URL}/api/v1/auth/logout`, null, {
+      withCredentials: true, // 쿠키 전송 활성화
+    });
+    return response.data;
   } catch (error) {
-    console.error("로그아웃 실패:", error);
-    return res.status(500).json({ message: "로그아웃 실패" });
+    console.error("로그아웃 실패:", error.response?.data?.message || error.message);
+    throw error.response?.data || error;
   }
 };
