@@ -1,6 +1,7 @@
+import { cn } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
 
-export default function CustomDropDown({ label, options, value, onChange }) {
+export default function CustomDropDown({ label, options, value, onChange, className }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropDownRef = useRef(null);
 
@@ -21,7 +22,7 @@ export default function CustomDropDown({ label, options, value, onChange }) {
     <div className={`relative`} ref={dropDownRef}>
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="flex items-center w-32 px-4 py-2 text-white bg-black focus:outline-none"
+        className={cn("flex items-center w-32 px-4 py-2 text-white bg-black focus:outline-none",className)}
       >
         <span className="truncate font-bold">
           {value ? options.find((opt) => opt.value === value)?.label : label}

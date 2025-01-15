@@ -12,5 +12,5 @@ export default function Me() {
       <h1>환영합니다, {user.nickName}님!</h1>
       <p>이메일: {user.email}</p>
     </div>
-  );
+  );  
 }
