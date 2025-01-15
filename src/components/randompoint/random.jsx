@@ -1,5 +1,3 @@
-//미완성성
-
 import { useState, useEffect } from "react";
 
 export default function RandomPointModal() {
@@ -24,7 +22,7 @@ export default function RandomPointModal() {
     }
   }, []);
 
-  // 타이머 업데이트
+  // 타이머 업데이트.
   useEffect(() => {
     if (timer > 0 && !isOpen) {
       const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
@@ -54,61 +52,65 @@ export default function RandomPointModal() {
   };
 
   return (
-    <div>
+    <div className="relative">
       {/* 모달 열기 버튼 */}
-      <button onClick={handleOpenModal} disabled={timer > 0} className="open-modal-btn">
+      <button
+        onClick={handleOpenModal}
+        disabled={timer > 0}
+        className="bg-yellow-500 text-white px-4 py-2 rounded disabled:bg-gray-400"
+      >
         랜덤 포인트 받기
       </button>
 
       {/* 타이머 표시 */}
       {timer > 0 && (
-        <p className="timer-text">
-          다음 기회까지 남은 시간:{" "}
-          <span className="time">
-            {Math.floor(timer / 60)}분 {timer % 60}초
-          </span>
+        <p className="text-gray-200 mt-4">
+          다음 기회까지 남은 시간: <span className="font-bold">{Math.floor(timer / 60)}분 {timer % 60}초</span>
         </p>
       )}
 
       {/* 모달 */}
       {isOpen && (
-        <div className="modal-overlay">
-          <div className="modal-container">
-            <h2 className="modal-title">랜덤포인트</h2>
-            <p className="modal-description">랜덤 상자를 열어 포인트를 얻어보세요!</p>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-gray-800 text-white w-[1034px] h-[646px] rounded-md shadow-lg relative p-6">
+            <h2 className="text-4xl font-bold text-center mb-4">랜덤포인트</h2>
+            <p className="text-center text-lg mb-8">랜덤 상자를 열어 포인트를 얻어보세요!</p>
 
             {/* 선물 상자 버튼 */}
-            <div className="gift-box-container flex justify-center space-x-4">
+            <div className="flex justify-center space-x-8">
               {/* 상자 1 */}
-              <button onClick={() => handleRandomPoint(1)} className="gift-box">
+              <button onClick={() => handleRandomPoint(1)} className="w-[246px] h-[191px]">
                 <img
-                  src="/images/gift-box-1.png"//png 추가가
+                  src="/images/bluepointbox.png"
                   alt="선물 상자 1"
-                  className="gift-box-img"
+                  className="w-full h-full object-contain"
                 />
               </button>
 
               {/* 상자 2 */}
-              <button onClick={() => handleRandomPoint(2)} className="gift-box">
+              <button onClick={() => handleRandomPoint(2)} className="w-[246px] h-[191px]">
                 <img
-                  src="/images/gift-box-2.png" //png 추가가
+                  src="/images/purplepointbox.png"
                   alt="선물 상자 2"
-                  className="gift-box-img"
+                  className="w-full h-full object-contain"
                 />
               </button>
 
               {/* 상자 3 */}
-              <button onClick={() => handleRandomPoint(3)} className="gift-box">
+              <button onClick={() => handleRandomPoint(3)} className="w-[246px] h-[191px]">
                 <img
-                  src="/images/gift-box-3.png" //png 추가
+                  src="/images/redpointbox.png"
                   alt="선물 상자 3"
-                  className="gift-box-img"
+                  className="w-full h-full object-contain"
                 />
               </button>
             </div>
 
             {/* 모달 닫기 버튼 */}
-            <button onClick={handleCloseModal} className="modal-close-btn">
+            <button
+              onClick={handleCloseModal}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl"
+            >
               ✖
             </button>
           </div>
@@ -116,8 +118,7 @@ export default function RandomPointModal() {
       )}
 
       {/* 포인트 결과 */}
-      {points && <p className="points-text">축하합니다! {points} 포인트를 얻으셨습니다!</p>}
+      {points && <p className="text-green-400 mt-4">축하합니다! {points} 포인트를 얻으셨습니다!</p>}
     </div>
   );
 }
-

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 export default function NotificationList({ userId }) {
   const [notifications, setNotifications] = useState([]);
@@ -13,13 +13,25 @@ export default function NotificationList({ userId }) {
   }, [userId]);
 
   return (
-    <div>
-      {notifications.map((notification) => (
-        <div key={notification.id} className="notification">
-          <p>{notification.message}</p>
-          <small>{timeAgo(notification.created_at)}</small>
-        </div>
-      ))}
+    <div className="absolute top-14 right-0 w-[300px] h-[535px] bg-gray-800 text-white shadow-lg rounded-lg overflow-y-auto">
+      {/* 알림 전체 박스 */}
+      {notifications.length > 0 ? (
+        notifications.map((notification) => (
+          <div
+            key={notification.id}
+            className="p-4 border-b border-gray-700 last:border-none"
+          >
+            <p className="text-sm font-normal leading-[20.27px] text-left">
+              {notification.message}
+            </p>
+            <small className="text-xs font-light leading-[17.38px] text-gray-400 mt-1 block">
+              {timeAgo(notification.created_at)}
+            </small>
+          </div>
+        ))
+      ) : (
+        <p className="text-center text-gray-400 p-4">알림이 없습니다.</p>
+      )}
     </div>
   );
 }
