@@ -15,42 +15,10 @@ export default function MakePhotoCard() {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    const formData = new FormData();
-
-    // 파일 추가
-    const fileInput = document.getElementById("file-input");
-    if (fileInput && fileInput.files[0]) {
-      formData.append("photo", fileInput.files[0]);
-    }
-
-    // 나머지 폼 데이터 추가
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-
-    // FormData 확인
-    for (let pair of formData.entries()) {
-      console.log(`${pair[0]}: ${pair[1]}`);
-    }
-
-    // 서버로 제출
-    fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log("성공:", result);
-      })
-      .catch((error) => {
-        console.error("에러:", error);
-      });
-  };
+  const onSubmit = (data) => console.log(data);
 
   const FILTER_LIST = [
     {
@@ -112,6 +80,7 @@ export default function MakePhotoCard() {
           <label className={labelStyle}>포토카드 이름</label>
           <Input
             {...register("cardName", {
+              // 추후 데이터 이름 수정
               required: "필수 입력 사항입니다",
               maxLength: { value: 30, message: "최대 30자까지 입력 가능합니다" },
             })}
@@ -159,6 +128,7 @@ export default function MakePhotoCard() {
           <label className={labelStyle}>가격</label>
           <Input
             {...register("price", {
+              // 추후 데이터 이름 수정
               required: "필수 입력 사항입니다",
             })}
             className={`${inputStyle}`}
@@ -170,6 +140,7 @@ export default function MakePhotoCard() {
           <label className={labelStyle}>총 발행량</label>
           <Input
             {...register("amount", {
+              // 추후 데이터 이름 수정
               required: "필수 입력 사항입니다",
               maxLength: { value: 30, message: "최대 30자까지 입력 가능합니다" },
             })}
@@ -182,6 +153,7 @@ export default function MakePhotoCard() {
           <div
             className={`flex flex-row justify-between w-[345px] h-[55px] mb:w-[440px] tb:w-[520px] m-0 p-0`}
           >
+            {/* 파일 이름 표시 */}
             <Input
               id="fileName"
               type="text"
@@ -189,6 +161,7 @@ export default function MakePhotoCard() {
               placeholder="사진 업로드"
               className={`w-[310px] mb:w-[310px] tb:w-[390px] h-[55px] border focus-visible:ring-0 focus-visible:ring-transparent bg-black focus-visible:ring-offset-0`}
             />
+            {/* 커스텀 파일 선택 버튼 */}
             <button
               type="button"
               onClick={() => document.getElementById("file-input").click()}
@@ -200,20 +173,16 @@ export default function MakePhotoCard() {
               id="file-input"
               type="file"
               accept="image/*"
-              {...register("photo", {
-                required: "사진을 업로드 해주세요.",
-                onChange: (e) => {
-                  const file = e.target.files[0];
-                  if (file) {
-                    setValue("photo", file);
-                    document.getElementById("fileName").value = file.name;
-                  }
-                },
-              })}
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (file) {
+                  // 선택된 파일 이름 업데이트
+                  document.getElementById("fileName").value = file.name;
+                }
+              }}
               className="hidden"
             />
           </div>
-          {errors.photo && <p className="text-red-500 text-sm mt-1">{errors.photo.message}</p>}
         </div>
 
         <div className={divStyle}>
