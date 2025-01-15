@@ -1,73 +1,73 @@
-import { Button } from "@/components/ui/button";
-import { SlidersHorizontal } from "lucide-react";
+import { Button } from '@/components/ui/button';
+import { SlidersHorizontal } from 'lucide-react';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import SearchInput from "@/components/shared/SearchInput";
-import SortBtn from "@/components/shared/SortBtn";
+} from '@/components/ui/select';
+import SearchInput from '@/components/shared/SearchInput';
+import SortBtn from '@/components/shared/SortBtn';
 
 const FILTER_LIST = [
   {
-    label: "등급",
-    category: "rate",
+    label: '등급',
+    category: 'rate',
     options: [
       {
-        value: "common",
-        label: "COMMON",
+        value: 'common',
+        label: 'COMMON',
       },
       {
-        value: "rare",
-        label: "RARE",
+        value: 'rare',
+        label: 'RARE',
       },
       {
-        value: "superRare",
-        label: "SUPER RARE",
+        value: 'superRare',
+        label: 'SUPER RARE',
       },
       {
-        value: "legendary",
-        label: "LEGENDARY",
+        value: 'legendary',
+        label: 'LEGENDARY',
       },
     ],
   },
   {
-    label: "장르",
-    category: "genre",
+    label: '장르',
+    category: 'genre',
     options: [
       {
-        value: "landscape",
-        label: "풍경",
+        value: 'landscape',
+        label: '풍경',
       },
       {
-        value: "people",
-        label: "인물",
+        value: 'people',
+        label: '인물',
       },
       {
-        value: "object",
-        label: "사물",
+        value: 'object',
+        label: '사물',
       },
     ],
   },
   {
-    label: "매진 여부",
-    category: "status",
+    label: '매진 여부',
+    category: 'status',
     options: [
       {
-        value: "onSale",
-        label: "판매 중",
+        value: 'onSale',
+        label: '판매 중',
       },
       {
-        value: "soldOut",
-        label: "판매 완료",
+        value: 'soldOut',
+        label: '판매 완료',
       },
     ],
   },
 ];
 
-export default function PageHeader() {
+export default function PageHeader({sortOptionKey, setSortOptionKey}) {
   return (
     <section>
       <div className="tb:block lt:py-[60px] hidden py-10">
@@ -77,6 +77,7 @@ export default function PageHeader() {
             나의 포토카드 판매하기
           </Button>
         </div>
+
         <div className="py-5 grid grid-flow-col gap-1">
           <div className="grid grid-flow-col gap-1">
             <SearchInput />
@@ -101,10 +102,11 @@ export default function PageHeader() {
           </div>
 
           <div className="ml-auto">
-            <SortBtn />
+            <SortBtn {...{sortOptionKey, setSortOptionKey}} />
           </div>
         </div>
       </div>
+
       {/* 모바일일떄 */}
       <div className="tb:hidden">
         <div className="flex flex-col py-5">
@@ -114,7 +116,7 @@ export default function PageHeader() {
             <Button variant="outline" size="icon">
               <SlidersHorizontal />
             </Button>
-            <SortBtn />
+            <SortBtn {...{sortOptionKey, setSortOptionKey}} />
           </div>
         </div>
       </div>
