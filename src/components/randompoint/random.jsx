@@ -22,7 +22,7 @@ export default function RandomPointModal() {
     }
   }, []);
 
-  // 타이머 업데이트
+  // 타이머 업데이트.
   useEffect(() => {
     if (timer > 0 && !isOpen) {
       const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
