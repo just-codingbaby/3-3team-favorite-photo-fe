@@ -6,9 +6,11 @@ import { useRouter } from "next/router";
 import EmailInput from "@/components/shared/EmailInput";
 import PasswordInput from "@/components/shared/PasswordInput";
 import PrimaryButton from "@/components/shared/PrimaryButton";
+import { useAuth } from "@/contexts/AuthProvider"; // AuthProvider에서 context 가져오기
 
 export default function Login() {
   const router = useRouter();
+  const { login } = useAuth(); // login 함수 가져오기
 
   const [email, setEmail] = useState(""); // 이메일 상태
   const [password, setPassword] = useState(""); // 비밀번호 상태
@@ -35,19 +37,14 @@ export default function Login() {
     setLoading(true);
 
     try {
-      // axios를 통해 로그인 요청
-      const response = await axios.post("/api/v1/auth/login", {
-        email,
-        password,
-      });
+      // login 함수 호출
+      await login({ email, password }); // AuthProvider에서 제공한 로그인 함수 사용
+      setMessage("로그인 성공! 환영합니다.");
 
-      const data = response.data;
-      setMessage(`로그인 성공! 환영합니다, ${data.nickName}`);
-      
-      // 로그인 성공 후 페이지 이동 (필요에 따라 수정)
+      // 로그인 상태가 업데이트된 뒤 페이지 이동
       router.push('/me');
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "로그인 실패";
+      const errorMessage = error.message || "로그인 실패";
       setMessage(errorMessage); // 실패 메시지 설정
     } finally {
       setLoading(false);
