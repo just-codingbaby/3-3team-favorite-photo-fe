@@ -9,6 +9,7 @@ import ModalStandard, {
   Ex,
 } from "@/components/modal";
 import PageHeader, { DetailPheader } from "@/components/market/PageHeader";
+import PrimaryButton from "@/components/shared/PrimaryButton";
 
 //Ex컴포넌트 부분 다 갈아끼워야 함
 
@@ -69,19 +70,19 @@ export default function Salesphotocard() {
             nickname="미쓰손"
             content="우리집 앞마당 포토카드입니다. 우리집 앞마당 포토카드입니다. 우리집 앞마당 포토카드입니다. "
             price="4"
-            // buyphoto="2"
             totalphoto="5"
           />
         </div>
         <div className={`${flexstanderd} relative`}>
           <Title title="교환 희망 정보" className="mt-[120px] w-full">
-            <Btn
-              className="w-[440px] h-[60px] text-lg bottom-[80px]"
-              absolute={btnabsol}
-              onClick={() => setOpenModal({ ...openModal, standard: true })}
-            >
-              포토카드 교환하기
-            </Btn>
+            <PrimaryButton
+              label="포토카드 교환하기"
+              width="440px"
+              height="60px"
+              textSize="lg"
+              className="absolute right-0 button-[80px]"
+              handleClick={() => setOpenModal({ ...openModal, standard: true })}
+            ></PrimaryButton>
           </Title>
           {openModal.standard && (
             <ModalExchange

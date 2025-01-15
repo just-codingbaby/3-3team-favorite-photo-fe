@@ -3,6 +3,7 @@ import { useState } from "react";
 import ModalStandard from "./modal";
 import { ModalContent } from "./modal";
 import { ModalExchange } from "./modal";
+import PrimaryButton from "./shared/PrimaryButton";
 
 export function Btn({ className, children, absolute, onClick }) {
   const { btn } = tail;
@@ -207,12 +208,15 @@ export default function Buyer({ content, title }) {
         <QuantityBtn buyphoto={info.buy} ClickBuyphoto={ClickBuyphoto} />
         <Price price={info.point * info.buy}> ({info.buy}장)</Price>
       </div>
-      <Btn
+      {/* <Btn
         className="w-full h-[80px] mt-[50px] text-xl "
         onClick={() => setOpenModal({ ...openModal, standard: true })}
       >
         포토카드 구매하기
-      </Btn>
+      </Btn> */}
+      <PrimaryButton width="w-full" height="80px">
+        포토카드 구매하기
+      </PrimaryButton>
       {openModal.standard && (
         <ModalStandard
           modalbox="w-[560px] h-[352px] bg-[#161616]"
