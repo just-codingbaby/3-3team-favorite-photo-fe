@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"; 
-import {getUsersMyCardList, getUsersMyCards} from "@/pages/api/api";
+import {getUsersMyCardList, getUsersMyCards, getUsersSalesCards} from "@/pages/api/api";
 import { QUERY_KEYS } from "@/lib/queryKeys";
 
 // 보유한 카드목록
@@ -49,6 +49,55 @@ export function useUsersMyCardsQuery({ id }) {
     queryFn: () => getUsersMyCards({ id }),
     keepPreviousData: true,
     enabled: !!id,
-    retry: false,
+    retry: 1, // 실패시 1회 재시도
+    onError: (error) => {
+      console.error("카드 상세 조회 실패:", error.message);
+    },
+  });
+}
+
+// 내가 상점에 등록한 포토 카드 목록 조회
+export function useUsersSalesCardsQuery({
+  sort,
+  genre,
+  sellout,
+  grade,
+  ownerId,
+  pageNum,
+  pageSize,
+  keyword,
+  cardStatus,
+}) {
+  return useQuery({
+    queryKey: [
+      QUERY_KEYS.USERS_MY_CARDS_SALES,
+      sort,
+      genre,
+      sellout,
+      grade,
+      ownerId,
+      pageNum,
+      pageSize,
+      keyword,
+      cardStatus,
+    ],
+    queryFn: () =>
+      getUsersSalesCards({
+        sort,
+        genre,
+        sellout,
+        grade,
+        ownerId,
+        pageNum,
+        pageSize,
+        keyword,
+        cardStatus,
+      }),
+    keepPreviousData: true,
+    //enabled: !!params.ownerId, // ownerId가 있을 때만 실행
+    retry: 1,
+    onError: (error) => {
+      console.error("상점에 등록한 나의 카드 목록 조회 실패:", error.message);
+    },
   });
 }
