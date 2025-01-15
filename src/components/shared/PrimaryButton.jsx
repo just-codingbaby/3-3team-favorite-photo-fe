@@ -20,7 +20,7 @@ export default function PrimaryButton({
   return (
     <button
       style={{ width, height }}
-      className={`${className} bg-customMain rounded-sm font-bold leading-7 flex justify-center items-center ${textSizeClass}`}
+      className={`${className} bg-customMain rounded-sm font-bold text-[#0F0F0F] leading-7 flex justify-center items-center ${textSizeClass}`}
       onClick={handleClick}
     >
       {label}

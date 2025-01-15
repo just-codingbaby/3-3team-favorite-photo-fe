@@ -129,7 +129,7 @@ export const DetailPheader = () => {
       <SearchInput />
       <div className="flex gap-2">
         {FILTER_LIST.map((selectBox, index) => {
-          console.log(selectBox);
+          // console.log(selectBox);
           if (index === FILTER_LIST.length - 1) return null;
           return (
             <Select key={selectBox.category}>

@@ -1,7 +1,7 @@
 import tail from "@/styles/tailwindcss";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Buyer, { Btn, Gradetitle } from "@/components/buyer";
+import Buyer, { Gradetitle } from "@/components/buyer";
 import ModalStandard, {
   ExchangeDetail,
   ModalExchange,
@@ -45,11 +45,18 @@ export default function Salesphotocard() {
     standard: false,
     exchange: false,
     cancel: false,
-    initModal: false,
   });
 
   const CloseModal = () => {
     setOpenModal(initModal);
+  };
+
+  const handleCloseModal = (modalType) => {
+    setOpenModal((prev) => ({
+      ...prev,
+      [modalType]: false, // 전달받은 모달 타입을 닫음
+    }));
+    console.log(`${modalType} 모달이 닫혔습니다.`);
   };
 
   //example.title
@@ -80,14 +87,17 @@ export default function Salesphotocard() {
               width="440px"
               height="60px"
               textSize="lg"
-              className="absolute right-0 button-[80px]"
+              className="absolute right-0 bottom-[80px]"
               handleClick={() => setOpenModal({ ...openModal, standard: true })}
-            ></PrimaryButton>
+            />
           </Title>
           {openModal.standard && (
             <ModalExchange
               modalbox="max-w-[1160px] w-full h-[1000px] z-10000"
-              onClose={CloseModal}
+              // onClose={CloseModal}
+              // onClose={() => setOpenModal({ ...openModal, standard: false })}
+              // onClose={(e) => console.log(e.target)}
+              onClose={() => handleCloseModal("standard")}
             >
               <Title
                 location="마이갤러리"
@@ -99,15 +109,19 @@ export default function Salesphotocard() {
                 <div className={`${flexstanderd} justify-between`}>
                   {/* 이 부분 갈아끼워야 함 */}
                   <Ex
-                    // onClick={openExchangeModal}
-                    onClick={() =>
+                    handleClick={() =>
                       setOpenModal({ ...openModal, exchange: true })
                     }
                     className={`w-[440px] h-[600px] mt-[40px] border border-white`}
                   />
-                  {openModal.exchange && (
-                    <ExchangeDetail onClose={CloseModal} />
-                  )}
+                  {
+                    openModal.exchange && (
+                      <ExchangeDetail
+                        onClose={() => handleCloseModal("exchange")}
+                      />
+                    )
+                    // alert("마자? ")
+                  }
                   <Ex
                     className={`w-[440px] h-[600px] mt-[40px] border border-white`}
                   />

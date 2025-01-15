@@ -1,10 +1,10 @@
 import tail from "@/styles/tailwindcss";
-import { Btn } from "./buyer";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import { Title } from "@/pages/buyphoto";
 import { useState } from "react";
+import PrimaryButton from "./shared/PrimaryButton";
+import SecondaryButton from "./shared/SecondaryButton";
 
-// 기본 노랑색 버튼
 export function CloseBtn({ position, onClose }) {
   const closeBtn = `absolute top-1/2 left-1/2 w-6 h-[2px] bg-customGrey01 transform -translate-x-1/2 -translate-y-1/2`;
   return (
@@ -42,46 +42,6 @@ export function BorderBtn({ children, btnstyle, onClick }) {
     >
       <span className={`text-lg text-white font-medium`}>{children}</span>
     </button>
-  );
-}
-
-// 구매/교환제시 성공,실패
-export function ModalContent({
-  modalbox,
-  onClose,
-  text = "",
-  state,
-  btnText = "",
-  children,
-  href = "#",
-}) {
-  const { dimbg, flexcenter } = tail;
-
-  return (
-    <div className={`${dimbg} bg-opacity-100`}>
-      <div className={`${modalbox}  ${flexcenter} flex-col relative`}>
-        <CloseBtn position={`top-0 right-0`} onClose={onClose} />
-        <h3 className={`text-xl font-baskin font-bold text-white mt-[80px]`}>
-          <span className="text-white  text-[46px] font-bold mr-[10px]">
-            {text}
-          </span>
-          <span
-            className={`${
-              state ? "text-customMain" : "text-customGrey01"
-            }  text-[46px] font-bold`}
-          >
-            {/* if (state) '성공' else '실패' */}
-            {state ? "성공" : "실패"}
-          </span>
-        </h3>
-        <span className={`text-white font-bold text-xl mt-[40px]`}>
-          {children}
-        </span>
-        <BorderBtn btnstyle=" w-full max-w-[440px] h-[60px] mt-[60px]">
-          {btnText}
-        </BorderBtn>
-      </div>
-    </div>
   );
 }
 
@@ -174,10 +134,13 @@ export function ExchangeList({ onClick, onClose }) {
 }
 
 // 임시로 만든거 여기에 지연님 포토카드 컴포넌트 넣을꺼임
-export function Ex({ className, onClick, children }) {
+export function Ex({ className, handleClick, children }) {
   const { flexcenter } = tail;
   return (
-    <div className={`${className} ${flexcenter} flex-col`} onClick={onClick}>
+    <div
+      className={`${className} ${flexcenter} flex-col`}
+      onClick={handleClick}
+    >
       <div>img</div>
       <div>text</div>
       {children}
@@ -186,14 +149,31 @@ export function Ex({ className, onClick, children }) {
 }
 
 export function ExchangeDetail({ onClose }) {
+  const router = useRouter();
   const { flexstanderd } = tail;
+
+  const handleButtonClick = (e) => {
+    if (e === "교환하기") {
+      console.log("눌리냐?");
+      router.push({
+        pathname: "/ModalPage",
+        query: {
+          type: "교환 제시",
+          rating: "COMMON",
+          title: "스페인에서",
+          quantity: 4,
+        },
+      });
+    } else {
+      console.log("동작 없음");
+    }
+  };
 
   return (
     <div>
       <ModalExchange
         className="bg-opacity-0"
         modalbox="max-w-[1160px] w-full h-[1000px] z-10000"
-        children=""
         //  onClick={}
         onClose={onClose}
       >
@@ -214,18 +194,20 @@ export function ExchangeDetail({ onClose }) {
               />
             </div>
             <div className={` ${flexstanderd} justify-between mt-[60px]`}>
-              <BorderBtn
-                btnstyle={`w-[210px] h-[60px] text-white`}
-                onClick={onClose}
-              >
-                취소하기
-              </BorderBtn>
-              <Btn
-                className={` w-[210px] h-[60px] text-[#0F0F0F]`}
-                // onClick={}
-              >
-                교환하기
-              </Btn>
+              <SecondaryButton
+                label="취소하기"
+                width="210px"
+                height="60px"
+                textSize="lg"
+                handleClick={onClose}
+              />
+              <PrimaryButton
+                label="교환하기"
+                width="210px"
+                height="60px"
+                textSize="lg"
+                handleClick={() => handleButtonClick("교환하기")}
+              />
             </div>
           </div>
         </div>

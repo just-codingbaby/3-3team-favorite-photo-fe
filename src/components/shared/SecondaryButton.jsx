@@ -1,4 +1,10 @@
-export default function SecondaryButton({ label, width, height, handleClick, textSize }) {
+export default function SecondaryButton({
+  label,
+  width,
+  height,
+  handleClick,
+  textSize,
+}) {
   const textSizeClass =
     textSize === "xs"
       ? "text-xs"
@@ -13,7 +19,7 @@ export default function SecondaryButton({ label, width, height, handleClick, tex
   return (
     <button
       style={{ width, height }}
-      className={`bg-black border rounded-sm font-bold leading-7 text-white flex justify-center items-center ${textSizeClass}`}
+      className={`bg-transparent border rounded-sm font-bold leading-7 text-white flex justify-center items-center ${textSizeClass}`}
       onClick={handleClick}
     >
       {label}

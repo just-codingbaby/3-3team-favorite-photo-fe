@@ -1,21 +1,9 @@
 import tail from "@/styles/tailwindcss";
 import { useState } from "react";
+import { useRouter } from "next/router";
 import ModalStandard from "./modal";
 import { ModalContent } from "./modal";
-import { ModalExchange } from "./modal";
 import PrimaryButton from "./shared/PrimaryButton";
-
-export function Btn({ className, children, absolute, onClick }) {
-  const { btn } = tail;
-  return (
-    <button
-      onClick={onClick}
-      className={`${btn} ${className} ${absolute} text-[#0F0F0F]`}
-    >
-      {children}
-    </button>
-  );
-}
 
 export function Gradetitle({ className, rating, type, nickname, titleborder }) {
   const { flexstanderd, pointtext } = tail;
@@ -123,7 +111,7 @@ export function QuantityBtn({ buyphoto, ClickBuyphoto }) {
 
 // 제일 큰 틀
 export default function Buyer({ content, title }) {
-  const [modalType, setModalType] = useState(null); // 모달 상태
+  const router = useRouter();
   const [modalTextSate, setModalTextSate] = useState(true); // 구매 성공, 실패 모달 보려고한거
   const [info, setInfo] = useState({
     point: 4, // 가격: P / 백엔드에서 자료 가져오면 여기랑 연결
@@ -173,6 +161,24 @@ export default function Buyer({ content, title }) {
 
   const { flexstanderd, contentborder } = tail;
 
+  //실험
+  const handleButtonClick = (e) => {
+    if (e === "구매하기") {
+      // 구매 성공 시 페이지 이동
+      router.push({
+        pathname: "/ModalPage",
+        query: {
+          type: "구매", // 동작 타입
+          rating: "LEGENDARY", // 레벨
+          title: "우리집 앞마당", // 제목
+          quantity: 2, // 장 수
+        },
+      }); // 구매 성공 페이지로 이동
+    } else {
+      console.log("동작 없음");
+    }
+  };
+
   return (
     <div
       className={`flex flex-col gap-[30px] max-w-[440px] tablet:max-w-[342px]`}
@@ -208,15 +214,12 @@ export default function Buyer({ content, title }) {
         <QuantityBtn buyphoto={info.buy} ClickBuyphoto={ClickBuyphoto} />
         <Price price={info.point * info.buy}> ({info.buy}장)</Price>
       </div>
-      {/* <Btn
-        className="w-full h-[80px] mt-[50px] text-xl "
-        onClick={() => setOpenModal({ ...openModal, standard: true })}
-      >
-        포토카드 구매하기
-      </Btn> */}
-      <PrimaryButton width="w-full" height="80px">
-        포토카드 구매하기
-      </PrimaryButton>
+      <PrimaryButton
+        label="포토카드 구매하기"
+        width="w-full"
+        height="80px"
+        handleClick={() => setOpenModal({ ...openModal, standard: true })}
+      ></PrimaryButton>
       {openModal.standard && (
         <ModalStandard
           modalbox="w-[560px] h-[352px] bg-[#161616]"
@@ -224,16 +227,18 @@ export default function Buyer({ content, title }) {
           modaltext={`[${example.rating} | ${example.title}] ${info.buy}장을 구매하시겠습니까?`}
           onClose={CloseModal}
         >
-          <Btn
-            className="w-[170px] h-[60px] mt-[60px] mb-[60px] text-lg text-[#0F0F0F]"
-            // onClick={BuyModalOpen}
-            onClick={() => setOpenModal({ ...openModal, buy: true })}
-          >
-            구매하기
-          </Btn>
+          <PrimaryButton
+            label="구매하기"
+            width="170px"
+            height="60px"
+            className=" mt-[60px] mb-[60px]"
+            // handleClick={() => setOpenModal({ ...openModal, buy: true })}
+            // handleClick={() => router.push("/ModalPage")}
+            handleClick={() => handleButtonClick("구매하기")}
+          ></PrimaryButton>
         </ModalStandard>
       )}
-      {openModal.buy && (
+      {/* {openModal.buy && (
         <ModalContent
           modalbox="w-[560px] h-[352px]"
           text="구매"
@@ -244,7 +249,7 @@ export default function Buyer({ content, title }) {
         >
           {str}
         </ModalContent>
-      )}
+      )} */}
     </div>
   );
 }
