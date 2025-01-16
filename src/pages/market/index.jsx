@@ -1,13 +1,15 @@
+import { Fragment, useRef, useState } from 'react';
+
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
   useInfiniteQuery
 } from '@tanstack/react-query';
+import Link from 'next/link';
+
 import PageHeader from '@/components/market/PageHeader';
 import { ProductCard } from '@/components/market/ProductCard';
-import Link from 'next/link';
-import { Fragment, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 
 const PAGE_LIMIT = 6;
@@ -72,7 +74,7 @@ export default function MarketPage({ dehydratedState }) {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <article className="tb:container mx-auto px-[15px] tb:px-5 pb-20">
+      <article className="mx-auto px-[15px] pb-20 tb:container tb:px-5">
         <PageHeader {...{ sortOptionKey, setSortOptionKey }} />
         <section>
           {
