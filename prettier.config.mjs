@@ -7,6 +7,44 @@ const config = {
   bracketSpacing: true, // 기본값. true인 경우 {foo:bar}는 { foo: bar }로 변환됨
   arrowParens: 'always', // 기본값
   useTabs: false, // 기본값
-  plugins: ['prettier-plugin-tailwindcss'], // TailwindCSS 플러그인 추가
+  plugins: [
+    '@ianvs/prettier-plugin-sort-imports',
+    'prettier-plugin-tailwindcss'
+  ],
+  importOrder: [
+    "^react$",
+    "^react-dom$",
+    "^react-router-dom$",
+    "",
+    "^react(.*)$",
+    "",
+    "<BUILTIN_MODULES>",
+    "",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^@/store/(.*)$",
+    "",
+    "^@/api/(.*)$",
+    "",
+    "^@/hooks/(.*)$",
+    "",
+    "^@/utils/(.*)$",
+    "^@/util/(.*)$",
+    "",
+    "^@/constants",
+    "^@/constants/(.*)$",
+    "",
+    "^@/pages/(.*)$",
+    "",
+    "^@/services/(.*)$",
+    "",
+    "^@/components/(.*)$",
+    "",
+    "^@/assets/(.*)$",
+    "",
+    "^[./]"
+  ],
 };
 export default config;
+
+// ['^@', '^[a-zA-Z0-9-]+', '^[./]'],
