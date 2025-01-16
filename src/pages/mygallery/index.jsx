@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useAuth } from "@/contexts/AuthProvider"; // React Context에서 로그인 유저 정보 가져오기
 import Loading from "@/components/ui/loading";
 
-// 등급 : COMMON, RARE, SUPER RARE, LEGENDARY, default - none
+// 등급 : COMMON, RARE, SUPER RARE, LEGENDARY
 const gradeOptions = [
   { value: "COMMON", label: "COMMON" },
   { value: "RARE", label: "RARE" },
@@ -16,56 +16,55 @@ const gradeOptions = [
   { value: "LEGENDARY", label: "LEGENDARY" },
 ];
 
-// 장르 : 풍경, 인물, 동물, 정물, 추상, default - 미정
+// 장르 : 여행, 풍경, 인물, 사물
 const genreOptions = [
+  { value: "TRAVEL", label: "여행" },
   { value: "LANDSCAPE", label: "풍경" },
-  { value: "PORTRAIT", label: "인물" },
-  { value: "ANIMAL", label: "동물" },
-  { value: "STILL_LIFE", label: "정물" },
-  { value: "ABSTRACT", label: "추상" },
+  { value: "PORTRAIT", label: "인물" },  
+  { value: "OBJECT", label: "사물" },
 ];
 
 export default function MyGallery() {
-  const { user } = useAuth(); // 현재 로그인된 사용자 정보 가져오기
-
-  if (!user) {
-    console.error("User 정보가 없습니다. 로그인 상태를 확인하세요.");
-    return <div>로그인이 필요합니다.</div>;
-  }
-
-  console.log(user.id); // ownerId 확인.
-
-  const [inputValue, setInputValue] = useState(""); // 검색창 입력 상태
+  const { user } = useAuth();
+  const [inputValue, setInputValue] = useState(""); // 검색창 입력값 상태 관리
   const [params, setParams] = useState({
     genre: "",
-    grade: "",
-    ownerId: 1, // ownerId: user?.id || null,
+    grade: "",    
+    ownerId: null,
     pageNum: 1,
     pageSize: 9,
     keyword: "",
-  }); // API 요청 상태
+  });
 
+  useEffect(() => {
+    if (user) {
+      setParams((prev) => ({ ...prev, ownerId: user.id }));
+      if (process.env.NODE_ENV === "development") {
+        console.log("현재 params:", params);
+      }    
+    }
+  }, [user]);
+  
+  
 
   const [cards, setCards] = useState([]); // 카드 데이터를 저장
   const [hasNextPage, setHasNextPage] = useState(false); // 다음 페이지 여부 확인
   const observerTarget = useRef(null); // 무한 스크롤 관찰 대상
 
-  // 사용자 카드 목록을 가져온다
   const { data, isLoading, error } = useUsersMyCardListQuery({
     ...params,
     user,
   });
 
-  console.log('API 응답 데이터:', data);
-  console.log('로딩 상태:', isLoading);
-  console.log('에러 정보:', error);
-
   // 데이터가 변경되면 카드 목록과 페이지 상태 업데이트
   useEffect(() => {
-    if (data) {
+    if (data?.data?.cards) {
       setCards(data.data.cards); // 카드 데이터 업데이트
-      console.log(data.data.cards); 
       setHasNextPage(data.data.cards.length >= params.pageSize); // 다음 페이지 여부 설정
+
+      if (process.env.NODE_ENV === "development") {
+        console.log(data.data.cards); 
+      }      
     }
   }, [data]);
 
@@ -73,7 +72,7 @@ export default function MyGallery() {
     if (!isLoading && hasNextPage) {
       setParams((prevParams) => ({
         ...prevParams,
-        pageSize: prevParams.pageSize + 6,
+        pageSize: prevParams.pageSize + 6,  // 페이지 크기 증가
       }));
     }
   };
@@ -93,27 +92,29 @@ export default function MyGallery() {
       if (observerTarget.current) observer.unobserve(observerTarget.current); // 컴포넌트 해제 시 관찰 해제
     };
   }, [loadMoreCards]);
-
-
-  if (error)
-    return <div className="text-red-500">Error: {error.message}</div>;
   
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      setParams({ keyword: inputValue, pageNum: 1 });
+      setParams((prev) => ({
+        ...prev,
+        keyword: inputValue, // 입력된 검색어로 params.keyword 업데이트
+        pageNum: 1, // 페이지를 초기화
+      }));
     }
   };
-
-  // 검색 버튼 클릭 처리
+    
+  // 검색 버튼을 클릭했을 때 호출
   const handleClick = () => {
-    setParams({ keyword: inputValue, pageNum: 1 });
+    setParams((prev) => ({
+      ...prev,
+      keyword: inputValue, // 입력된 검색어로 params.keyword 업데이트
+      pageNum: 1, // 페이지를 초기화
+    }));
   };
 
-  // 검색 입력값 변경 처리
   const handleInputChange = (e) => {
-    setInputValue(e.target.value);
+    setInputValue(e.target.value); // 검색창 입력값 업데이트
   };
-
 
   if (isLoading && !cards.length) {
     return (
@@ -124,7 +125,8 @@ export default function MyGallery() {
     );
   }
 
-  if (error) return <div className="text-red-500">Error: {error.message}</div>;
+  if (error) 
+    return <div className="text-red-500">Error: {error.message}</div>;
 
 
   return (
@@ -138,8 +140,7 @@ export default function MyGallery() {
                     label="포토카드 생성하기"
                     width="440px"
                     height="80px"
-                    textSize="xl"
-                    // textColor='text-black'
+                    textSize="xl"                    
                   />
                   </div>
         </Link>
@@ -148,15 +149,15 @@ export default function MyGallery() {
       {/* 카드 등급 및 총합 */}
       <div className="mt-10 max-w-7xl mx-auto">
         <p className="text-lg font-bold text-white">
-        {console.log("user:", user)}
-          {user?.nickname ? (
-              `${user.nickname}님이 보유한 포토카드`
+        {/* // {console.log("user:", user)} */}
+          {user?.nickName ? (
+              `${user.nickName}님이 보유한 포토카드`
             ) : (
               "사용자 데이터를 불러오는 중입니다..."
             )}
-            {data ? (
-              <span className="text-blue-500 font-normal">
-                ({data.data.totalCount || 0})
+            {data?.data?.totalCount !== undefined ? (
+              <span className="text-gray-300 font-normal">
+                ({data.data.totalCount || 0}장)
               </span>
             ) : null}        
         </p>
@@ -165,25 +166,25 @@ export default function MyGallery() {
           <div className="border border-yellow-500 text-yellow-500 px-4 py-2  rounded text-center">
             COMMON
             <span className="ml-2">
-            {data?.data.countsGroupByGrade.COMMON || 0} 장
+            {data?.data?.countsGroupByGrade?.COMMON || 0} 장
             </span>
           </div>
           <div className="border border-blue-500 text-blue-500 px-4 py-2 rounded text-center">
             RARE
             <span className="ml-2">
-            {data?.data.countsGroupByGrade.RARE || 0} 장
+            {data?.data?.countsGroupByGrade?.RARE || 0} 장
             </span>
           </div>
           <div className="border border-purple-500 text-purple-500 px-4 py-2 rounded text-center">
             SUPER RARE
             <span className="ml-2">
-            {data?.data.countsGroupByGrade.SUPER_RARE || 0} 장
+            {data?.data?.countsGroupByGrade?.SUPER_RARE || 0} 장
             </span>
           </div>
           <div className="border border-red-500 text-red-500 px-4 py-2 rounded text-center">
             LEGENDARY
             <span className="ml-2">
-            {data?.data.countsGroupByGrade.LEGENDARY || 0} 장
+            {data?.data?.countsGroupByGrade?.LEGENDARY || 0} 장
             </span>
           </div>
         </div>
@@ -201,13 +202,25 @@ export default function MyGallery() {
           className="border border-gray-300 rounded px-3 py-2"
           label="등급"
           options={gradeOptions}
-          setParams={setParams}
+          value={params.grade} 
+          onChange={(value) =>
+            setParams((prev) => ({
+              ...prev,
+              grade: value,
+            }))
+          }
         />
         <CustomDropDown
           className="border border-gray-300 rounded px-3 py-2"
           label="장르"
           options={genreOptions}
-          setParams={setParams}
+          value={params.genre} // params에서 선택된 값 가져오기
+          onChange={(value) =>
+            setParams((prev) => ({
+              ...prev,
+              genre: value, // 선택된 장르 값을 params.genre에 반영
+            }))
+          }
         />
       </div>
 
@@ -215,7 +228,8 @@ export default function MyGallery() {
       <div className="max-w-7xl mx-auto mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {cards.map((card) => (
           <Link key={card.id} href={`/mygallery/${card.id}`}>
-            <Card card={card} />
+            <Card card={card}  quantity={card.remainingQuantity} />
+            {/* 총 발행 갯수, 팔리고 남은 갯수, 나의 카드 갯수(내가 사고, 만들고, 교환하고 해서 현재 가지고 있는 카드의 갯수) */}
           </Link>
         ))}
       </div>

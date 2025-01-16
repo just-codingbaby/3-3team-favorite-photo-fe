@@ -1,27 +1,25 @@
 export default function CardInfo({ style, grade, genre, purchase, price }) {
   // 등급과 장르 텍스트 변환
-  const gradeText =
-    grade === 0
+  const gradeText = 
+    grade === "COMMON"
       ? "COMMON"
-      : grade === 1
+      : grade === "RARE"
       ? "RARE"
-      : grade === 2
+      : grade === "SUPER_RARE"
       ? "SUPER RARE"
-      : grade === 3
+      : grade === "LEGENDARY"
       ? "LEGENDARY"
       : "등급정보없음";
 
-  const genreText =
-    genre === 0
+  const genreText = 
+    genre === "TRAVEL"
+      ? "여행"
+      : genre === "LANDSCAPE"
       ? "풍경"
-      : genre === 1
+      : genre === "PORTRAIT"
       ? "인물"
-      : genre === 2
-      ? "동물"
-      : genre === 3
+      : genre === "OBJECT"
       ? "정물"
-      : genre === 4
-      ? "추상"
       : "기타";
 
   return (
@@ -51,15 +49,6 @@ export default function CardInfo({ style, grade, genre, purchase, price }) {
       {/* 장르 표시 */}
       <div className="text-gray-300">{genreText}</div>
 
-      {/* 구매 여부 및 가격 표시 */}
-      {purchase && (
-        <>
-          <div className="text-gray-400">|</div>
-          <div className="flex gap-1 text-gray-300">
-            <span className="text-white">{price} P</span>에 구매
-          </div>
-        </>
-      )}
     </div>
   );
 }

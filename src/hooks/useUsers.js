@@ -3,40 +3,21 @@ import {getUsersMyCardList, getUsersMyCards, getUsersSalesCards} from "@/pages/a
 import { QUERY_KEYS } from "@/lib/queryKeys";
 
 // 보유한 카드목록
-  export function useUsersMyCardListQuery({
-    sort,
-    genre,
-    sellout,
-    grade,
-    ownerId,
-    pageNum,
-    pageSize,
-    keyword,
-    user,
-  }) {
+  export function useUsersMyCardListQuery({sort, genre, sellout, grade, ownerId, pageNum, pageSize, keyword,  user, }) {
     return useQuery({
       queryKey: [
         QUERY_KEYS.USERS_MY_CARD_LIST,
         sort,
         genre,
         sellout,
-        grade,
+        grade,        
         ownerId,
         pageNum,
         pageSize,
         keyword || "",
       ],
       queryFn: () =>
-        getUsersMyCardList({
-          sort,
-          genre,
-          sellout,
-          grade,
-          ownerId,
-          pageNum,
-          pageSize,
-          keyword,
-        }),
+        getUsersMyCardList({ sort, genre, sellout, grade,ownerId, pageNum, pageSize, keyword, }),
       enabled: !!user, // user가 존재할 때만 쿼리 실행
       keepPreviousData: true,
     });
@@ -57,17 +38,7 @@ export function useUsersMyCardsQuery({ id }) {
 }
 
 // 내가 상점에 등록한 포토 카드 목록 조회
-export function useUsersSalesCardsQuery({
-  sort,
-  genre,
-  sellout,
-  grade,
-  ownerId,
-  pageNum,
-  pageSize,
-  keyword,
-  cardStatus,
-}) {
+export function useUsersSalesCardsQuery({ sort, genre, sellout, grade, ownerId, pageNum, pageSize, keyword, cardStatus, }) {
   return useQuery({
     queryKey: [
       QUERY_KEYS.USERS_MY_CARDS_SALES,
@@ -82,19 +53,9 @@ export function useUsersSalesCardsQuery({
       cardStatus,
     ],
     queryFn: () =>
-      getUsersSalesCards({
-        sort,
-        genre,
-        sellout,
-        grade,
-        ownerId,
-        pageNum,
-        pageSize,
-        keyword,
-        cardStatus,
-      }),
+      getUsersSalesCards({ sort, genre, sellout, grade,ownerId, pageNum, pageSize, keyword, cardStatus, }),
     keepPreviousData: true,
-    //enabled: !!params.ownerId, // ownerId가 있을 때만 실행
+    // enabled: !!params.ownerId, // ownerId가 있을 때만 실행
     retry: 1,
     onError: (error) => {
       console.error("상점에 등록한 나의 카드 목록 조회 실패:", error.message);

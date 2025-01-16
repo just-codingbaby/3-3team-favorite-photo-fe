@@ -47,28 +47,12 @@ export const logout = async () => {
 
 
 // 보유한 카드목록 불러오기
-  export async function getUsersMyCardList({
-    sort,
-    genre,
-    sellout,
-    grade,
-    ownerId,
-    pageNum,
-    pageSize,
-    keyword,
-  }) {
+  export async function getUsersMyCardList({sort, genre, sellout, grade, ownerId, pageNum, pageSize, keyword,}) {
     try {      
+      console.log(' getUsersMyCardList API 요청 start');
       const response = await axios.get(`${API_BASE_URL}/api/v1/users/my-cards`, {
-        params: {
-          sort,
-          genre,
-          sellout,
-          grade,
-          ownerId,
-          pageNum,
-          pageSize,
-          keyword,
-        },
+        // withCredentials: true, // 쿠키를 포함해 요청 전송
+        params: { sort, genre, sellout, grade, ownerId, pageNum, pageSize, keyword},
       });
       return response.data;
     } catch (error) {
@@ -91,30 +75,10 @@ export async function getUsersMyCards({ id }) {
 }
 
 // 상점에 등록한 나의 카드 목록 조회
-export async function getUsersSalesCards({
-  sort,
-  genre,
-  sellout,
-  grade,
-  ownerId,
-  pageNum,
-  pageSize,
-  keyword,
-  cardStatus,
-}) {
+export async function getUsersSalesCards({sort, genre, sellout, grade, ownerId, pageNum, pageSize, keyword, cardStatus,}) {
   try {
     const response = await axios.get(`${API_BASE_URL}/api/v1/users/my-cards/sales`, {
-      params: {
-        sort,
-        genre,
-        sellout,
-        grade,
-        ownerId,
-        pageNum,
-        pageSize,
-        keyword,
-        cardStatus,
-      },
+      params: { sort, genre, sellout, grade,ownerId, pageNum, pageSize, keyword, cardStatus, },
     });
     return response.data;
   } catch (error) {

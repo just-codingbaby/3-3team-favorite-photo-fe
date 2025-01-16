@@ -1,6 +1,3 @@
-/**
- * Tailwind CSS 기반 Card 컴포넌트
- */
 import { useRouter } from "next/router";
 import Image from "next/image";
 import CardInfo from "./CardInfo"; // 등급 및 장르를 표시하는 컴포넌트
@@ -21,12 +18,12 @@ export default function Card({ onClick, card, quantity }) {
 
   return (
     <div
-      className={`w-[440px] h-[600px] bg-gray-500 p-10 relative text-white border border-gray-700 hover:cursor-pointer`} // 카드 컨테이너 스타일
+      className={`w-[440px] h-[600px] bg-gray-1000 p-10 relative text-white border border-gray-700 hover:cursor-pointer`} // 카드 컨테이너 스타일
       onClick={onClick}
     >
       {/* 카드 이미지 */}
       <Image
-        src={card.image}
+        src={card.imgUrl}
         className="block w-[360px] h-[270px]"
         width={360}
         height={270}
@@ -62,7 +59,8 @@ export default function Card({ onClick, card, quantity }) {
         <p className="text-xl font-bold mt-5">{card.name}</p>
         <div className="flex justify-between items-center mt-2">
           <CardInfo style="small" grade={card.grade} genre={card.genre} />
-          <p className="underline text-sm">{card.creatorNickname}</p>
+          <p className="underline text-sm">카드생성자 이름</p>
+          {/* <p className="underline text-sm">{card.creatorNickname}</p> */}
         </div>
       </div>
 
@@ -77,6 +75,12 @@ export default function Card({ onClick, card, quantity }) {
         <p className="text-gray-300">{quantity ? "수량" : "잔여"}</p>
         <p className="text-lg font-normal">
           {quantity ? (
+            card.remainingQuantity
+          ) : (
+            card.remainingQuantity
+          )} 
+
+          {/* {quantity ? (
             card.quantity
           ) : (
             <>
@@ -85,7 +89,7 @@ export default function Card({ onClick, card, quantity }) {
                 <span className="text-gray-300">/ {card.totalQuantity}</span>
               )}
             </>
-          )}
+          )}  */}
         </p>
       </div>
 

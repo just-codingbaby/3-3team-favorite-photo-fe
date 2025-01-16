@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useAuth } from "@/contexts/AuthProvider"; // React Context에서 로그인 유저 정보 가져오기
 import Loading from "@/components/ui/loading";
 
-// 1. 등급 : COMMON, RARE, SUPER RARE, LEGENDARY, default - none
+// 등급 : COMMON, RARE, SUPER RARE, LEGENDARY
 const gradeOptions = [
   { value: "COMMON", label: "COMMON" },
   { value: "RARE", label: "RARE" },
@@ -15,24 +15,23 @@ const gradeOptions = [
   { value: "LEGENDARY", label: "LEGENDARY" },
 ];
 
-// 2. 장르 : 풍경, 인물, 동물, 정물, 추상, default - 미정
+// 장르 : 여행, 풍경, 인물, 사물
 const genreOptions = [
+  { value: "TRAVEL", label: "여행" },
   { value: "LANDSCAPE", label: "풍경" },
-  { value: "PORTRAIT", label: "인물" },
-  { value: "ANIMAL", label: "동물" },
-  { value: "STILL_LIFE", label: "정물" },
-  { value: "ABSTRACT", label: "추상" },
+  { value: "PORTRAIT", label: "인물" },  
+  { value: "OBJECT", label: "사물" },
 ];
 
-// 3. 판매방법: 판매 중, 교환 제시 대기 중, default - none
+// 3. 판매방법: 판매 중, 교환 제시 대기 중
 const saleMethodOptions = [
-  { value: "selling", label: "판매 중" }, 
-  { value: "panding", label: "교환 제시 대기 중" }];
+  { value: "AVAILABLE", label: "판매 중" }, 
+  { value: "IN_TRADE", label: "교환 제시 대기 중" }];
 
-// 4. 매진여부: 판매 중, 판매 완료, default - none
-const saleOptions = [
-  { value: "selling", label: "판매 중" }, 
-  { value: "soldout", label: "판매 완료" }];
+// 4. 매진여부: 판매 중, 판매 완료
+const selloutOptions = [
+  { value: false, label: "판매 중" }, 
+  { value: true, label: "판매 완료" }];
 
 // 5. 정렬 옵션: 최신 순, 오래된 순, 높은 가격순, 낮은 가격순, default - 최신 순
 const sortOptions = [
@@ -42,31 +41,52 @@ const sortOptions = [
   { value: "low", label: "낮은 가격순" },
 ];
 
+// enum CardStatus {
+//   AVAILABLE 판매중
+//   IN_TRADE 교환대기중
+//   SOLD_OUT 판매완료
+// }
+
 export default function MySalesCard() {
-  const { user } = useAuth(); // 현재 로그인한 사용자 정보 가져오기
+  const { user } = useAuth();
   const [inputValue, setInputValue] = useState(""); // 검색창 입력값 상태 관리
   const [params, setParams] = useState({
     sort: "recent",
     genre: "",
-    sellout: false,
+    sellout: false, // 매진 여부
     grade: "",
-    ownerId: 1, // ownerId: user?.id || null,
+    ownerId: null,
     pageNum: 1,
     pageSize: 9,
     keyword: "",
-    cardStatus: "",
+    cardStatus: "", // 판매중, 교환대기중, 판매완료
   });
 
-  const [cards, setCards] = useState(""); // 카드 데이터 상태
-  const [hasNextPage, setHasNextPage] = useState(false); // 추가 페이지 존재 여부
+  useEffect(() => {
+    if (user) {
+      setParams((prev) => ({ ...prev, ownerId: user.id }));
+      if (process.env.NODE_ENV === "development") {
+        console.log("현재 params:", params);
+      }    
+    }
+  }, [user]);
+  
+  const [cards, setCards] = useState("");
+  const [hasNextPage, setHasNextPage] = useState(false); // 다음 페이지 존재 여부
   const observerTarget = useRef(null); // 무한 스크롤 관찰 대상
 
-  const { data, isLoading } = useUsersSalesCardsQuery(params); // 데이터 요청 쿼리 실행
+  const { data, isLoading, error } = useUsersSalesCardsQuery({
+    ...params, 
+  });
 
   useEffect(() => {
-    if (data) {
-      setCards(data.data.shops); // 카드 데이터 업데이트
-      setHasNextPage(data.data.shops.length >= params.pageSize); // 다음 페이지 여부 설정
+    if (data?.data?.shops) {
+      setCards(data.data.shops);
+      setHasNextPage(data.data.shops.length >= params.pageSize);
+
+      if (process.env.NODE_ENV === "development") {
+        console.log(data.data.shops); 
+      }      
     }
   }, [data]);
 
@@ -74,7 +94,7 @@ export default function MySalesCard() {
     if (!isLoading && hasNextPage) {
       setParams((prevParams) => ({
         ...prevParams,
-        pageSize: prevParams.pageSize + 6, // 페이지 크기 증가
+        pageSize: prevParams.pageSize + 6,
       }));
     }
   };
@@ -83,18 +103,40 @@ export default function MySalesCard() {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          loadMoreCards(); // 타겟이 보이면 추가 카드 로드
+          loadMoreCards();
         }
       },
-      { threshold: 1.0 } // 100% 보였을 때 트리거
+      { threshold: 1.0 }
     );
     if (observerTarget.current) observer.observe(observerTarget.current);
     return () => {
-      if (observerTarget.current) observer.unobserve(observerTarget.current); // 컴포넌트 해제 시 관찰 해제
+      if (observerTarget.current) observer.unobserve(observerTarget.current);
     };
   }, [loadMoreCards]);
 
-  if (isLoading && !cards)
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      setParams((prev) => ({
+        ...prev,
+        keyword: inputValue, // 입력된 검색어로 params.keyword 업데이트
+        pageNum: 1, // 페이지를 초기화
+      }));
+    }
+  };
+
+  const handleClick = () => {
+    setParams((prev) => ({
+      ...prev,
+      keyword: inputValue, // 입력된 검색어로 params.keyword 업데이트
+      pageNum: 1, // 페이지를 초기화
+    }));
+  };
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  if (isLoading && !cards) {
     return (
       <div className="max-w-7xl mx-auto mt-6">
         {/* 상단 네비게이션 */}
@@ -108,27 +150,11 @@ export default function MySalesCard() {
         </div>
       </div>
     );
-
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      setParams(() => ({
-        keyword: inputValue,
-        pageNum: 1,
-      }));
-    }
-  };
-
-  const handleClick = (e) => {
-    setParams(() => ({
-      keyword: inputValue,
-      pageNum: 1,
-    }));
-  };
-
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value); // 검색어 업데이트
-  };
-
+  }
+    
+  if (error) 
+    return <div className="text-red-500">Error: {error.message}</div>;
+  
   return (
     <>
       <div className="max-w-7xl mx-auto mt-6">
@@ -140,7 +166,11 @@ export default function MySalesCard() {
         {/* 등급 정보 */}
         <div className="mt-8">
   <p className="text-xl font-bold">
-    {user?.data?.nickname}님이 보유한 포토카드
+    {user?.nickName ? (
+        `${user.nickName}님이 판매 중인 포토카드`
+      ) : (
+        "사용자 데이터를 불러오는 중입니다..."
+    )}    
     {data && (
       <span className="text-gray-400"> ({data.data.totalCount})</span>
     )}
@@ -150,7 +180,7 @@ export default function MySalesCard() {
     <div className="border border-yellow-500 text-yellow-500 px-4 py-2 rounded">
       COMMON
       <span className="ml-2">        
-        {data?.data.countsGroupByGrade.COMMON || 0} 장
+        {data?.data?.countsGroupByGrade?.COMMON || 0} 장
       </span>
     </div>
 
@@ -158,7 +188,7 @@ export default function MySalesCard() {
     <div className="border border-blue-500 text-blue-500 px-4 py-2 rounded">
       RARE
       <span className="ml-2">        
-        {data?.data.countsGroupByGrade.RARE || 0} 장
+        {data?.data?.countsGroupByGrade?.RARE || 0} 장
       </span>
     </div>
 
@@ -166,7 +196,7 @@ export default function MySalesCard() {
     <div className="border border-purple-500 text-purple-500 px-4 py-2 rounded">
       SUPER RARE
       <span className="ml-2">        
-        {data?.data.countsGroupByGrade.SUPER_RARE  || 0} 장
+        {data?.data?.countsGroupByGrade?.SUPER_RARE  || 0} 장
       </span>
     </div>
 
@@ -174,7 +204,7 @@ export default function MySalesCard() {
     <div className="border border-red-500 text-red-500 px-4 py-2 rounded">
       LEGENDARY
       <span className="ml-2">        
-        {data?.data.countsGroupByGrade.LEGENDARY || 0} 장
+        {data?.data?.countsGroupByGrade?.LEGENDARY || 0} 장
       </span>
     </div>
   </div>
@@ -192,25 +222,49 @@ export default function MySalesCard() {
           className="border border-gray-300 rounded px-3 py-2"
             label="등급"
             options={gradeOptions}
-            setParams={setParams}
+            value={params.grade} 
+            onChange={(value) =>
+              setParams((prev) => ({
+                ...prev,
+                grade: value,
+              }))
+            }  
           />
           <CustomDropDown
-          className="border border-gray-300 rounded px-3 py-2"
-          label="장르"
-          options={genreOptions}
-          setParams={setParams}
+            className="border border-gray-300 rounded px-3 py-2"
+            label="장르"
+            options={genreOptions}
+            value={params.genre} 
+            onChange={(value) =>
+              setParams((prev) => ({
+                ...prev,
+                genre: value,
+              }))
+            }  
           />
           <CustomDropDown
-          className="border border-gray-300 rounded px-3 py-2"
+            className="border border-gray-300 rounded px-3 py-2"
             label="판매방법"
             options={saleMethodOptions}
-            setParams={setParams}
+            value={params.cardStatus} 
+            onChange={(value) =>
+              setParams((prev) => ({
+                ...prev,
+                cardStatus: value,
+              }))
+            }  
           />
           <CustomDropDown
-          className="border border-gray-300 rounded px-3 py-2"
+            className="border border-gray-300 rounded px-3 py-2"
             label="매진여부"
-            options={saleOptions}
-            setParams={setParams}
+            options={selloutOptions}
+            value={params.sellout} 
+            onChange={(value) =>
+              setParams((prev) => ({
+                ...prev,
+                sellout: value,
+              }))
+            }  
           />
         </div>
 
@@ -218,7 +272,7 @@ export default function MySalesCard() {
         {cards && (
           <div className="grid grid-cols-3 gap-6 mt-10">
             {cards.map((card, index) => (
-              <Link key={card.id} href={`/seller/photocard/${card.id}`}>
+              <Link key={card.id} href={`/market/${card.id}`}>
                 <Card key={index} card={card} />
               </Link>
             ))}
