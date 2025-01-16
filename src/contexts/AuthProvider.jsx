@@ -1,6 +1,5 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import axios from "@/lib/axios";
-import { useContext } from "react";
 
 const AuthContext = createContext();
 
@@ -57,7 +56,7 @@ export default function AuthProvider({ children }) {
       await axios.post("/api/v1/auth/logout", null, {
         withCredentials: true, // 쿠키를 포함해 요청 전송
       });
-  
+
       // 유저 상태 초기화
       setUser(null);
     } catch (err) {
