@@ -32,19 +32,6 @@ export function CloseBtn({ position, onClose }) {
 //   );
 // }
 
-// 흰선 버튼 (예:취소하기)
-export function BorderBtn({ children, btnstyle, onClick }) {
-  const { flexcenter } = tail;
-  return (
-    <button
-      onClick={onClick}
-      className={`${flexcenter} ${btnstyle} bg-transparent border border-white`}
-    >
-      <span className={`text-lg text-white font-medium`}>{children}</span>
-    </button>
-  );
-}
-
 // 포토카드 구매 모달, 교환 제시 취소 (처음 나오는 기본 모달)
 export default function ModalStandard({
   modalbox,
@@ -117,16 +104,13 @@ export function ExchangeList({ onClick, onClose }) {
             onClick;
           }}
         >
-          <BorderBtn
-            btnstyle={`w-[210px] h-[60px] text-white`}
-            onClick={onClick}
-            onClose={(e) => {
-              e.stopPropagation(); // 이벤트 전파 방지
-              onClose;
-            }}
-          >
-            취소하기
-          </BorderBtn>
+          <SecondaryButton
+            label="취소하기"
+            width="210px"
+            height="60px"
+            textSize="lg"
+            handleClick={onClick}
+          />
         </Ex>
       )}
     </div>
@@ -172,7 +156,7 @@ export function ExchangeDetail({ onClose }) {
   return (
     <div>
       <ModalExchange
-        className="bg-opacity-0"
+        className="!bg-opacity-0"
         modalbox="max-w-[1160px] w-full h-[1000px] z-10000"
         //  onClick={}
         onClose={onClose}

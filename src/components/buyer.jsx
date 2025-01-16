@@ -238,18 +238,6 @@ export default function Buyer({ content, title }) {
           ></PrimaryButton>
         </ModalStandard>
       )}
-      {/* {openModal.buy && (
-        <ModalContent
-          modalbox="w-[560px] h-[352px]"
-          text="구매"
-          state={modalTextSate} // 구매 실패 보려고 띄워둔거
-          btnText="마이갤러리 확인하기"
-          href="/test/test"
-          onClose={CloseModal}
-        >
-          {str}
-        </ModalContent>
-      )} */}
     </div>
   );
 }

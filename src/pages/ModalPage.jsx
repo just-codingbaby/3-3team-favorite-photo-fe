@@ -1,4 +1,5 @@
 import { BorderBtn, CloseBtn, ExchangeDetail } from "@/components/modal";
+import SecondaryButton from "@/components/shared/SecondaryButton";
 import tail from "@/styles/tailwindcss";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -76,14 +77,13 @@ export default function ModalPage({ onClose, text, state, children }) {
         <span className={`text-white font-bold text-xl mt-[40px]`}>
           {getMessage()} {/* 동적 메시지 출력 */}
         </span>
-
-        {/* 하단 버튼 */}
-        <BorderBtn
-          btnstyle="w-full max-w-[440px] h-[60px] mt-[60px]"
-          onClick={handleClose}
-        >
-          {getButtonText()} {/* 동적 버튼 텍스트 */}
-        </BorderBtn>
+        <SecondaryButton
+          label={getButtonText()}
+          width="440px"
+          height="60px"
+          textSize="lg"
+          className="mt-[60px]"
+        />
       </div>
     </div>
   );

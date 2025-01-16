@@ -114,14 +114,14 @@ export default function Salesphotocard() {
                     }
                     className={`w-[440px] h-[600px] mt-[40px] border border-white`}
                   />
-                  {
-                    openModal.exchange && (
-                      <ExchangeDetail
-                        onClose={() => handleCloseModal("exchange")}
-                      />
-                    )
-                    // alert("마자? ")
-                  }
+                  {openModal.exchange && (
+                    <ExchangeDetail
+                      // onClose={() => handleCloseModal("exchange")}
+                      onClose={() =>
+                        setOpenModal({ ...openModal, exchange: false })
+                      }
+                    />
+                  )}
                   <Ex
                     className={`w-[440px] h-[600px] mt-[40px] border border-white`}
                   />
@@ -148,14 +148,16 @@ export default function Salesphotocard() {
             modalbox="w-[560px] h-[352px] bg-[#161616]"
             modaltitle="교환 제시 취소"
             modaltext={`[${example.rating} | ${example.title}] 교환 제시를 취소하시겠습니까?`}
-            onClose={CloseModal}
+            onClose={() => handleCloseModal("cancel")}
           >
-            <Btn
-              className="w-[170px] h-[60px] mt-[60px] mb-[60px] text-lg text-[#0F0F0F]"
-              onClick={CloseModal}
-            >
-              취소하기
-            </Btn>
+            <PrimaryButton
+              label="취소하기"
+              width="170px"
+              height="60px"
+              textSize="lg"
+              className="mt-[60px] mb-[60px]"
+              handleClick={() => handleCloseModal("cancel")}
+            />
           </ModalStandard>
         )}
       </div>
