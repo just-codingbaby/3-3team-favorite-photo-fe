@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import soldOutImg from '@/public/images/type=soldout.png'
 
 const GRADE_STYLES = {

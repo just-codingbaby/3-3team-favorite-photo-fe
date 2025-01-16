@@ -2,7 +2,7 @@ import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
-  useInfiniteQuery,
+  useInfiniteQuery
 } from '@tanstack/react-query';
 import PageHeader from '@/components/market/PageHeader';
 import { ProductCard } from '@/components/market/ProductCard';
@@ -15,7 +15,9 @@ const PAGE_LIMIT = 6;
 async function fetchCards(pageParam) {
   const query = new URLSearchParams({ page: pageParam, limit: PAGE_LIMIT });
   try {
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + '/api/v1/shop/cards?' + query.toString());
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_API_URL + '/api/v1/shop/cards?' + query.toString(),
+    );
     if (!response.ok) {
       throw new Error(response.statusText);
     }
@@ -36,7 +38,7 @@ export async function getStaticProps() {
   });
   return {
     props: {
-      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient)))
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
   };
 }
@@ -62,7 +64,7 @@ export default function MarketPage({ dehydratedState }) {
       return lastPage.length === PAGE_LIMIT ? nextPage : undefined;
     },
     initialPageParam: 1,
-  })
+  });
 
   if (status === 'pending') return <div>Loading...</div>;
 
@@ -93,9 +95,10 @@ export default function MarketPage({ dehydratedState }) {
                 </Fragment>
               ))}
               <Button
-                variant='outline'
-                className='col-span-2 my-6 lt:col-span-1 lt:col-start-2'
+                variant="outline"
+                className="col-span-2 my-6 lt:col-span-1 lt:col-start-2"
                 onClick={() => fetchNextPage()}
+                aria-busy={isFetchingNextPage}
                 disabled={!hasNextPage || isFetchingNextPage}
               >
                 {isFetchingNextPage
