@@ -34,7 +34,7 @@ export default function AuthProvider({ children }) {
 
   async function login({ email, password }) {
     try {
-      const res = await axios.post("/auth/login", { email, password });
+      const res = await axios.post("/api/v1/auth/login", { email, password });
       const data = res.data.user;
 
       setUser(data);
