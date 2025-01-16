@@ -1,13 +1,15 @@
+import { Fragment, useRef, useState } from 'react';
+
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
   useInfiniteQuery
 } from '@tanstack/react-query';
+import Link from 'next/link';
+
 import PageHeader from '@/components/market/PageHeader';
 import { ProductCard } from '@/components/market/ProductCard';
-import Link from 'next/link';
-import { Fragment, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 
 const PAGE_LIMIT = 6;
