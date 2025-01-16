@@ -72,7 +72,7 @@ export default function MarketPage({ dehydratedState }) {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <article className="tb:container mx-auto px-[15px] tb:px-5 pb-20">
+      <article className="mx-auto px-[15px] pb-20 tb:container tb:px-5">
         <PageHeader {...{ sortOptionKey, setSortOptionKey }} />
         <section>
           {

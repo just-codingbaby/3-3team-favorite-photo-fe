@@ -7,5 +7,6 @@ const config = {
   bracketSpacing: true, // 기본값. true인 경우 {foo:bar}는 { foo: bar }로 변환됨
   arrowParens: "always", // 기본값
   useTabs: false, // 기본값
+  plugins: [ "prettier-plugin-tailwindcss" ],
 };
 export default config;
