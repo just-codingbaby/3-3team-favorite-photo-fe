@@ -16,7 +16,7 @@
 - `/market/[id]`: 개별 상품 상세 페이지
 
 ## 프로젝트 구조
-
+```
 3-3team-favorite-photo-fe/
 ├── public/                  # 정적 파일 (이미지, 폰트 등)
 │   ├── fonts/               # 프로젝트 전용 폰트
@@ -50,7 +50,7 @@
 │   │   ├── globals.css      # 전역 스타일
 │   │   └── tailwindcss.js   # Tailwind 설정 파일
 └── README.md                # 프로젝트 설명 파일
-
+```
 ## 협업 규칙
 
 ### Git 브랜치 전략
