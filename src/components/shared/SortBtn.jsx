@@ -5,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { SORT_OPTS } from '@/constants/martket';
+import { SORT_OPTS } from '@/constants/market';
 
 export default function SortBtn({sortOptionKey, setSortOptionKey}) {
   const keys = Array.from(SORT_OPTS.keys());
