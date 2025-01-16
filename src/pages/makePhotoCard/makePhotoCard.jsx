@@ -1,5 +1,4 @@
-import CustomDropDown from "@/components/shared/CustomDropDown";
-import TextFieldInput from "@/components/shared/TextFieldInput";
+import axios from "@/lib/axios";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import {
@@ -19,6 +18,7 @@ export default function MakePhotoCard() {
     setValue,
     formState: { errors },
     watch,
+    reset
   } = useForm();
 
   const onSubmit = (data) => {
@@ -30,7 +30,7 @@ export default function MakePhotoCard() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setValue("photo", file); // React Hook Form에 파일 데이터 설정
+      setValue("image", file); // React Hook Form에 파일 데이터 설정
       document.getElementById("fileName").value = file.name; // 파일 이름 설정
     }
   };
@@ -38,7 +38,7 @@ export default function MakePhotoCard() {
   const FILTER_LIST = [
     {
       label: "등급을 선택해 주세요",
-      category: "rate",
+      category: "grade",
       options: [
         {
           value: "common",
@@ -62,18 +62,11 @@ export default function MakePhotoCard() {
       label: "장르를 선택해 주세요",
       category: "genre",
       options: [
-        {
-          value: "landscape",
-          label: "풍경",
-        },
-        {
-          value: "people",
-          label: "인물",
-        },
-        {
-          value: "object",
-          label: "사물",
-        },
+        { value: "LANDSCAPE", label: "풍경" },
+        { value: "PORTRAIT", label: "인물" },
+        { value: "ANIMAL", label: "동물" },
+        { value: "STILL_LIFE", label: "정물" },
+        { value: "ABSTRACT", label: "추상" },
       ],
     },
   ];
@@ -98,7 +91,7 @@ export default function MakePhotoCard() {
         <div className={divStyle}>
           <label className={labelStyle}>포토카드 이름</label>
           <Input
-            {...register("cardName", {
+            {...register("name", {
               required: "필수 입력 사항입니다",
               maxLength: {
                 value: 30,
@@ -106,20 +99,20 @@ export default function MakePhotoCard() {
               },
             })}
             className={`${
-              errors.cardName ? "border-customRed" : "border-white"
+              errors.name ? "border-customRed" : "border-white"
             } ${inputStyle}`}
             placeholder="포토카드 이름을 입력해 주세요"
           />
-          {errors.cardName && (
+          {errors.name && (
             <p className="text-red-500 text-sm mt-1">
-              {errors.cardName.message}
+              {errors.name.message}
             </p>
           )}
         </div>
 
         <div className={divStyle}>
           <label className={labelStyle}>등급</label>
-          <Select key={FILTER_LIST[0].category}>
+          <Select key={FILTER_LIST[0].category} onValueChange={(value) => setValue("grade", value)} >
             <SelectTrigger className={drpDownStyle}>
               <SelectValue placeholder={FILTER_LIST[0].label} />
             </SelectTrigger>
@@ -135,7 +128,7 @@ export default function MakePhotoCard() {
 
         <div className={divStyle}>
           <label className={labelStyle}>장르</label>
-          <Select key={FILTER_LIST[1].category}>
+          <Select key={FILTER_LIST[1].category} onValueChange={(value) => setValue("genre", value)} >
             <SelectTrigger className={drpDownStyle}>
               <SelectValue placeholder={FILTER_LIST[1].label} />
             </SelectTrigger>
@@ -163,7 +156,7 @@ export default function MakePhotoCard() {
         <div className={divStyle}>
           <label className={labelStyle}>총 발행량</label>
           <Input
-            {...register("amount", {
+            {...register("quantity", {
               required: "필수 입력 사항입니다",
               maxLength: {
                 value: 30,
@@ -185,9 +178,8 @@ export default function MakePhotoCard() {
               type="text"
               readOnly
               placeholder="사진 업로드"
-              value={watch("photo")?.name || "업로드를 해주세요"}
+              value={watch("image")?.name || "업로드를 해주세요"}
               className={`w-[310px] mb:w-[310px] tb:w-[390px] h-[55px] border focus-visible:ring-0 focus-visible:ring-transparent bg-black focus-visible:ring-offset-0`}
-              
             />
             <button
               type="button"
@@ -204,8 +196,8 @@ export default function MakePhotoCard() {
               className="hidden"
             />
           </div>
-          {errors.photo && (
-            <p className="text-red-500 text-sm mt-1">{errors.photo.message}</p>
+          {errors.image && (
+            <p className="text-red-500 text-sm mt-1">{errors.image.message}</p>
           )}
         </div>
 
