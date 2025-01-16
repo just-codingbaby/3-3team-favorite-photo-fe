@@ -110,3 +110,7 @@ export default function Login() {
     </div>
   );
 }
+
+Login.getLayout = function getLayout(page) {
+  return <>{page}</>;
+};
