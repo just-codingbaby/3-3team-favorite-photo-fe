@@ -1,3 +1,5 @@
+import plugin from 'tailwindcss-animate';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ["class"],
@@ -26,13 +28,24 @@ export default {
         // => @media (max-width: 743px) {...}
       },
       colors: {
+        gray: {
+          100: "hsl(var(--gray-100))",
+          300: "hsl(var(--gray-300))",
+          400: "hsl(var(--gray-400))",
+        },
+        grade: {
+          'common': '#EFFF04',
+          'rare': '#29C9F9',
+          'super-rare': '#A77EFF',
+          'legendary': '#FF2A6A',
+        },
         customRed: "#FF483D",
         customBlue: "#29C9F9",
         customPurple: "#A77EFF",
         customPink: "#FF2A6A",
         customMain: "#EFFF04",
         customGrey01: "#A4A4A4", // grey (마켓플레이스)
-        customGrey02: "##EEEEEE", // grey (border)
+        customGrey02: "#EEEEEE", // grey (border)
         customGrey03: "#5A5A5A", // grey (title border)
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -85,5 +98,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [ plugin ],
 };

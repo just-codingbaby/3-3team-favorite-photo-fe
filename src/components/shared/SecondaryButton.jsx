@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 export default function SecondaryButton({
   label,
   width,
@@ -20,7 +22,10 @@ export default function SecondaryButton({
   return (
     <button
       style={{ width, height }}
-      className={`${className} bg-transparent border rounded-sm font-bold leading-7 text-white flex justify-center items-center ${textSizeClass}`}
+      className={cn(
+        `bg-black border rounded-sm font-bold leading-7 text-white flex justify-center items-center ${textSizeClass}`,
+        className
+      )}
       onClick={handleClick}
     >
       {label}

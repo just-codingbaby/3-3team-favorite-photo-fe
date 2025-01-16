@@ -4,19 +4,28 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
+import { SORT_OPTS } from '@/constants/market';
 
-export default function SortBtn() {
+export default function SortBtn({sortOptionKey, setSortOptionKey}) {
+  const keys = Array.from(SORT_OPTS.keys());
+  const currentSortOpt = SORT_OPTS.get(sortOptionKey);
+
   return (
-    <Select>
+    <Select value={sortOptionKey}
+            onValueChange={(value) => setSortOptionKey(value)}>
       <SelectTrigger className="border w-[130px] tb:w-[180px]">
-        <SelectValue placeholder="정렬" />
+        <SelectValue aria-label={currentSortOpt.label}
+                     defaultValue={sortOptionKey}>
+          {currentSortOpt.label}
+        </SelectValue>
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="latest">최신 순</SelectItem>
-        <SelectItem value="oldest">오래된 순</SelectItem>
-        <SelectItem value="highPrice">높은 가격순</SelectItem>
-        <SelectItem value="lowPrice">낮은 가격순</SelectItem>
+        {keys.map((key) => (
+          <SelectItem key={key} value={key}>
+            {SORT_OPTS.get(key).label}
+          </SelectItem>
+        ))}
       </SelectContent>
     </Select>
   );

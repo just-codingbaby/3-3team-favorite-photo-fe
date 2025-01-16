@@ -67,22 +67,22 @@ const FILTER_LIST = [
   },
 ];
 
-export default function PageHeader() {
+export default function PageHeader({ sortOptionKey, setSortOptionKey }) {
   return (
     <section>
       <div className="tb:block lt:py-[60px] hidden py-10">
-        <div className="flex justify-between pb-5 border-b-2">
+        <div className="flex justify-between pb-5 border-b-2 border-gray-100">
           <h1 className="font-baskin lt:text-[62px] text-5xl">마켓플레이스</h1>
           <Button className="bg-customMain w-[342px] p-4 font-bold lt:w-[440px] flex justify-center items-center">
             나의 포토카드 판매하기
           </Button>
         </div>
+
         <div className="py-5 grid grid-flow-col gap-1">
           <div className="grid grid-flow-col gap-1">
             <SearchInput />
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               {FILTER_LIST.map((selectBox) => {
-                console.log(selectBox);
                 return (
                   <Select key={selectBox.category}>
                     <SelectTrigger className="w-[120px] border-none">
@@ -102,10 +102,11 @@ export default function PageHeader() {
           </div>
 
           <div className="ml-auto">
-            <SortBtn />
+            <SortBtn {...{ sortOptionKey, setSortOptionKey }} />
           </div>
         </div>
       </div>
+
       {/* 모바일일떄 */}
       <div className="tb:hidden">
         <div className="flex flex-col py-5">
@@ -115,7 +116,7 @@ export default function PageHeader() {
             <Button variant="outline" size="icon">
               <SlidersHorizontal />
             </Button>
-            <SortBtn />
+            <SortBtn {...{ sortOptionKey, setSortOptionKey }} />
           </div>
         </div>
       </div>

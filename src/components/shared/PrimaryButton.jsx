@@ -1,10 +1,14 @@
+import { cn } from "@/lib/utils";
+
 export default function PrimaryButton({
-  className,
   label,
   width,
   height,
   handleClick,
   textSize,
+  type = "button",
+  className,
+  ...props
 }) {
   const textSizeClass =
     textSize === "xs"
@@ -20,8 +24,13 @@ export default function PrimaryButton({
   return (
     <button
       style={{ width, height }}
-      className={`${className} bg-customMain rounded-sm font-bold text-[#0F0F0F] leading-7 flex justify-center items-center ${textSizeClass}`}
+      className={cn(
+        `disabled:bg-black disabled:text-white disabled:border disabled:border-white text-black bg-customMain rounded-sm font-bold leading-7 flex justify-center items-center ${textSizeClass} hover:bg-customMain/80 transition`,
+        className
+      )}
       onClick={handleClick}
+      type={type}
+      {...props}
     >
       {label}
     </button>

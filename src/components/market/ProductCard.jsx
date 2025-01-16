@@ -1,107 +1,118 @@
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import { Separator } from '@/components/ui/separator';
+import fallbackImg from '@/public/images/card/img_default-temp.webp';
+import Image from 'next/image';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  CardTitle
+} from '@/components/ui/card';
+import { useEffect, useState } from 'react';
+import soldOutImg from '@/public/images/type=soldout.png'
+
+const GRADE_STYLES = {
+    COMMON: 'text-grade-common',
+    RARE: 'text-grade-rare',
+    SUPER_RARE: 'text-grade-super-rare',
+    LEGENDARY: 'text-grade-legendary',
+  };
+
+const genreToKr = {
+  TRAVEL : "여행",
+  PORTRAIT: "인물",
+  LANDSCAPE: "풍경",
+  OBJECT: "사물"
+}
 
 /**
  *
  * @typedef {Object} CardProps
- * @property {number} id
+ * @property {number} _id
+ * @property {number} remainingQuantity
+ * @property {number} totalQuantity
  * @property {string} name
  * @property {number} price
  * @property {string} grade
  * @property {string} genre
  * @property {string} imgUrl
- * @property {Object} owner
+ * d@property {Object} owner
  */
 
 /**
- * 할일 목록
- * @type {CardProps[]}
+ * @param {CardProps} cardProps
  */
 export function ProductCard({ cardProps }) {
-  const { id, name, price, grade, genre, imgUrl, owner } = cardProps;
-  const map = {
-    TRAVEL: "travel",
-    LANDSCAPE: "landscape",
-    PORTRAIT: "portrait",
-    OBJECT: "temp",
-  };
-  const str =
-    imgUrl === "" ? `/images/card/img_default-${map[genre]}.webp` : imgUrl;
+  const { _id, name, price, grade, genre, imgUrl, owner, remainingQuantity, totalQuantity } =
+    cardProps;
+  const [isValidImgUrl, setIsValidImgUrl] = useState(!imgUrl.includes('example.com'));
 
+  useEffect(() => {
+    if (imgUrl.includes('example.com')) {
+      setIsValidImgUrl(false);
+    }
+  }, [imgUrl]);
   return (
-    <>
-      <Card>
-        <CardHeader>
-          <div className="relative aspect-[150/112]">
-            <Image
-              className="object-center object-contain object-cover"
-              src={str}
-              alt={name}
-              fill
-              sizes="(max-width: 744px) 50vw, (max-width: 1200px) 33vw"
-              priority={true}
-            />
-          </div>
-          <CardTitle className="line-clamp-1">{name}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-flow-col">
-            <div className="flex gap-[1ch]">
-              <span>{grade}</span>
-              <Separator orientation="vertical" />
-              <span>{genre}</span>
-            </div>
-            <div className="text-right underline underline-offset-1 text-white font-normal">
-              {owner.nickName}
-            </div>
-          </div>
-          <hr className="my-2.5" />
-          <ul className="*:justify-between *:flex *:tabular-nums">
-            <li>
-              <span>가격</span>
-              <span className="text-white font-normal">{price} P</span>
-            </li>
-            <li>
-              <span>잔여</span>
-              <span>n / m</span>
-            </li>
-          </ul>
-        </CardContent>
-        <CardFooter className="justify-center hidden tb:flex">
+    <Card className="border-white/10 p-2.5 tb:p-5 lt:p-10 hover:border-white/70 transition-colors duration-150 ease-in-out text-gray-300">
+      <CardHeader className="gap-2.5 tb:gap-[25.5px]">
+        <div className="relative aspect-[150/112] tb:aspect-[360/270]">
           <Image
-            src="/images/main_logo.png"
-            alt="최애의포토 로고"
-            width={99}
-            height={18}
-            priority={true}
-          />
-        </CardFooter>
-      </Card>
-      {/* <div className="bg-gray-200 min-w-[170px] min-h-[234px] justify-center p-2.5 grid grid-cols-1 grid-rows-2 tb:w-[342px] tb:h-[517px] tb:p-5 lt:w-[440px] lt:p-10 lt:h-[600px]">
-        <div className="bg-gray-300 h-auto min-w-[150px] relative">
-          <Image
+            onError={() => setIsValidImgUrl(false)}
             className="object-center object-cover"
-            src={str}
+            src={isValidImgUrl ? imgUrl : fallbackImg}
             alt={name}
             fill
             sizes="(max-width: 744px) 50vw, (max-width: 1200px) 33vw"
           />
+          {
+            remainingQuantity < 1 && ( <Image
+              className="object-center object-contain bg-black bg-opacity-50 absolute inset-0"
+              src={soldOutImg}
+              alt={name}
+              fill
+              sizes="(max-width: 744px) 50vw, (max-width: 1200px) 33vw"
+            />)
+
+          }
         </div>
-        <div>
-          <ul>
-            <li>{name}</li>
-            <li>{price}</li>
-          </ul>
+        <CardTitle className="overflow-ellipsis text-white tb:text-[22px] truncate">{name}</CardTitle>
+      </CardHeader>
+      <CardContent className="tb:text-base pt-[5px] tb:pt-[10px]">
+        <div className="grid grid-flow-col">
+          <div className="flex gap-[1ch]">
+            <span aria-label={`상품 등급: ${grade}`} className={GRADE_STYLES[grade]}>
+              {grade.replace('_', ' ')}
+            </span>
+            <Separator orientation="vertical" />
+            <span className='font-normal line-clamp-1' aria-label={`장르: ${genre}`}>{genreToKr[genre] || genre}</span>
+          </div>
+          <div className="text-right text-white font-normal ">
+            {owner.nickName}
+          </div>
         </div>
-      </div> */}
-    </>
+        <Separator className="my-2.5 tb:my-5" />
+        <ul className="*:justify-between *:flex *:tabular-nums space-y-[5px] tb:space-y-[10px]">
+          <li>
+            <span>가격</span>
+            <span className="text-white font-normal">{price} P</span>
+          </li>
+          <li>
+            <span>잔여</span>
+            <span>
+              <span className="text-white">{remainingQuantity}</span> / {totalQuantity}
+            </span>
+          </li>
+        </ul>
+      </CardContent>
+      <CardFooter className="justify-center hidden pb-2.5 tb:flex  tb:pt-[30px]">
+        <Image
+          src="/images/main_logo.png"
+          alt="최애의포토 로고"
+          width={99}
+          height={18}
+          priority={true}
+        />
+      </CardFooter>
+    </Card>
   );
 }
