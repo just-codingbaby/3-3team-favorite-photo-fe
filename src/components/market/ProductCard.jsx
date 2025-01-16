@@ -9,7 +9,6 @@ import {
   CardTitle
 } from '@/components/ui/card';
 import { useState } from 'react';
-import Link from "next/link";
 import soldOutImg from '@/public/images/type=soldout.png'
 
 const GRADE_STYLES = {
@@ -46,7 +45,13 @@ const genreToKr = {
 export function ProductCard({ cardProps }) {
   const { _id, name, price, grade, genre, imgUrl, owner, remainingQuantity, totalQuantity } =
     cardProps;
+
   const [isValidImgUrl, setIsValidImgUrl] = useState(true);
+
+  if (imgUrl.includes('example.com')) {
+    setIsValidImgUrl(false);
+  }
+
   return (
     <Card className="border-white/10 p-2.5 tb:p-5 lt:p-10 hover:border-white/70 transition-colors duration-150 ease-in-out text-gray-300">
       <CardHeader className="gap-2.5 tb:gap-[25.5px]">
@@ -82,9 +87,7 @@ export function ProductCard({ cardProps }) {
             <span className='font-normal line-clamp-1' aria-label={`장르: ${genre}`}>{genreToKr[genre] || genre}</span>
           </div>
           <div className="text-right text-white font-normal ">
-            <Link href='/' className="hover:underline underline-offset-4 truncate" onClick={e => e.stopPropagation()}>
             {owner.nickName}
-            </Link>
           </div>
         </div>
         <Separator className="my-2.5 tb:my-5" />

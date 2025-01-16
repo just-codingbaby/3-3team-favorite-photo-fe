@@ -1,6 +1,5 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import axios from "@/lib/axios";
-import { useContext } from "react";
 
 const AuthContext = createContext();
 
@@ -24,7 +23,7 @@ export default function AuthProvider({ children }) {
       } catch(err) {
         console.log('유저 복원 실패',err);
         setUser(null);
-      };
+      }
     }
 
     initAuth();
@@ -32,7 +31,7 @@ export default function AuthProvider({ children }) {
 
   async function login({ email, password }) {
     try {
-      const res = await axios.post("/api/v1/auth/login", { email, password });
+      const res = await axios.post("/auth/login", { email, password });
       const data = res.data.user;
 
       setUser(data);
@@ -54,7 +53,7 @@ export default function AuthProvider({ children }) {
       await axios.post("/api/v1/auth/logout", null, {
         withCredentials: true, // 쿠키를 포함해 요청 전송
       });
-  
+
       // 유저 상태 초기화
       setUser(null);
     } catch (err) {
