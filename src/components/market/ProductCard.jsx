@@ -1,29 +1,29 @@
-import { Separator } from '@/components/ui/separator';
-import fallbackImg from '@/public/images/card/img_default-temp.webp';
-import Image from 'next/image';
+import { Separator } from "@/components/ui/separator";
+import fallbackImg from "@/public/images/card/img_default-temp.webp";
+import Image from "next/image";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle
-} from '@/components/ui/card';
-import { useEffect, useState } from 'react';
-import soldOutImg from '@/public/images/type=soldout.png'
+  CardTitle,
+} from "@/components/ui/card";
+import { useEffect, useState } from "react";
+import soldOutImg from "@/public/images/type=soldout.png";
 
 const GRADE_STYLES = {
-    COMMON: 'text-grade-common',
-    RARE: 'text-grade-rare',
-    SUPER_RARE: 'text-grade-super-rare',
-    LEGENDARY: 'text-grade-legendary',
-  };
+  COMMON: "text-grade-common",
+  RARE: "text-grade-rare",
+  SUPER_RARE: "text-grade-super-rare",
+  LEGENDARY: "text-grade-legendary",
+};
 
 const genreToKr = {
-  TRAVEL : "여행",
+  TRAVEL: "여행",
   PORTRAIT: "인물",
   LANDSCAPE: "풍경",
-  OBJECT: "사물"
-}
+  OBJECT: "사물",
+};
 
 /**
  *
@@ -43,12 +43,23 @@ const genreToKr = {
  * @param {CardProps} cardProps
  */
 export function ProductCard({ cardProps }) {
-  const { _id, name, price, grade, genre, imgUrl, owner, remainingQuantity, totalQuantity } =
-    cardProps;
-  const [isValidImgUrl, setIsValidImgUrl] = useState(!imgUrl.includes('example.com'));
+  const {
+    _id,
+    name,
+    price,
+    grade,
+    genre,
+    imgUrl,
+    owner,
+    remainingQuantity,
+    totalQuantity,
+  } = cardProps;
+  const [isValidImgUrl, setIsValidImgUrl] = useState(
+    !imgUrl.includes("example.com")
+  );
 
   useEffect(() => {
-    if (imgUrl.includes('example.com')) {
+    if (imgUrl.includes("example.com")) {
       setIsValidImgUrl(false);
     }
   }, [imgUrl]);
@@ -64,27 +75,36 @@ export function ProductCard({ cardProps }) {
             fill
             sizes="(max-width: 744px) 50vw, (max-width: 1200px) 33vw"
           />
-          {
-            remainingQuantity < 1 && ( <Image
+          {remainingQuantity < 1 && (
+            <Image
               className="object-center object-contain bg-black bg-opacity-50 absolute inset-0"
               src={soldOutImg}
               alt={name}
               fill
               sizes="(max-width: 744px) 50vw, (max-width: 1200px) 33vw"
-            />)
-
-          }
+            />
+          )}
         </div>
-        <CardTitle className="overflow-ellipsis text-white tb:text-[22px] truncate">{name}</CardTitle>
+        <CardTitle className="overflow-ellipsis text-white tb:text-[22px] truncate">
+          {name}
+        </CardTitle>
       </CardHeader>
       <CardContent className="tb:text-base pt-[5px] tb:pt-[10px]">
         <div className="grid grid-flow-col">
           <div className="flex gap-[1ch]">
-            <span aria-label={`상품 등급: ${grade}`} className={GRADE_STYLES[grade]}>
-              {grade.replace('_', ' ')}
+            <span
+              aria-label={`상품 등급: ${grade}`}
+              className={GRADE_STYLES[grade]}
+            >
+              {grade.replace("_", " ")}
             </span>
             <Separator orientation="vertical" />
-            <span className='font-normal line-clamp-1' aria-label={`장르: ${genre}`}>{genreToKr[genre] || genre}</span>
+            <span
+              className="font-normal line-clamp-1"
+              aria-label={`장르: ${genre}`}
+            >
+              {genreToKr[genre] || genre}
+            </span>
           </div>
           <div className="text-right text-white font-normal ">
             {owner.nickName}
@@ -99,7 +119,8 @@ export function ProductCard({ cardProps }) {
           <li>
             <span>잔여</span>
             <span>
-              <span className="text-white">{remainingQuantity}</span> / {totalQuantity}
+              <span className="text-white">{remainingQuantity}</span> /{" "}
+              {totalQuantity}
             </span>
           </li>
         </ul>
