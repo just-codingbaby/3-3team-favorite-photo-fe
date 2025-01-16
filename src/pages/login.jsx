@@ -1,45 +1,58 @@
 import React, { useState } from 'react';
-import axios from "axios";
 import Image from 'next/image';
 import Link from 'next/link';
-import { useAuth } from "@/contexts/AuthProvider";
+import axios from "@/lib/axios"; // axios 가져오기
 import { useRouter } from "next/router";
+import EmailInput from "@/components/shared/EmailInput";
+import PasswordInput from "@/components/shared/PasswordInput";
+import PrimaryButton from "@/components/shared/PrimaryButton";
+import { useAuth } from "@/contexts/AuthProvider"; // AuthProvider에서 context 가져오기
 
 export default function Login() {
-  const { user, login, logout } = useAuth();
-
   const router = useRouter();
+  const { login } = useAuth(); // login 함수 가져오기
 
   const [email, setEmail] = useState(""); // 이메일 상태
   const [password, setPassword] = useState(""); // 비밀번호 상태
+  const [emailError, setEmailError] = useState(false); // 이메일 유효성 에러 상태
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // 비밀번호 보여주기 상태
-  const [message, setMessage] = useState(""); // 로그인 메시지
+  const [message, setMessage] = useState(""); // 메시지 상태
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // 이메일 유효성 검사 정규식
+    return emailRegex.test(email);
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const data = await login({ email, password });
-      setMessage(`로그인 성공! 환영합니다, ${data.nickName}`);
 
+    // 이메일 유효성 검사
+    if (!validateEmail(email)) {
+      setEmailError(true);
+      setMessage("올바른 이메일을 입력해 주세요.");
+      return;
+    }
+
+    setEmailError(false); // 유효성 통과 시 에러 해제
+    setLoading(true);
+
+    try {
+      // login 함수 호출
+      await login({ email, password }); // AuthProvider에서 제공한 로그인 함수 사용
+      setMessage("로그인 성공! 환영합니다.");
+
+      // 로그인 상태가 업데이트된 뒤 페이지 이동
       router.push('/me');
     } catch (error) {
-      // 오류 메시지 처리
-      const errorMessage = error.response?.data?.message || "로그인 실패";
-      setMessage(errorMessage);
-      console.error("로그인 실패:", errorMessage);
+      const errorMessage = error.message || "로그인 실패";
+      setMessage(errorMessage); // 실패 메시지 설정
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center">
+    <div className="min-h-screen bg-black flex flex-col items-center justify-center mt-4">
       {/* 로고 */}
       <Image
         src="/images/main_logo.png"
@@ -47,85 +60,53 @@ export default function Login() {
         width={330.82}
         height={60}
         className="mb-12"
-        priority
       />
 
-      <div className="w-full max-w-[520px] bg-black p-8 rounded-lg">
-        <form onSubmit={handleLogin} className="text-left">
-          {/* 이메일 입력 */}
-          <div className="mb-4">
-            <label htmlFor="email"
-                   className="block text-lg font-normal text-gray-300 mb-2">
-              이메일
-            </label>
-            <input
-              type="email"
-              id="email"
-              placeholder="이메일을 입력해 주세요"
-              className="w-full h-[60px] px-4 border border-gray-200 bg-black text-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
+      <form className="flex flex-col w-auto gap-[10px]" onSubmit={handleLogin}>
+        {/* 이메일 입력 */}
+        <EmailInput
+          size="L"
+          value={email}
+          handleChange={(e) => setEmail(e.target.value)}
+          isError={emailError} // 에러 상태 전달
+        />
+        {/* 이메일 에러 메시지 */}
+        {emailError && (
+          <p className="text-customRed text-sm leading-6 font-light mt-1">
+            올바른 이메일을 입력해 주세요.
+          </p>
+        )}
 
-          {/* 비밀번호 입력 */}
-          <div className="mb-6 relative">
-            <label htmlFor="password"
-                   className="block text-lg font-normal text-gray-300 mb-2">
-              비밀번호
-            </label>
-            <input
-              type={showPassword ? 'text' : 'password'}
-              id="password"
-              placeholder="비밀번호를 입력해 주세요"
-              className="w-full h-[60px] px-4 pr-12 border border-gray-200 bg-black text-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button
-              type="button"
-              onClick={togglePasswordVisibility}
-              className="absolute flex right-5 top-0.5 mt-10 items-center justify-center"
-              style={{ width: "24px", height: "24px" }}
-            >
-              <Image
-                width={24}
-                height={24}
-                src={
-                  showPassword
-                    ? '/images/type=visible.png' // 눈 떠진 아이콘 경로
-                    : '/images/type=invisible.png' // 눈 감긴 아이콘 경로
-                }
-                alt="비밀번호 표시 토글"
-              />
-            </button>
-          </div>
+        {/* 비밀번호 입력 */}
+        <PasswordInput
+          size="L"
+          value={password}
+          handleChange={(e) => setPassword(e.target.value)}
+          isError={false} // 추가 로직 필요 시 설정
+        />
 
-          {/* 로그인 버튼 */}
-          <button
-            type="submit"
-            className="w-full h-[60px] bg-customMain text-black font-semibold hover:bg-customMain/80 transition"
-          >
-            {loading ? "로그인 중..." : "로그인"}
-          </button>
-        </form>
+        {/* 로그인 버튼 */}
+        <PrimaryButton
+          label={loading ? "로그인 중..." : "로그인"}
+          type="submit"
+          textSize="lg"
+          width="520px"
+          height="60px"
+        />
+      </form>
 
-        {/* 로그인 메시지 */}
-        {message && <p className="mt-4 text-center text-yellow-400 font-medium">{message}</p>}
+      {/* 메시지 출력 */}
+      {message && (
+        <p className="mt-4 text-yellow-400 text-sm text-center">{message}</p>
+      )}
 
-        {/* 회원가입 안내문 */}
-        <p className="mt-6 text-center text-white font-normal text-base">
-          최애의 포토가 처음이신가요?{' '}
-          <Link href="/signup"
-                className="text-customMain underline hover:no-underline">
-            회원가입하기
-          </Link>
-        </p>
-      </div>
+      {/* 회원가입 링크 */}
+      <p className="mt-6 text-center text-white font-normal text-base">
+        최애의 포토가 처음이신가요?{" "}
+        <Link href="/signup" className="text-customMain underline hover:no-underline">
+          회원가입하기
+        </Link>
+      </p>
     </div>
   );
 }
-
-Login.getLayout = function getLayout(page) {
-  return <>{page}</>;
-};

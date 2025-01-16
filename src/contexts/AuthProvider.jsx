@@ -15,6 +15,7 @@ export function useAuth() {
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const initAuth = async () => {
@@ -24,7 +25,9 @@ export default function AuthProvider({ children }) {
       } catch(err) {
         console.log('유저 복원 실패',err);
         setUser(null);
-      };
+      }finally{
+        setIsLoading(false);
+      }
     }
 
     initAuth();
@@ -63,5 +66,5 @@ export default function AuthProvider({ children }) {
     }
   }
 
-  return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, login, logout, isLoading }}>{children}</AuthContext.Provider>;
 }
