@@ -1,16 +1,10 @@
-import { Fragment, useRef, useState } from 'react';
-
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-  useInfiniteQuery
-} from '@tanstack/react-query';
-import Link from 'next/link';
-
 import PageHeader from '@/components/market/PageHeader';
 import { ProductCard } from '@/components/market/ProductCard';
 import { Button } from '@/components/ui/button';
+import { dehydrate, HydrationBoundary, QueryClient, useInfiniteQuery } from '@tanstack/react-query';
+import { Loader2 } from 'lucide-react';
+import Link from 'next/link';
+import { Fragment, useRef, useState } from 'react';
 
 const PAGE_LIMIT = 6;
 
@@ -46,20 +40,14 @@ export async function getStaticProps() {
 }
 
 export default function MarketPage({ dehydratedState }) {
-  const [ search, setSearch ] = useState('');
-  const [ filter, setFilter ] = useState('');
-  const [ sortOptionKey, setSortOptionKey ] = useState('LATEST');
+  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState('');
+  const [sortOptionKey, setSortOptionKey] = useState('LATEST');
 
   const observerTarget = useRef(null);
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status
-  } = useInfiniteQuery({
-    queryKey: [ 'cards' ],
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery({
+    queryKey: ['cards'],
     queryFn: ({ pageParam = 1 }) => fetchCards(pageParam),
     getNextPageParam: (lastPage, allPages) => {
       const nextPage = allPages.length + 1;
@@ -91,7 +79,7 @@ export default function MarketPage({ dehydratedState }) {
                       className="block"
                       aria-label={`${card.name} 카드 상세보기`}
                     >
-                      <ProductCard cardProps={card}/>
+                      <ProductCard cardProps={card} />
                     </Link>
                   ))}
                 </Fragment>
@@ -103,11 +91,16 @@ export default function MarketPage({ dehydratedState }) {
                 aria-busy={isFetchingNextPage}
                 disabled={!hasNextPage || isFetchingNextPage}
               >
-                {isFetchingNextPage
-                 ? 'Loading more...'
-                 : hasNextPage
-                   ? 'Load More'
-                   : 'Nothing more to load'}
+                {isFetchingNextPage ? (
+                  <>
+                    <Loader2 className="animate-spin" />
+                    <p>Loading more...</p>
+                  </>
+                ) : hasNextPage ? (
+                  <p>Load More</p>
+                ) : (
+                    <p>Nothing more to load</p>
+                )}
               </Button>
             </div>
           }
