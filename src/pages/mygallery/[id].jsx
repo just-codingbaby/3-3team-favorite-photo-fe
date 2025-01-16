@@ -3,24 +3,24 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { useUsersMyCardsQuery } from "@/hooks/useUsers";
 import PrimaryButton from "@/components/shared/PrimaryButton";
-// import ModalContainer from "@/components/modal/ModalContainer";
-// import CardList from "@/components/modal/contents/CardList";
-// import CardSell from "@/components/modal/contents/CardSell";
-import { useAuth } from "@/contexts/AuthProvider"; // React Context에서 로그인 유저 정보 가져오기
+import { useAuth } from "@/contexts/AuthProvider";
 import Loading from "@/components/ui/loading";
 
 export default function MyCardDetail() {
   const router = useRouter();
-  const { id } = router.query; // URL 파라미터에서 카드 ID 가져오기
-  const { user } = useAuth(); // AuthProvider에서 user 정보 가져오기
+  const { id } = router.query;
+  const { user } = useAuth();
+
+  const [isSellModalOpen, setSellModalOpen] = useState(false); // '포토카드 판매하기' 모달 상태
 
   if (!id) {
-    return <div>카드 ID가 없습니다.</div>;
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-gray-900">
+        <p className="text-gray-300">카드 정보를 불러오는 중입니다...</p>
+      </div>
+    );
   }
 
-  const [showMyGallery, setShowMyGallery] = useState(false); // 갤러리 모달 상태
-  const [sellMyCard, setSellMyCard] = useState(false); // 판매 모달 상태
-  
   const { data, isLoading, error } = useUsersMyCardsQuery({
     id, // 카드 ID를 기반으로 데이터 쿼리
     enabled: Boolean(id),  // ID가 존재할 때만 쿼리 활성화
@@ -30,8 +30,8 @@ export default function MyCardDetail() {
     console.log('API 응답 데이터:', data);
     console.log('로딩 상태:', isLoading);
     console.log('에러 정보:', error);
-      console.log('id:', id);
-      console.log('user.nickName:', user?.nickName);
+    console.log('id:', id);
+    console.log('user.nickName:', user?.nickName);
   }
   
   const cardData = data || {};
@@ -53,15 +53,15 @@ export default function MyCardDetail() {
     );
 
 
-  const myGalleryModalClick = () => {
-    setShowMyGallery(!showMyGallery);
-    setSellMyCard(false);
-  };
+// 판매 모달 열기
+const openSellModal = () => {
+  setSellModalOpen(true);
+};
 
-  const sellModalClick = () => {
-    setShowMyGallery(false);
-    setSellMyCard(!sellMyCard);
-  };
+// 판매 모달 닫기
+const closeSellModal = () => {
+  setSellModalOpen(false);
+};
 
   return (
     <>
@@ -120,25 +120,12 @@ export default function MyCardDetail() {
               width="440px"
               height="80px"
               textSize="xl"
-              // textColor='text-black'              
+              onClick={openSellModal} // 버튼 클릭 시 모달 열기              
             />
           </div>
         </div>
       </div>
-
-      {/* 갤러리 모달 */}
-      {showMyGallery && (
-        <ModalContainer onClick={myGalleryModalClick}>
-          <CardList title="나의 포토카드 판매하기" onClick={sellModalClick} />
-        </ModalContainer>
-      )}
-
       {/* 판매 모달 */}
-      {sellMyCard && (
-        <ModalContainer onClick={sellModalClick}>
-          <CardSell myGalleryModalClick={myGalleryModalClick} />
-        </ModalContainer>
-      )}
     </>
   );
 }
