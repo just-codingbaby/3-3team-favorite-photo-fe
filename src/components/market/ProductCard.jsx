@@ -45,13 +45,13 @@ const genreToKr = {
 export function ProductCard({ cardProps }) {
   const { _id, name, price, grade, genre, imgUrl, owner, remainingQuantity, totalQuantity } =
     cardProps;
+  const [isValidImgUrl, setIsValidImgUrl] = useState(!imgUrl.includes('example.com'));
 
-  const [isValidImgUrl, setIsValidImgUrl] = useState(true);
-
-  if (imgUrl.includes('example.com')) {
-    setIsValidImgUrl(false);
-  }
-
+  useEffect(() => {
+    if (imgUrl.includes('example.com')) {
+      setIsValidImgUrl(false);
+    }
+  }, [imgUrl]);
   return (
     <Card className="border-white/10 p-2.5 tb:p-5 lt:p-10 hover:border-white/70 transition-colors duration-150 ease-in-out text-gray-300">
       <CardHeader className="gap-2.5 tb:gap-[25.5px]">
