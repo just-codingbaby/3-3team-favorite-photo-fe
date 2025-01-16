@@ -59,7 +59,7 @@ export default function MarketPage({ dehydratedState }) {
     queryFn: ({ pageParam = 1 }) => fetchCards(pageParam),
     getNextPageParam: (lastPage, allPages) => {
       const nextPage = allPages.length + 1;
-      return lastPage.length ? nextPage : undefined;
+      return lastPage.length === PAGE_LIMIT ? nextPage : undefined;
     },
     initialPageParam: 1,
   })
