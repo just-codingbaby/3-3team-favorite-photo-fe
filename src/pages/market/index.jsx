@@ -15,7 +15,7 @@ const PAGE_LIMIT = 6;
 async function fetchCards(pageParam) {
   const query = new URLSearchParams({ page: pageParam, limit: PAGE_LIMIT });
   try {
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + '/shop/cards?' + query.toString());
+    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + '/api/v1/shop/cards?' + query.toString());
     if (!response.ok) {
       throw new Error(response.statusText);
     }
@@ -35,7 +35,7 @@ export async function getStaticProps() {
   });
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient)))
     },
   };
 }
