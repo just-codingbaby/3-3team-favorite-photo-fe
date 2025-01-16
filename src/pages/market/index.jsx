@@ -22,6 +22,7 @@ async function fetchCards(pageParam) {
     return response.json();
   } catch (e) {
     console.error(e);
+    return [];
   }
 }
 
