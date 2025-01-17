@@ -3,9 +3,6 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { useUsersMyCardsQuery } from "@/hooks/useUsers";
 import PrimaryButton from "@/components/shared/PrimaryButton";
-// import ModalContainer from "@/components/modal/ModalContainer";
-// import CardList from "@/components/modal/contents/CardList";
-// import CardSell from "@/components/modal/contents/CardSell";
 import { useAuth } from "@/contexts/AuthProvider"; // React Context에서 로그인 유저 정보 가져오기
 import Loading from "@/components/ui/loading";
 
@@ -13,18 +10,16 @@ export default function MyCardDetail() {
   const router = useRouter();
   const { id } = router.query; // URL 파라미터에서 카드 ID 가져오기
   const { user } = useAuth(); // AuthProvider에서 user 정보 가져오기
-
-  if (!id) {
-    return <div>카드 ID가 없습니다.</div>;
-  }
-
-  const [showMyGallery, setShowMyGallery] = useState(false); // 갤러리 모달 상태
-  const [sellMyCard, setSellMyCard] = useState(false); // 판매 모달 상태
   
   const { data, isLoading, error } = useUsersMyCardsQuery({
     id, // 카드 ID를 기반으로 데이터 쿼리
     enabled: Boolean(id),  // ID가 존재할 때만 쿼리 활성화
   });
+
+  if (!id) {
+    return <div>카드 ID가 없습니다.</div>;
+  }
+
 
   if (process.env.NODE_ENV === "development") {
     console.log('API 응답 데이터:', data);
@@ -51,17 +46,6 @@ export default function MyCardDetail() {
         <p>에러 메시지: {error.message}</p>
       </div>
     );
-
-
-  const myGalleryModalClick = () => {
-    setShowMyGallery(!showMyGallery);
-    setSellMyCard(false);
-  };
-
-  const sellModalClick = () => {
-    setShowMyGallery(false);
-    setSellMyCard(!sellMyCard);
-  };
 
   return (
     <>
@@ -126,19 +110,7 @@ export default function MyCardDetail() {
         </div>
       </div>
 
-      {/* 갤러리 모달 */}
-      {showMyGallery && (
-        <ModalContainer onClick={myGalleryModalClick}>
-          <CardList title="나의 포토카드 판매하기" onClick={sellModalClick} />
-        </ModalContainer>
-      )}
-
       {/* 판매 모달 */}
-      {sellMyCard && (
-        <ModalContainer onClick={sellModalClick}>
-          <CardSell myGalleryModalClick={myGalleryModalClick} />
-        </ModalContainer>
-      )}
     </>
   );
 }
