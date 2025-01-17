@@ -7,7 +7,7 @@ const handleRandomPoint = async (boxId) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ userId: 1 }), // userId는 실제 유저의 ID로 동적으로 설정
-    });
+    }); // 유즈어스에서 유저정보 가져오는거 구현하기
 
     // 성공 응답 처리
     if (response.ok) {
