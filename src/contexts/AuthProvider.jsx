@@ -46,7 +46,7 @@ export default function AuthProvider({ children }) {
     } catch (err) {
       const errorMessage = err.response?.data?.message || "로그인 중 오류가 발생했습니다.";
       console.log("로그인 실패:", errorMessage);
-      throw new error(errorMessage);
+      throw new Error(errorMessage);
     }
   }
 
