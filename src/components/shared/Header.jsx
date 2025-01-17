@@ -46,7 +46,7 @@ export default function Header() {
           <div className="flex gap-7 items-center">
             <p className="text-gray-200 font-bold leading-5 text-sm">{profile.points}</p>
 
-            <button onClick={toggleNotifications}>
+            <button onClick={NotificationList}>
               <Image
                 src="/images/type=alarm_default.png"
                 width={24}
@@ -54,7 +54,7 @@ export default function Header() {
                 alt="알람 이미지"
               />
             </button>
-            {isNotificationOpen && <NotificationList userId={user.id} />}
+            {/* {isNotificationOpen && <NotificationList userId={user.id} />} */}
 
             <p className="text-gray-200 font-baskin font-normal leading-[18.43px]">
               {profile.nickName}
