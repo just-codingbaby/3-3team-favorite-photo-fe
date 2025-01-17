@@ -1,9 +1,11 @@
-import { useRouter } from 'next/router';
-import tail from '@/styles/tailwindcss';
-import Buyer, { Btn, Gradetitle } from '@/components/buyer';
 import { useState } from 'react';
-import { ModalExchange } from '@/components/modal';
+
+import tail from '@/styles/tailwindcss';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+
+import Buyer, { Btn, Gradetitle } from '@/components/buyer';
+import { ModalExchange } from '@/components/modal';
 
 export function Title({ location, title, className }) {
   const { marketlogo, titles, afborder } = tail;
@@ -19,13 +21,13 @@ export default function CardDetailPage() {
   const { header, titles, afborder, pointtext, flexstanderd, btnabsol } = tail;
   const router = useRouter();
 
-  const [ example, setExample ] = useState({
+  const [example, setExample] = useState({
     title: '우리집 앞마당',
     rating: 'LEGENDARY',
     buyphoto: 2,
   });
 
-  const [ modal, setModal ] = useState(false);
+  const [modal, setModal] = useState(false);
 
   function modalHandle() {
     setModal(true);
@@ -37,18 +39,18 @@ export default function CardDetailPage() {
 
   return (
     <div>
-      <div className={`max-w-[1480px] w-full mx-auto tablet:max-w-[704px]`}>
-        <Title location="마켓플레이스" title={example.title}/>
-        <div className={`flex justify-between mt-[60px] tablet:mt-[40px]`}>
+      <div className={`mx-auto w-full max-w-[1480px] tablet:max-w-[704px]`}>
+        <Title location="마켓플레이스" title={example.title} />
+        <div className={`mt-[60px] flex justify-between tablet:mt-[40px]`}>
           <div
-            className={`relative w-full max-w-[960px]  h-[720px] tablet:max-w-[342px] tablet:h-[256px] overflow-hidden`}
+            className={`relative h-[720px] w-full max-w-[960px] overflow-hidden tablet:h-[256px] tablet:max-w-[342px]`}
           >
             <Image
               width={960}
               height={720}
               src="/images/type=sample_img1.png"
               alt="우리집 앞마당 포토카드 이미지"
-              className={`tb:w-[342px] tb:h-[256px] absolute object-cover`}
+              className={`absolute object-cover tb:h-[256px] tb:w-[342px]`}
               priority
             />
           </div>
@@ -61,12 +63,10 @@ export default function CardDetailPage() {
           />
         </div>
         <div className={`${flexstanderd} relative`}>
-          <h2
-            className={`${titles} ${afborder} text-white mt-[120px] w-full`}>교환
-            희망 정보</h2>
+          <h2 className={`${titles} ${afborder} mt-[120px] w-full text-white`}>교환 희망 정보</h2>
           <Btn
             btname="포토카드 교환하기"
-            className="w-[440px] h-[60px] mt-[120px] text-lg text-[#0F0F0F]"
+            className="mt-[120px] h-[60px] w-[440px] text-lg text-[#0F0F0F]"
             absolute={btnabsol}
             onClick={modalHandle}
           />
@@ -79,11 +79,11 @@ export default function CardDetailPage() {
             </ModalExchange>
           )}
         </div>
-        <p className={`text-white mt-[60px] ${pointtext}`}>
+        <p className={`mt-[60px] text-white ${pointtext}`}>
           푸릇푸릇한 여름 풍경, 눈 많이 내린 겨울 풍경 사진에 관심이 많습니다. 나중에 뚫어야할
           부분임
         </p>
-        <Gradetitle rating="RARE" type="풍경" mt="mt-[20px]"/>
+        <Gradetitle rating="RARE" type="풍경" mt="mt-[20px]" />
       </div>
     </div>
   );

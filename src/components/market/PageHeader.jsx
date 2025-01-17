@@ -1,5 +1,13 @@
-import { Button } from '@/components/ui/button';
+'use client';
+
 import { SlidersHorizontal } from 'lucide-react';
+
+import { FILTER_LIST } from '@/constants/market';
+
+import { SellPhotoCardButton } from '@/components/market/SellPhotoCardButton';
+import SearchInput from '@/components/shared/SearchInput';
+import SortBtn from '@/components/shared/SortBtn';
+import { Button } from '@/components/ui/button';
 import {
   Select,
   SelectContent,
@@ -7,81 +15,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import SearchInput from '@/components/shared/SearchInput';
-import SortBtn from '@/components/shared/SortBtn';
 
-const FILTER_LIST = [
-  {
-    label: '등급',
-    category: 'rate',
-    options: [
-      {
-        value: 'common',
-        label: 'COMMON',
-      },
-      {
-        value: 'rare',
-        label: 'RARE',
-      },
-      {
-        value: 'superRare',
-        label: 'SUPER RARE',
-      },
-      {
-        value: 'legendary',
-        label: 'LEGENDARY',
-      },
-    ],
-  },
-  {
-    label: '장르',
-    category: 'genre',
-    options: [
-      {
-        value: 'landscape',
-        label: '풍경',
-      },
-      {
-        value: 'people',
-        label: '인물',
-      },
-      {
-        value: 'object',
-        label: '사물',
-      },
-    ],
-  },
-  {
-    label: '매진 여부',
-    category: 'status',
-    options: [
-      {
-        value: 'onSale',
-        label: '판매 중',
-      },
-      {
-        value: 'soldOut',
-        label: '판매 완료',
-      },
-    ],
-  },
-];
-
-export default function PageHeader({sortOptionKey, setSortOptionKey}) {
+export default function PageHeader({ sortOptionKey, setSortOptionKey }) {
   return (
     <section>
-      <div className="tb:block lt:py-[60px] hidden py-10">
-        <div className="flex justify-between pb-5 border-b-2 border-gray-100">
-          <h1 className="font-baskin lt:text-[62px] text-5xl">마켓플레이스</h1>
-          <Button className="bg-customMain w-[342px] p-4 font-bold lt:w-[440px] flex justify-center items-center">
-            나의 포토카드 판매하기
-          </Button>
+      <div className="hidden py-10 tb:block lt:py-[60px]">
+        <div className="flex justify-between border-b-2 border-gray-100 pb-5">
+          <h1 className="font-baskin text-5xl lt:text-[62px]">마켓플레이스</h1>
+          <SellPhotoCardButton />
         </div>
 
-        <div className="py-5 grid grid-flow-col gap-1">
+        <div className="grid grid-flow-col gap-1 py-5">
           <div className="grid grid-flow-col gap-1">
             <SearchInput />
-            <div className="flex gap-2 items-center">
+            <div className="flex items-center gap-2">
               {FILTER_LIST.map((selectBox) => {
                 return (
                   <Select key={selectBox.category}>
@@ -102,13 +49,13 @@ export default function PageHeader({sortOptionKey, setSortOptionKey}) {
           </div>
 
           <div className="ml-auto">
-            <SortBtn {...{sortOptionKey, setSortOptionKey}} />
+            <SortBtn {...{ sortOptionKey, setSortOptionKey }} />
           </div>
         </div>
       </div>
 
       {/* 모바일일떄 */}
-      <div className="tb:hidden">
+      <div className="bott tb:hidden">
         <div className="flex flex-col py-5">
           <SearchInput />
           <hr className="my-[15px]" />
@@ -116,9 +63,10 @@ export default function PageHeader({sortOptionKey, setSortOptionKey}) {
             <Button variant="outline" size="icon">
               <SlidersHorizontal />
             </Button>
-            <SortBtn {...{sortOptionKey, setSortOptionKey}} />
+            <SortBtn {...{ sortOptionKey, setSortOptionKey }} />
           </div>
         </div>
+        <SellPhotoCardButton classNames="fixed z-50 h-[55px] bottom-0 left-0 w-full" />
       </div>
     </section>
   );

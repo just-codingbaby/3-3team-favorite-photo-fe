@@ -1,10 +1,12 @@
-import PageHeader from '@/components/market/PageHeader';
-import { ProductCard } from '@/components/market/ProductCard';
-import { Button } from '@/components/ui/button';
+import { Fragment, useState } from 'react';
+
 import { dehydrate, HydrationBoundary, QueryClient, useInfiniteQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
-import { Fragment, useRef, useState } from 'react';
+
+import PageHeader from '@/components/market/PageHeader';
+import { ProductCard } from '@/components/market/ProductCard';
+import { Button } from '@/components/ui/button';
 
 const PAGE_LIMIT = 6;
 
@@ -26,7 +28,6 @@ async function fetchCards(pageParam) {
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
-
   await queryClient.prefetchInfiniteQuery({
     queryKey: ['cards'],
     queryFn: ({ pageParam = 1 }) => fetchCards(pageParam),
@@ -43,8 +44,6 @@ export default function MarketPage({ dehydratedState }) {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('');
   const [sortOptionKey, setSortOptionKey] = useState('LATEST');
-
-  const observerTarget = useRef(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery({
     queryKey: ['cards'],
@@ -66,10 +65,7 @@ export default function MarketPage({ dehydratedState }) {
         <PageHeader {...{ sortOptionKey, setSortOptionKey }} />
         <section>
           {
-            <div
-              ref={observerTarget}
-              className="grid grid-cols-2 gap-[5px] tb:gap-5 lt:grid-cols-3 lt:gap-20"
-            >
+            <div className="grid grid-cols-2 gap-[5px] tb:gap-5 lt:grid-cols-3 lt:gap-20">
               {data.pages.map((page, i) => (
                 <Fragment key={i}>
                   {page.map((card) => (
@@ -99,7 +95,7 @@ export default function MarketPage({ dehydratedState }) {
                 ) : hasNextPage ? (
                   <p>Load More</p>
                 ) : (
-                    <p>Nothing more to load</p>
+                  <p>Nothing more to load</p>
                 )}
               </Button>
             </div>
