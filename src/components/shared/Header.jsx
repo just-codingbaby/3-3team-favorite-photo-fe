@@ -1,10 +1,11 @@
+import { useState } from "react";
 import { useAuth } from "@/contexts/AuthProvider";
 import Image from "next/image";
 import Link from "next/link";
 import axios from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import NotificationList from '../alarm/alarm';
+import NotificationList from "../alarm/alarm";
 
 const getProfile = async (email) => {
   try {
@@ -17,22 +18,25 @@ const getProfile = async (email) => {
 
 export default function Header() {
   const router = useRouter();
-  const { user, login, logout } = useAuth();
-  const {
-    data: profile,
-    isLoading,
-    error,
-  } = useQuery({
+  const { user, logout } = useAuth();
+  const { data: profile, isLoading, error } = useQuery({
     queryKey: ["profile"],
     queryFn: () => getProfile(user.email),
     enabled: !!user,
   });
 
+  // 알림 목록 토글 상태
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+
+  // 알림 토글 함수
+  const toggleNotificationList = () => {
+    setIsNotificationOpen((prev) => !prev);
+  };
+
   const handleLogOut = () => {
     logout();
   };
 
-  // if (!user) return <div></div>;
   if (isLoading) return <p>로딩 중입니다...</p>;
   if (error) return <p>{error.message}</p>;
 
@@ -46,7 +50,8 @@ export default function Header() {
           <div className="flex gap-7 items-center">
             <p className="text-gray-200 font-bold leading-5 text-sm">{profile.points}</p>
 
-            <button onClick={toggleNotifications}>
+            {/* 알림 버튼 */}
+            <button onClick={toggleNotificationList}>
               <Image
                 src="/images/type=alarm_default.png"
                 width={24}
@@ -54,6 +59,7 @@ export default function Header() {
                 alt="알람 이미지"
               />
             </button>
+            {/* 알림 목록 */}
             {isNotificationOpen && <NotificationList userId={user.id} />}
 
             <p className="text-gray-200 font-baskin font-normal leading-[18.43px]">
