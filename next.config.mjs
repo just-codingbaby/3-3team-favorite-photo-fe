@@ -9,6 +9,12 @@ const nextConfig = {
         port: '8000',
         pathname: '/uploads/**',
       },
+      {
+        protocol: 'http',
+        hostname: 'three-3team-favorite-photo-be.onrender.com',
+        port: '',
+        pathname: '/uploads/**',
+      },
     ],
   },
   async redirects() {
