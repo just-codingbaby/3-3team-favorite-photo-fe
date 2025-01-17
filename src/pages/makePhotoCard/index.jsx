@@ -10,8 +10,11 @@ import {
 } from "@/components/ui/select";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function MakePhotoCard() {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -40,8 +43,7 @@ export default function MakePhotoCard() {
     try {
       const response = await axios.post("/api/v1/users/my-cards", formData, {
         headers: {
-          "Content-Type": "multipart/form-data", 
-          "Authorization": `Bearer `
+          "Content-Type": "multipart/form-data",
         },
       });
 
@@ -49,20 +51,27 @@ export default function MakePhotoCard() {
         console.log("API 응답:", response.data);
       }
 
-      alert("포토카드가 성공적으로 생성되었습니다!");
-      reset(); // 폼 초기화
+      router.push("/makePhotoCard/success");
+
+      reset();
     } catch (error) {
-      console.error("API 요청 오류:", error);
-      console.error('데이터 상태:',formData);
-      alert("포토카드 생성 중 문제가 발생했습니다.");
+      if (process.env.NODE_ENV === "development") {
+        console.error("API 요청 오류:", error);
+        console.error("데이터 상태:", formData);
+      }
+      router.push("makePhotoCard/failed");
     }
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setValue("image", file); // React Hook Form에 파일 데이터 설정
       document.getElementById("fileName").value = file.name; // 파일 이름 설정
+      
+      const newFileName = `file_${Date.now()}.${file.name.split(".").pop()}`; // 새 파일 이름 생성
+      const renamedFile = new File([file], newFileName, { type: file.type });
+
+      setValue("image", renamedFile);
     }
   };
 
