@@ -1,18 +1,24 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function NotificationList({ userId }) {
   const [notifications, setNotifications] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchNotifications() {
-      try {
-        const response = await fetch(`/api/notifications?userId=${userId}`);
-        if (!response.ok) throw new Error("Failed to fetch notifications");
+      if (!userId) {
+        console.error("userId가 없습니다.");
+        return;
+      }
 
-        const data = await response.json();
-        setNotifications(data);
+      try {
+        console.log("userId:", userId);  // userId 확인
+        const response = await axios.get(`/api/notifications?userId=${userId}`);
+        setNotifications(response.data);
       } catch (error) {
-        console.error("Error fetching notifications:", error);
+        console.error("API 호출 오류:", error.response || error);  // error.response로 세부 사항 출력
+        setError("알림을 불러오는 데 실패했습니다.");
       }
     }
     fetchNotifications();
@@ -20,6 +26,7 @@ export default function NotificationList({ userId }) {
 
   return (
     <div className="absolute top-14 right-0 w-[300px] h-[535px] bg-gray-800 text-white shadow-lg rounded-lg overflow-y-auto">
+      {error && <p className="text-center text-red-500 p-4">{error}</p>}
       {notifications.length > 0 ? (
         notifications.map((notification) => (
           <div
