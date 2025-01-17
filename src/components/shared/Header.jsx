@@ -4,6 +4,7 @@ import Link from "next/link";
 import axios from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import NotificationList from '../alarm/alarm';
 
 const getProfile = async (email) => {
   try {
