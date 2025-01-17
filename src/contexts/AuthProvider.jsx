@@ -20,6 +20,7 @@ export default function AuthProvider({ children }) {
     const initAuth = async () => {
       try {
         const res = await axios.get('/api/v1/auth/verify');
+        console.log('인증 후 데이터 값:',res);
         setUser(res.data.user);
       } catch(err) {
         console.log('유저 복원 실패',err);
