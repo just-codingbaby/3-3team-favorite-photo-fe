@@ -1,11 +1,7 @@
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useState } from 'react';
 
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-  useInfiniteQuery
-} from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary, QueryClient, useInfiniteQuery } from '@tanstack/react-query';
+import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
 import PageHeader from '@/components/market/PageHeader';
@@ -32,7 +28,6 @@ async function fetchCards(pageParam) {
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
-
   await queryClient.prefetchInfiniteQuery({
     queryKey: ['cards'],
     queryFn: ({ pageParam = 1 }) => fetchCards(pageParam),
@@ -46,20 +41,12 @@ export async function getStaticProps() {
 }
 
 export default function MarketPage({ dehydratedState }) {
-  const [ search, setSearch ] = useState('');
-  const [ filter, setFilter ] = useState('');
-  const [ sortOptionKey, setSortOptionKey ] = useState('LATEST');
+  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState('');
+  const [sortOptionKey, setSortOptionKey] = useState('LATEST');
 
-  const observerTarget = useRef(null);
-
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status
-  } = useInfiniteQuery({
-    queryKey: [ 'cards' ],
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery({
+    queryKey: ['cards'],
     queryFn: ({ pageParam = 1 }) => fetchCards(pageParam),
     getNextPageParam: (lastPage, allPages) => {
       const nextPage = allPages.length + 1;
@@ -78,10 +65,7 @@ export default function MarketPage({ dehydratedState }) {
         <PageHeader {...{ sortOptionKey, setSortOptionKey }} />
         <section>
           {
-            <div
-              ref={observerTarget}
-              className="grid grid-cols-2 gap-[5px] tb:gap-5 lt:grid-cols-3 lt:gap-20"
-            >
+            <div className="grid grid-cols-2 gap-[5px] tb:gap-5 lt:grid-cols-3 lt:gap-20">
               {data.pages.map((page, i) => (
                 <Fragment key={i}>
                   {page.map((card) => (
@@ -91,7 +75,7 @@ export default function MarketPage({ dehydratedState }) {
                       className="block"
                       aria-label={`${card.name} 카드 상세보기`}
                     >
-                      <ProductCard cardProps={card}/>
+                      <ProductCard cardProps={card} />
                     </Link>
                   ))}
                 </Fragment>
@@ -103,11 +87,16 @@ export default function MarketPage({ dehydratedState }) {
                 aria-busy={isFetchingNextPage}
                 disabled={!hasNextPage || isFetchingNextPage}
               >
-                {isFetchingNextPage
-                 ? 'Loading more...'
-                 : hasNextPage
-                   ? 'Load More'
-                   : 'Nothing more to load'}
+                {isFetchingNextPage ? (
+                  <>
+                    <Loader2 className="animate-spin" />
+                    <p>Loading more...</p>
+                  </>
+                ) : hasNextPage ? (
+                  <p>Load More</p>
+                ) : (
+                  <p>Nothing more to load</p>
+                )}
               </Button>
             </div>
           }

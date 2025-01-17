@@ -4,7 +4,7 @@ export default function Layout({ children }) {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main className='scroll-smooth'>{children}</main>
     </>
   );
 }
