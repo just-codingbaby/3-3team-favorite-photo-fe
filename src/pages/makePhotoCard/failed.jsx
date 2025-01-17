@@ -1,7 +1,14 @@
 import SecondaryButton from "@/components/shared/SecondaryButton";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 export default function Failed() {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push('/myGallery');
+  }
+
   return (
     <div className="absolute flex flex-col items-center gap-9 justify-center top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
       {/* <button className="relative top-[-110px] right-[-300px]">
