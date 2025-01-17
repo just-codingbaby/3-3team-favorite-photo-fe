@@ -13,6 +13,11 @@ export default function MyCardDetail() {
 
   const [isSellModalOpen, setSellModalOpen] = useState(false); // '포토카드 판매하기' 모달 상태
 
+  const { data, isLoading, error } = useUsersMyCardsQuery({
+    id, // 카드 ID를 기반으로 데이터 쿼리
+    enabled: Boolean(id),  // ID가 존재할 때만 쿼리 활성화
+  });
+
   if (!id) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-gray-900">
@@ -20,11 +25,6 @@ export default function MyCardDetail() {
       </div>
     );
   }
-
-  const { data, isLoading, error } = useUsersMyCardsQuery({
-    id, // 카드 ID를 기반으로 데이터 쿼리
-    enabled: Boolean(id),  // ID가 존재할 때만 쿼리 활성화
-  });
 
   if (process.env.NODE_ENV === "development") {
     console.log('API 응답 데이터:', data);
