@@ -5,16 +5,21 @@ export default function NotificationList({ userId }) {
 
   useEffect(() => {
     async function fetchNotifications() {
-      const response = await fetch(`/api/notifications?userId=${userId}`);
-      const data = await response.json();
-      setNotifications(data);
+      try {
+        const response = await fetch(`/api/notifications?userId=${userId}`);
+        if (!response.ok) throw new Error("Failed to fetch notifications");
+
+        const data = await response.json();
+        setNotifications(data);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
     }
     fetchNotifications();
   }, [userId]);
 
   return (
     <div className="absolute top-14 right-0 w-[300px] h-[535px] bg-gray-800 text-white shadow-lg rounded-lg overflow-y-auto">
-      {/* 알림 전체 박스 */}
       {notifications.length > 0 ? (
         notifications.map((notification) => (
           <div
@@ -36,7 +41,6 @@ export default function NotificationList({ userId }) {
   );
 }
 
-// 시간 포맷 유틸리티
 function timeAgo(date) {
   const now = new Date();
   const diff = (now - new Date(date)) / 1000;
