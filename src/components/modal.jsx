@@ -1,6 +1,6 @@
 import tail from "@/styles/tailwindcss";
 import { useRouter } from "next/router";
-import { Title } from "@/pages/buyphoto";
+import { Title } from "@/components/shared/Title";
 import { useState } from "react";
 import PrimaryButton from "./shared/PrimaryButton";
 import SecondaryButton from "./shared/SecondaryButton";
@@ -101,7 +101,7 @@ export function ExchangeList({ onClick, onClose }) {
           // onClose={onClose}
           onClick={(e) => {
             e.stopPropagation();
-            onClick;
+            onClick();
           }}
         >
           <SecondaryButton

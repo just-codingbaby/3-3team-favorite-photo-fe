@@ -8,33 +8,49 @@ import ModalStandard, {
   ExchangeList,
   Ex,
 } from "@/components/modal";
-import PageHeader, { DetailPheader } from "@/components/market/PageHeader";
+import { DetailPheader } from "@/components/market/PageHeader";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import { Title } from "@/components/shared/Title";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { set } from "react-hook-form";
+import instance from "@/lib/axios";
+
+const initModal = {
+  standard: false,
+  exchange: false,
+  cancel: false,
+};
+
+async function detailApi(id) {
+  if (!id) {
+    return;
+  }
+  try {
+    const response = await instance.get(`/api/v1/cards/detail/${id}`);
+    return await response.data;
+  } catch (e) {
+    console.error("error", e);
+  }
+}
 
 export default function Page({}) {
   const router = useRouter();
   const { id } = router.query;
+  console.log(id);
   const { pointtext, flexstanderd } = tail;
+  const [openModal, setOpenModal] = useState(initModal);
 
-  const initModal = {
-    standard: false,
-    exchange: false,
-    cancel: false,
-  };
+  // const [data, setData] = useState([]);
 
-  const [openModal, setOpenModal] = useState({
-    standard: false,
-    exchange: false,
-    cancel: false,
+  // useEffect(() => {
+  //   setData(detailApi(2).then((res) => setData(res)));
+  // }, []);
+
+  const { data: card } = useQuery({
+    queryKey: ["card", id],
+    queryFn: () => detailApi(id),
   });
 
-  const CloseModal = () => {
-    setOpenModal(initModal);
-  };
+  console.log(card);
 
   const handleCloseModal = (modalType) => {
     setOpenModal((prev) => ({
@@ -47,7 +63,7 @@ export default function Page({}) {
   return (
     <div className={`max-w-[1480px] w-full mx-auto tablet:max-w-[704px]`}>
       <p>CardId: {router.query.id}</p>
-      <Title location="마켓플레이스" title={product.name} />
+      <Title location="마켓플레이스" title={card?.name} />
       <div className={`flex justify-between tablet:mt-[40px]`}>
         <div
           className={`relative w-full max-w-[960px]  h-[720px] tablet:max-w-[342px] tablet:h-[256px] overflow-hidden`}
@@ -78,9 +94,6 @@ export default function Page({}) {
         {openModal.standard && (
           <ModalExchange
             modalbox="max-w-[1160px] w-full h-[1000px] z-10000"
-            // onClose={CloseModal}
-            // onClose={() => setOpenModal({ ...openModal, standard: false })}
-            // onClose={(e) => console.log(e.target)}
             onClose={() => handleCloseModal("standard")}
           >
             <Title
@@ -119,7 +132,6 @@ export default function Page({}) {
         나중에 뚫어야할 부분임
       </p>
       <Gradetitle rating="RARE" type="풍경" className="mt-[20px] mb-[180px]" />
-      {/* 실험중 */}
       <ExchangeList
         onClick={() => setOpenModal({ ...openModal, cancel: true })}
       />

@@ -13,17 +13,6 @@ import PrimaryButton from "@/components/shared/PrimaryButton";
 
 //Ex컴포넌트 부분 다 갈아끼워야 함
 
-export function Title({ location, title, className, children }) {
-  const { marketlogo, titles, afborder } = tail;
-  return (
-    <div className={`${className} mb-[60px]`}>
-      <div className={`${marketlogo}`}>{location}</div>
-      <h2 className={`${titles} ${afborder} text-white`}>{title}</h2>
-      {children}
-    </div>
-  );
-}
-
 export default function Salesphotocard() {
   const { pointtext, flexstanderd, btnabsol } = tail;
   const router = useRouter();
