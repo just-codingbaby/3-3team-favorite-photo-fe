@@ -5,7 +5,7 @@ export function SellPhotoCardButton({ classNames }) {
   return (
     <Button
       className={cn(
-        'flex w-[342px] justify-center bg-customMain p-4 font-bold' +
+        'flex w-[342px] justify-center p-4 font-bold' +
         ' w-' +
         ' lt:w-[440px]',
         classNames,

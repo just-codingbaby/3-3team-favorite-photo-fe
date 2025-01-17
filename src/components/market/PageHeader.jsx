@@ -1,13 +1,11 @@
 'use client';
 
-import { SlidersHorizontal } from 'lucide-react';
-
 import { FILTER_LIST } from '@/constants/market';
 
+import { BottomSheet } from '@/components/market/BottomSheet';
 import { SellPhotoCardButton } from '@/components/market/SellPhotoCardButton';
 import SearchInput from '@/components/shared/SearchInput';
 import SortBtn from '@/components/shared/SortBtn';
-import { Button } from '@/components/ui/button';
 import {
   Select,
   SelectContent,
@@ -60,9 +58,7 @@ export default function PageHeader({ sortOptionKey, setSortOptionKey }) {
           <SearchInput />
           <hr className="my-[15px]" />
           <div className="flex justify-between">
-            <Button variant="outline" size="icon">
-              <SlidersHorizontal />
-            </Button>
+            <BottomSheet />
             <SortBtn {...{ sortOptionKey, setSortOptionKey }} />
           </div>
         </div>
