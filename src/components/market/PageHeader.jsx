@@ -5,7 +5,7 @@ import { FILTER_LIST } from '@/constants/market';
 import { BottomSheet } from '@/components/market/BottomSheet';
 import { SellPhotoCardButton } from '@/components/market/SellPhotoCardButton';
 import SearchInput from '@/components/shared/SearchInput';
-import SortBtn from '@/components/shared/SortBtn';
+import SelectButton from '@/components/shared/SelectButton';
 import {
   Select,
   SelectContent,
@@ -47,7 +47,7 @@ export default function PageHeader({ sortOptionKey, setSortOptionKey }) {
           </div>
 
           <div className="ml-auto">
-            <SortBtn {...{ sortOptionKey, setSortOptionKey }} />
+            <SelectButton sortOptionKey={sortOptionKey} setSortOptionKey={setSortOptionKey} />
           </div>
         </div>
       </div>
@@ -59,7 +59,7 @@ export default function PageHeader({ sortOptionKey, setSortOptionKey }) {
           <hr className="my-[15px]" />
           <div className="flex justify-between">
             <BottomSheet />
-            <SortBtn {...{ sortOptionKey, setSortOptionKey }} />
+            <SelectButton sortOptionKey={sortOptionKey} setSortOptionKey={setSortOptionKey} />
           </div>
         </div>
         <SellPhotoCardButton classNames="fixed z-50 h-[55px] bottom-0 left-0 w-full" />

@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/select';
 import { SORT_OPTS } from '@/constants/market';
 
-export default function SortBtn({sortOptionKey, setSortOptionKey}) {
+export default function SelectButton({sortOptionKey, setSortOptionKey}) {
   const keys = Array.from(SORT_OPTS.keys());
   const currentSortOpt = SORT_OPTS.get(sortOptionKey);
 
