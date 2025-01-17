@@ -18,12 +18,43 @@ export default function MakePhotoCard() {
     setValue,
     formState: { errors },
     watch,
-    reset
+    reset,
   } = useForm();
 
-  const onSubmit = (data) => {
-    if (process.env.NODE_ENV === "development") {
-      console.log(data);
+  const onSubmit = async (data) => {
+    const file = data.image;
+    const jsonData = {
+      name: data.name,
+      description: data.description,
+      grade: data.grade,
+      genre: data.genre,
+      price: data.price,
+      quantity: data.quantity,
+    };
+
+    // FormData 생성
+    const formData = new FormData();
+    formData.append("file", file); // 파일 데이터 추가
+    formData.append("data", JSON.stringify(jsonData)); // JSON 데이터 추가
+
+    try {
+      const response = await axios.post("/api/v1/users/my-cards", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", 
+          "Authorization": `Bearer `
+        },
+      });
+
+      if (process.env.NODE_ENV === "development") {
+        console.log("API 응답:", response.data);
+      }
+
+      alert("포토카드가 성공적으로 생성되었습니다!");
+      reset(); // 폼 초기화
+    } catch (error) {
+      console.error("API 요청 오류:", error);
+      console.error('데이터 상태:',formData);
+      alert("포토카드 생성 중 문제가 발생했습니다.");
     }
   };
 
@@ -40,22 +71,10 @@ export default function MakePhotoCard() {
       label: "등급을 선택해 주세요",
       category: "grade",
       options: [
-        {
-          value: "common",
-          label: "COMMON",
-        },
-        {
-          value: "rare",
-          label: "RARE",
-        },
-        {
-          value: "superRare",
-          label: "SUPER RARE",
-        },
-        {
-          value: "legendary",
-          label: "LEGENDARY",
-        },
+        { value: "COMMON", label: "COMMON" },
+        { value: "RARE", label: "RARE" },
+        { value: "SUPER_RARE", label: "SUPER RARE" },
+        { value: "LEGENDARY", label: "LEGENDARY" },
       ],
     },
     {
@@ -104,15 +123,16 @@ export default function MakePhotoCard() {
             placeholder="포토카드 이름을 입력해 주세요"
           />
           {errors.name && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.name.message}
-            </p>
+            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
           )}
         </div>
 
         <div className={divStyle}>
           <label className={labelStyle}>등급</label>
-          <Select key={FILTER_LIST[0].category} onValueChange={(value) => setValue("grade", value)} >
+          <Select
+            key={FILTER_LIST[0].category}
+            onValueChange={(value) => setValue("grade", value)}
+          >
             <SelectTrigger className={drpDownStyle}>
               <SelectValue placeholder={FILTER_LIST[0].label} />
             </SelectTrigger>
@@ -128,7 +148,10 @@ export default function MakePhotoCard() {
 
         <div className={divStyle}>
           <label className={labelStyle}>장르</label>
-          <Select key={FILTER_LIST[1].category} onValueChange={(value) => setValue("genre", value)} >
+          <Select
+            key={FILTER_LIST[1].category}
+            onValueChange={(value) => setValue("genre", value)}
+          >
             <SelectTrigger className={drpDownStyle}>
               <SelectValue placeholder={FILTER_LIST[1].label} />
             </SelectTrigger>
@@ -145,9 +168,7 @@ export default function MakePhotoCard() {
         <div className={divStyle}>
           <label className={labelStyle}>가격</label>
           <Input
-            {...register("price", {
-              required: "필수 입력 사항입니다",
-            })}
+            {...register("price", { required: "필수 입력 사항입니다" })}
             className={`${inputStyle}`}
             placeholder="가격을 입력해 주세요"
           />
