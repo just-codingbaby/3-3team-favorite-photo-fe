@@ -40,7 +40,7 @@ export default function MyGallery() {
     if (user) {
       setParams((prev) => ({ ...prev, ownerId: user.id }));
       if (process.env.NODE_ENV === "development") {
-        console.log("현재 params:", params);
+        console.log("MyGallery 현재 params:", params);
       }    
     }
   }, [user]);
@@ -134,7 +134,7 @@ export default function MyGallery() {
       {/* 헤더 */}
       <div className="max-w-7xl mx-auto flex justify-between items-center border-b-2 border-gray-200 pb-5">
         <h1 className="text-4xl font-bold text-white">마이갤러리</h1>
-        <Link href="/mygallery/createcard">
+        <Link href="/makePhotoCard">
                 <div className="flex flex-col gap-5 px-5 py-5 w-[500px]">                  
                   <PrimaryButton
                     label="포토카드 생성하기"
