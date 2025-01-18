@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-
 import axios from '@/lib/axios';
 
 const AuthContext = createContext();
@@ -9,7 +8,6 @@ export function useAuth() {
   if (!context) {
     throw new Error('반드시 AuthProvider 안에서 사용해야 합니다.');
   }
-
   return context;
 }
 
@@ -40,7 +38,7 @@ export default function AuthProvider({ children }) {
       const data = res.data.user;
 
       setUser(data);
-      console.log('프로필 조회:', data);    //추후에 다시 수정
+      console.log('프로필 조회:', data);
 
       return data;
     } catch (err) {
@@ -52,12 +50,9 @@ export default function AuthProvider({ children }) {
 
   async function logout() {
     try {
-      // 로그아웃 API 호출
       await axios.post('/api/v1/auth/logout', null, {
-        withCredentials: true, // 쿠키를 포함해 요청 전송
+        withCredentials: true,
       });
-
-      // 유저 상태 초기화
       setUser(null);
     } catch (err) {
       console.error('로그아웃 에러:', err.response?.data?.message || err.message);
@@ -65,8 +60,24 @@ export default function AuthProvider({ children }) {
     }
   }
 
+  async function signup({ email, nickName, password }) {
+    try {
+      const res = await axios.post('/api/v1/auth/signup', { email, nickName, password });
+      const userData = res.data.user;
+
+      setUser(userData);
+
+      console.log('회원가입 성공:', userData);
+      return userData;
+    } catch (err) {
+      const errorMessage = err.response?.data?.message || '회원가입 중 오류가 발생했습니다.';
+      console.error('회원가입 실패:', errorMessage);
+      throw new Error(errorMessage);
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, login, logout, signup, isLoading }}>
       {children}
     </AuthContext.Provider>
   );
