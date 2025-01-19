@@ -1,29 +1,20 @@
-import { Separator } from '@/components/ui/separator';
-import fallbackImg from '@/public/images/card/img_default-temp.webp';
-import Image from 'next/image';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
 import { useEffect, useState } from 'react';
-import soldOutImg from '@/public/images/type=soldout.png'
 
-const GRADE_STYLES = {
-    COMMON: 'text-grade-common',
-    RARE: 'text-grade-rare',
-    SUPER_RARE: 'text-grade-super-rare',
-    LEGENDARY: 'text-grade-legendary',
-  };
+import fallbackImg from '@/public/images/card/img_default-temp.webp';
+import soldOutImg from '@/public/images/type=soldout.png';
+import Image from 'next/image';
+
+import { GRADE_STYLES } from '@/constants/market';
+
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 
 const genreToKr = {
-  TRAVEL : "여행",
-  PORTRAIT: "인물",
-  LANDSCAPE: "풍경",
-  OBJECT: "사물"
-}
+  TRAVEL: '여행',
+  PORTRAIT: '인물',
+  LANDSCAPE: '풍경',
+  OBJECT: '사물',
+};
 
 /**
  *
@@ -53,48 +44,49 @@ export function ProductCard({ cardProps }) {
     }
   }, [imgUrl]);
   return (
-    <Card className="border-white/10 p-2.5 tb:p-5 lt:p-10 hover:border-white/70 transition-colors duration-150 ease-in-out text-gray-300">
+    <Card className="border-white/10 p-2.5 text-gray-300 transition-colors duration-150 ease-in-out hover:border-white/70 tb:p-5 lt:p-10">
       <CardHeader className="gap-2.5 tb:gap-[25.5px]">
         <div className="relative aspect-[150/112] tb:aspect-[360/270]">
           <Image
             onError={() => setIsValidImgUrl(false)}
-            className="object-center object-cover"
+            className="object-cover object-center"
             src={isValidImgUrl ? imgUrl : fallbackImg}
             alt={name}
             fill
             sizes="(max-width: 744px) 50vw, (max-width: 1200px) 33vw"
           />
-          {
-            remainingQuantity < 1 && ( <Image
-              className="object-center object-contain bg-black bg-opacity-50 absolute inset-0"
+          {remainingQuantity < 1 && (
+            <Image
+              className="absolute inset-0 bg-black bg-opacity-50 object-contain object-center"
               src={soldOutImg}
               alt={name}
               fill
               sizes="(max-width: 744px) 50vw, (max-width: 1200px) 33vw"
-            />)
-
-          }
+            />
+          )}
         </div>
-        <CardTitle className="overflow-ellipsis text-white tb:text-[22px] truncate">{name}</CardTitle>
+        <CardTitle className="truncate overflow-ellipsis text-white tb:text-[22px]">
+          {name}
+        </CardTitle>
       </CardHeader>
-      <CardContent className="tb:text-base pt-[5px] tb:pt-[10px]">
+      <CardContent className="pt-[5px] tb:pt-[10px] tb:text-base">
         <div className="grid grid-flow-col">
           <div className="flex gap-[1ch]">
             <span aria-label={`상품 등급: ${grade}`} className={GRADE_STYLES[grade]}>
               {grade.replace('_', ' ')}
             </span>
             <Separator orientation="vertical" />
-            <span className='font-normal line-clamp-1' aria-label={`장르: ${genre}`}>{genreToKr[genre] || genre}</span>
+            <span className="line-clamp-1 font-normal" aria-label={`장르: ${genre}`}>
+              {genreToKr[genre] || genre}
+            </span>
           </div>
-          <div className="text-right text-white font-normal ">
-            {owner.nickName}
-          </div>
+          <div className="text-right font-normal text-white">{owner.nickName}</div>
         </div>
         <Separator className="my-2.5 tb:my-5" />
-        <ul className="*:justify-between *:flex *:tabular-nums space-y-[5px] tb:space-y-[10px]">
+        <ul className="space-y-[5px] *:flex *:justify-between *:tabular-nums tb:space-y-[10px]">
           <li>
             <span>가격</span>
-            <span className="text-white font-normal">{price} P</span>
+            <span className="font-normal text-white">{price} P</span>
           </li>
           <li>
             <span>잔여</span>
@@ -104,7 +96,7 @@ export function ProductCard({ cardProps }) {
           </li>
         </ul>
       </CardContent>
-      <CardFooter className="justify-center hidden pb-2.5 tb:flex  tb:pt-[30px]">
+      <CardFooter className="hidden justify-center pb-2.5 tb:flex tb:pt-[30px]">
         <Image
           src="/images/main_logo.png"
           alt="최애의포토 로고"

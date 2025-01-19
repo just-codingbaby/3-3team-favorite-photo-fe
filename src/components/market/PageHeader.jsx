@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/select';
 
 export default function PageHeader({ sortOptionKey, setSortOptionKey }) {
+  const filterListKeys = Array.from(FILTER_LIST.keys());
   return (
     <section>
       <div className="hidden py-10 tb:block lt:py-[60px]">
@@ -27,25 +28,22 @@ export default function PageHeader({ sortOptionKey, setSortOptionKey }) {
           <div className="grid grid-flow-col gap-1">
             <SearchInput />
             <div className="flex items-center gap-2">
-              {FILTER_LIST.map((selectBox) => {
-                return (
-                  <Select key={selectBox.category}>
-                    <SelectTrigger className="w-[120px] border-none">
-                      <SelectValue placeholder={selectBox.label} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {selectBox.options.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                );
-              })}
+              {filterListKeys.map((key) => (
+                <Select key={key}>
+                  <SelectTrigger className="w-[120px] border-none">
+                    <SelectValue placeholder={FILTER_LIST.get(key).label} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {FILTER_LIST.get(key).options.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ))}
             </div>
           </div>
-
           <div className="ml-auto">
             <SelectButton sortOptionKey={sortOptionKey} setSortOptionKey={setSortOptionKey} />
           </div>
@@ -53,7 +51,7 @@ export default function PageHeader({ sortOptionKey, setSortOptionKey }) {
       </div>
 
       {/* 모바일일떄 */}
-      <div className="bott tb:hidden">
+      <div className="tb:hidden">
         <div className="flex flex-col py-5">
           <SearchInput />
           <hr className="my-[15px]" />
@@ -62,7 +60,7 @@ export default function PageHeader({ sortOptionKey, setSortOptionKey }) {
             <SelectButton sortOptionKey={sortOptionKey} setSortOptionKey={setSortOptionKey} />
           </div>
         </div>
-        <SellPhotoCardButton classNames="fixed z-50 h-[55px] bottom-0 left-0 w-full" />
+        <SellPhotoCardButton classNames="fixed bottom-0 left-0 z-50 h-[55px] w-full" />
       </div>
     </section>
   );

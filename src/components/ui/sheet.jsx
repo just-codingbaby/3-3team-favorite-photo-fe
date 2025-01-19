@@ -28,7 +28,7 @@ SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
 const sheetVariants = cva(
   "fixed z-50 gap-4 bg-muted text-gray-400 shadow-lg transition" +
-  " ease-in-out" +
+  " ease-in-out " +
   " data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500",
   {
     variants: {

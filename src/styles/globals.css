@@ -16,7 +16,7 @@ body {
 
 @font-face {
   font-family: 'BaskinRobbins';
-  src: url('/public/fonts/br-font.ttf') format('truetype');
+  src: url('/fonts/br-font.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;

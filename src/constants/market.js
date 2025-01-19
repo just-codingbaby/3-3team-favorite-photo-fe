@@ -5,59 +5,76 @@ export const SORT_OPTS = new Map([
   ['LOWER_PRICE', { label: '낮은 가격순', value: 'sortField=price&sortOrder=asc' }],
 ]);
 
-export const FILTER_LIST = [
-  {
-    label: '등급',
-    category: 'grade',
-    options: [
-      {
-        value: 'common',
-        label: 'COMMON',
-      },
-      {
-        value: 'rare',
-        label: 'RARE',
-      },
-      {
-        value: 'superRare',
-        label: 'SUPER RARE',
-      },
-      {
-        value: 'legendary',
-        label: 'LEGENDARY',
-      },
-    ],
-  },
-  {
-    label: '장르',
-    category: 'genre',
-    options: [
-      {
-        value: 'landscape',
-        label: '풍경',
-      },
-      {
-        value: 'people',
-        label: '인물',
-      },
-      {
-        value: 'object',
-        label: '사물',
-      },
-    ],
-  },
-  {
-    label: '매진 여부',
-    category: 'status',
-    options: [
-      {
-        value: 'onSale',
-        label: '판매 중',
-      },
-      {
-        value: 'soldOut',
-        label: '판매 완료',
-      },
-    ],
-  },
-];
+export const FILTER_LIST = new Map([
+  [
+    'grade',
+    {
+      label: '등급',
+      options: [
+        {
+          value: 'common',
+          label: 'COMMON',
+        },
+        {
+          value: 'rare',
+          label: 'RARE',
+        },
+        {
+          value: 'super-rare',
+          label: 'SUPER_RARE',
+        },
+        {
+          value: 'legendary',
+          label: 'LEGENDARY',
+        },
+      ],
+    },
+  ],
+  [
+    'genre',
+    {
+      label: '장르',
+      options: [
+        {
+          value: 'travel',
+          label: '여행',
+        },
+        {
+          value: 'landscape',
+          label: '풍경',
+        },
+        {
+          value: 'people',
+          label: '인물',
+        },
+        {
+          value: 'object',
+          label: '사물',
+        },
+      ],
+    },
+  ],
+  [
+    'status',
+    {
+      label: '매진 여부',
+      options: [
+        {
+          value: 'onSale',
+          label: '판매 중',
+        },
+        {
+          value: 'soldOut',
+          label: '판매 완료',
+        },
+      ],
+    },
+  ],
+]);
+
+export const GRADE_STYLES = {
+  COMMON: 'text-grade-common',
+  RARE: 'text-grade-rare',
+  SUPER_RARE: 'text-grade-super-rare',
+  LEGENDARY: 'text-grade-legendary',
+};
