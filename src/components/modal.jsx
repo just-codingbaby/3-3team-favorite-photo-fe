@@ -1,15 +1,18 @@
-import tail from "@/styles/tailwindcss";
-import { useRouter } from "next/router";
-import { Title } from "@/components/shared/Title";
-import { useState } from "react";
-import PrimaryButton from "./shared/PrimaryButton";
-import SecondaryButton from "./shared/SecondaryButton";
+import { useState } from 'react';
+
+import tail from '@/styles/tailwindcss';
+import { useRouter } from 'next/router';
+
+import { Title } from '@/components/shared/Title';
+
+import PrimaryButton from './shared/PrimaryButton';
+import SecondaryButton from './shared/SecondaryButton';
 
 export function CloseBtn({ position, onClose }) {
   const closeBtn = `absolute top-1/2 left-1/2 w-6 h-[2px] bg-customGrey01 transform -translate-x-1/2 -translate-y-1/2`;
   return (
     <button
-      className={`absolute ${position} bg-transparent border-[1px] border-transparent cursor-pointer`}
+      className={`absolute ${position} cursor-pointer border-[1px] border-transparent bg-transparent`}
       onClick={onClose}
     >
       <span class={`${closeBtn} rotate-45`}></span>
@@ -46,17 +49,10 @@ export default function ModalStandard({
 
   return (
     <div className={`${dimbg} bg-opacity-80`}>
-      <div className={`${modalbox}  ${flexcenter} flex-col relative`}>
-        <h3 className={`${stitle} font-sans text-white mt-[80px]`}>
-          {modaltitle}
-        </h3>
-        <span className={`text-white text-[16px] font-normal mt-[40px]`}>
-          {modaltext}
-        </span>
-        <CloseBtn
-          position={`${closeposition} top-[46px] right-[46px]`}
-          onClose={onClose}
-        />
+      <div className={`${modalbox} ${flexcenter} relative flex-col`}>
+        <h3 className={`${stitle} mt-[80px] font-sans text-white`}>{modaltitle}</h3>
+        <span className={`mt-[40px] text-[16px] font-normal text-white`}>{modaltext}</span>
+        <CloseBtn position={`${closeposition} top-[46px] right-[46px]`} onClose={onClose} />
         {children}
       </div>
     </div>
@@ -64,25 +60,14 @@ export default function ModalStandard({
 }
 
 // 포토카드 교환하기 모달 창
-export function ModalExchange({
-  modalbox,
-  children,
-  onClick,
-  onClose,
-  className,
-}) {
+export function ModalExchange({ modalbox, children, onClick, onClose, className }) {
   const { dimbg } = tail;
 
   return (
     <div className={`${dimbg} ${className} bg-opacity-80`} onClick={onClick}>
-      <div
-        className={`${modalbox} mx-auto bg-[#161616] relative border border-white`}
-      >
-        <CloseBtn
-          position="top-[150px] right-[180px] absolute"
-          onClose={onClose}
-        />
-        <div className={`max-w-[920px] mx-auto bg-[#161616] `}>{children}</div>
+      <div className={`${modalbox} relative mx-auto border border-white bg-[#161616]`}>
+        <CloseBtn position="top-[150px] right-[180px] absolute" onClose={onClose} />
+        <div className={`mx-auto max-w-[920px] bg-[#161616]`}>{children}</div>
       </div>
     </div>
   );
@@ -97,7 +82,7 @@ export function ExchangeList({ onClick, onClose }) {
       <Title title="내가 제시한 교환 목록" className="mt-[120px] w-full" />
       {isEx && (
         <Ex
-          className={`w-[440px] h-[600px] mt-[40px] border border-white`}
+          className={`mt-[40px] h-[600px] w-[440px] border border-white`}
           // onClose={onClose}
           onClick={(e) => {
             e.stopPropagation();
@@ -121,10 +106,7 @@ export function ExchangeList({ onClick, onClose }) {
 export function Ex({ className, handleClick, children }) {
   const { flexcenter } = tail;
   return (
-    <div
-      className={`${className} ${flexcenter} flex-col`}
-      onClick={handleClick}
-    >
+    <div className={`${className} ${flexcenter} flex-col`} onClick={handleClick}>
       <div>img</div>
       <div>text</div>
       {children}
@@ -132,26 +114,26 @@ export function Ex({ className, handleClick, children }) {
   );
 }
 
-export function ExchangeDetail({ onClose }) {
+export function ExchangeDetail({ onClose, xBtn, children, title, onClick }) {
   const router = useRouter();
   const { flexstanderd } = tail;
 
-  const handleButtonClick = (e) => {
-    if (e === "교환하기") {
-      console.log("눌리냐?");
-      router.push({
-        pathname: "/ModalPage",
-        query: {
-          type: "교환 제시",
-          rating: "COMMON",
-          title: "스페인에서",
-          quantity: 4,
-        },
-      });
-    } else {
-      console.log("동작 없음");
-    }
-  };
+  // const handleButtonClick = (e) => {
+  //   if (e === '교환하기') {
+  //     console.log('눌리냐?');
+  //     router.push({
+  //       pathname: '/ModalPage',
+  //       query: {
+  //         type: '교환 제시',
+  //         rating: 'COMMON',
+  //         title: '스페인에서',
+  //         quantity: 4,
+  //       },
+  //     });
+  //   } else {
+  //     console.log('동작 없음');
+  //   }
+  // };
 
   return (
     <div>
@@ -159,25 +141,21 @@ export function ExchangeDetail({ onClose }) {
         className="!bg-opacity-0"
         modalbox="max-w-[1160px] w-full h-[1000px] z-10000"
         //  onClick={}
-        onClose={onClose}
+        onClose={xBtn}
       >
-        <Title
-          location="포토카드 교환하기"
-          title="How Far I’ll Go"
-          className="mb-[20px]"
-        />
-        <div className={`flex justify-between mt-[20px]`}>
-          <Ex className={`w-[440px] h-[600px] border border-white`} />
-          <div className={`max-w-[440px] w-full flex flex-col`}>
-            <h3 className="text-xl font-bold mb-[10px]">교환 제시 내용</h3>
+        <Title location="포토카드 교환하기" title={title} className="mb-[20px]" />
+        <div className={`mt-[20px] flex justify-between`}>
+          {children}
+          {/* <Ex className={`h-[600px] w-[440px] border border-white`} /> */}
+          <div className={`flex w-full max-w-[440px] flex-col`}>
+            <h3 className="mb-[10px] text-xl font-bold">교환 제시 내용</h3>
             <div>
-              <input
-                className="border border-white w-full h-[120px] px-5
-                py-5 bg-transparent text-[16px] font-light"
+              <textarea
+                className="h-[120px] w-full border border-white bg-transparent px-5 py-5 text-[16px] font-light"
                 placeholder="내용을 입력해 주세요"
               />
             </div>
-            <div className={` ${flexstanderd} justify-between mt-[60px]`}>
+            <div className={` ${flexstanderd} mt-[60px] justify-between`}>
               <SecondaryButton
                 label="취소하기"
                 width="210px"
@@ -190,7 +168,7 @@ export function ExchangeDetail({ onClose }) {
                 width="210px"
                 height="60px"
                 textSize="lg"
-                handleClick={() => handleButtonClick("교환하기")}
+                handleClick={onClick}
               />
             </div>
           </div>
