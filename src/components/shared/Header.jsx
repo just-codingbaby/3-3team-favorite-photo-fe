@@ -6,6 +6,7 @@ import axios from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import NotificationList from "../alarm/alarm";
+import ProfileDropDown from "./ProfileDropDown";
 
 const getProfile = async (email) => {
   try {
@@ -62,9 +63,7 @@ export default function Header() {
             {/* 알림 목록 */}
             {isNotificationOpen && <NotificationList userId={user.id} />}
 
-            <p className="text-gray-200 font-baskin font-normal leading-[18.43px]">
-              {profile.nickName}
-            </p>
+            <ProfileDropDown nickName={profile.nickName} points={profile.points} />
 
             <div className="text-gray-400 font-normal text-sm leading-5 gap-7 flex">
               <p>|</p>
