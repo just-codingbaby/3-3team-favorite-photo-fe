@@ -4,6 +4,7 @@ import GradeCard from "@/components/shared/GradeCard";
 import Header from "@/components/shared/Header";
 import PasswordInput from "@/components/shared/PasswordInput";
 import Primarybutton from "@/components/shared/PrimaryButton";
+import ProfileDropDown from "@/components/shared/ProfileDropDown";
 import SecondaryButton from "@/components/shared/SecondaryButton";
 import TextFieldInput from "@/components/shared/TextFieldInput";
 import SignUpModal from "@/components/signUp/SignUpModal";
@@ -138,6 +139,9 @@ export default function SharedTestPage() {
           {
             isOpen && <SignUpModal handleClick={handleOpen}>성공</SignUpModal>
           }
+        </div>
+        <div className="flex flex-col gap-5 border-dashed border-purple-400 border-[1px] px-5 py-5 w-auto">
+          <ProfileDropDown nickName="testName" points="1000" />
         </div>
       </div>
     </div>
