@@ -1,5 +1,7 @@
 'use client';
 
+import { useMemo } from 'react';
+
 import { FILTER_LIST } from '@/constants/market';
 
 import { BottomSheet } from '@/components/market/BottomSheet';
@@ -28,20 +30,24 @@ export default function PageHeader({ sortOptionKey, setSortOptionKey }) {
           <div className="grid grid-flow-col gap-1">
             <SearchInput />
             <div className="flex items-center gap-2">
-              {filterListKeys.map((key) => (
-                <Select key={key}>
-                  <SelectTrigger className="w-[120px] border-none">
-                    <SelectValue placeholder={FILTER_LIST.get(key).label} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {FILTER_LIST.get(key).options.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              ))}
+              {useMemo(
+                () =>
+                  filterListKeys.map((key) => (
+                    <Select key={key}>
+                      <SelectTrigger className="w-[120px] border-none">
+                        <SelectValue placeholder={FILTER_LIST.get(key).label} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {FILTER_LIST.get(key).options.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )),
+                [filterListKeys],
+              )}
             </div>
           </div>
           <div className="ml-auto">

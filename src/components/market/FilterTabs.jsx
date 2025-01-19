@@ -10,7 +10,7 @@ export function FilterTabs() {
 
   return (
     <Tabs className="grid" defaultValue="grade">
-      <TabsList className="grid grid-cols-3 text-gray-400">
+      <TabsList className="grid grid-cols-3 text-gray-400" aria-label="필터 옵션">
         {filterKeys.map((key) => (
           <TabsTrigger key={key} value={key}>
             {FILTER_LIST.get(key).label}
