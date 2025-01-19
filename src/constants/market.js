@@ -4,10 +4,11 @@ export const SORT_OPTS = new Map([
   ['HIGHER_PRICE', { label: '높은 가격순', value: 'sortField=price' }],
   ['LOWER_PRICE', { label: '낮은 가격순', value: 'sortField=price&sortOrder=asc' }],
 ]);
+
 export const FILTER_LIST = [
   {
     label: '등급',
-    category: 'rate',
+    category: 'grade',
     options: [
       {
         value: 'common',

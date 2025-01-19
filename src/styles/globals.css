@@ -16,7 +16,7 @@ body {
 
 @font-face {
   font-family: 'BaskinRobbins';
-  src: url('/fonts/br-font.ttf') format('truetype');
+  src: url('/public/fonts/br-font.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -34,8 +34,8 @@ body {
     --primary-foreground: 0 0% 6%;
     --secondary: 215 27.9% 16.9%;
     --secondary-foreground: 210 20% 98%;
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
+    --muted: 0 0% 11%;
+    --muted-foreground: 0 0% 35%;
     --accent: 215 27.9% 16.9%;
     --accent-foreground: 210 20% 98%;
     --destructive: 0 62.8% 30.6%;
@@ -52,6 +52,7 @@ body {
     --gray-100: 0 0% 93%;
     --gray-300: 0 0% 64%;
     --gray-400: 0 0% 35%;
+    --gray-500: 0 0% 9%;
   }
 }
 

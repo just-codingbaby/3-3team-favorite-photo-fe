@@ -32,6 +32,7 @@ export default {
           100: "hsl(var(--gray-100))",
           300: "hsl(var(--gray-300))",
           400: "hsl(var(--gray-400))",
+          500: "hsl(var(--gray-500))",
         },
         grade: {
           'common': '#EFFF04',
@@ -93,7 +94,9 @@ export default {
         md: "calc(var(--radius) / 4)",
         sm: "calc(var(--radius) / 8)",
       },
-      space: {
+      spacing: {
+        13: "3.25rem",
+        18: "4.5rem",
         55: "13.75rem",
       },
     },
