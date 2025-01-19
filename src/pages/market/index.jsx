@@ -1,13 +1,16 @@
+import { Fragment, useState } from "react";
+
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
   useInfiniteQuery,
 } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
+
 import PageHeader from "@/components/market/PageHeader";
 import { ProductCard } from "@/components/market/ProductCard";
-import Link from "next/link";
-import { Fragment, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 const PAGE_LIMIT = 6;
@@ -30,7 +33,6 @@ async function fetchCards(pageParam) {
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
-
   await queryClient.prefetchInfiniteQuery({
     queryKey: ["cards"],
     queryFn: ({ pageParam = 1 }) => fetchCards(pageParam),
@@ -47,8 +49,6 @@ export default function MarketPage({ dehydratedState }) {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
   const [sortOptionKey, setSortOptionKey] = useState("LATEST");
-
-  const observerTarget = useRef(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useInfiniteQuery({
@@ -67,14 +67,11 @@ export default function MarketPage({ dehydratedState }) {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <article className="tb:container mx-auto px-[15px] tb:px-5 pb-20">
+      <article className="mx-auto px-[15px] pb-20 tb:container tb:px-5">
         <PageHeader {...{ sortOptionKey, setSortOptionKey }} />
         <section>
           {
-            <div
-              ref={observerTarget}
-              className="grid grid-cols-2 gap-[5px] tb:gap-5 lt:grid-cols-3 lt:gap-20"
-            >
+            <div className="grid grid-cols-2 gap-[5px] tb:gap-5 lt:grid-cols-3 lt:gap-20">
               {data.pages.map((page, i) => (
                 <Fragment key={i}>
                   {page.map((card) => (
@@ -96,11 +93,16 @@ export default function MarketPage({ dehydratedState }) {
                 aria-busy={isFetchingNextPage}
                 disabled={!hasNextPage || isFetchingNextPage}
               >
-                {isFetchingNextPage
-                  ? "Loading more..."
-                  : hasNextPage
-                  ? "Load More"
-                  : "Nothing more to load"}
+                {isFetchingNextPage ? (
+                  <>
+                    <Loader2 className="animate-spin" />
+                    <p>Loading more...</p>
+                  </>
+                ) : hasNextPage ? (
+                  <p>Load More</p>
+                ) : (
+                  <p>Nothing more to load</p>
+                )}
               </Button>
             </div>
           }
