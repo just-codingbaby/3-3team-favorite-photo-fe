@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
-import axios from "@/lib/axios";
 import Image from "next/image";
+import axios from "@/lib/axios";
 import EmailInput from "@/components/shared/EmailInput";
 import NickNameInput from "@/components/signUp/NickNameInput";
 import PasswordInput from "@/components/shared/PasswordInput";
@@ -16,10 +16,9 @@ export default function Signup() {
     nickName: "",
     confirmPassword: "",
   });
+  const [result, setResult] = useState("");
 
-  const handleOpen = () => {
-    setIsOpen((prev) => !prev);
-  }
+  const handleOpen = () => setIsOpen((prev) => !prev);
 
   const handleFormData = (e) => {
     const { name, value } = e.target;
@@ -29,23 +28,22 @@ export default function Signup() {
     }));
   };
 
-  const [result, setResult] = useState("");
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const { email, nickName, password } = formData;
+
     try {
       const res = await axios.post("/api/v1/auth/signup", {
         email,
         nickName,
         password,
       });
-      setResult("회원가입이 완료되었습니다");
+      setResult("회원가입이 완료되었습니다.");
     } catch (error) {
-      setResult(error.response.data.message);
-    }
-    finally {
+      const errorMessage =
+        error.response?.data?.message || "회원가입 중 오류가 발생했습니다.";
+      setResult(errorMessage);
+    } finally {
       handleOpen();
     }
   };
@@ -82,7 +80,7 @@ export default function Signup() {
         className="mb-12"
       />
 
-      <form className="flex flex-col w-auto gap-[10px]">
+      <form className="flex flex-col w-auto gap-[10px]" onSubmit={handleSubmit}>
         {/* 이메일 입력 */}
         <EmailInput
           size="L"
@@ -91,7 +89,7 @@ export default function Signup() {
           isError={isEmailError}
         />
         {isEmailError && (
-          <p className={errorFontClass}>이메일 형식이 아닙니다.</p>
+          <p className={errorFontClass}>이메일 형식이 올바르지 않습니다.</p>
         )}
 
         {/* 닉네임 입력 */}
@@ -102,27 +100,23 @@ export default function Signup() {
         />
 
         {/* 비밀번호 입력 */}
-        <div>
-          <PasswordInput
-            size="L"
-            value={formData.password}
-            handleChange={handleFormData}
-            isError={isPasswordError}
-            errorMessage="8자 이상 입력해 주세요"
-          />
-        </div>
+        <PasswordInput
+          size="L"
+          value={formData.password}
+          handleChange={handleFormData}
+          isError={isPasswordError}
+          errorMessage="비밀번호는 8자 이상이어야 합니다."
+        />
 
         {/* 비밀번호 확인 */}
-        <div>
-          <PasswordInput
-            label="비밀번호 확인"
-            size="L"
-            value={formData.confirmPassword}
-            handleChange={handleFormData}
-            isError={isConfirmPasswordError}
-            errorMessage="비밀번호가 일치하지 않습니다"
-          />
-        </div>
+        <PasswordInput
+          label="비밀번호 확인"
+          size="L"
+          value={formData.confirmPassword}
+          handleChange={handleFormData}
+          isError={isConfirmPasswordError}
+          errorMessage="비밀번호가 일치하지 않습니다."
+        />
 
         {/* 가입하기 버튼 */}
         <PrimaryButton
@@ -131,14 +125,13 @@ export default function Signup() {
           textSize="lg"
           width="520px"
           height="60px"
-          handleClick={handleSubmit}
           disabled={disabled}
         />
       </form>
 
       {/* 로그인 안내문 */}
-      <p className="mt-6 text-center text-white font-noraml text-base">
-        이미 최애의 포토 회원이신가요?{" "}
+      <p className="mt-6 text-center text-white font-normal text-base">
+        이미 최애의포토 회원이신가요?{" "}
         <Link
           href="/login"
           className="text-customMain underline hover:no-underline"
@@ -147,6 +140,7 @@ export default function Signup() {
         </Link>
       </p>
 
+      {/* 모달 */}
       {isOpen && <SignUpModal handleClick={handleOpen}>{result}</SignUpModal>}
     </div>
   );
