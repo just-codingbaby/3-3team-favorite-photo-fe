@@ -1,7 +1,8 @@
 'use client';
 
-import { SlidersHorizontal } from 'lucide-react';
+import { RefreshCw, SlidersHorizontal } from 'lucide-react';
 
+import { FilterTabs } from '@/components/market/FilterTabs';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -13,7 +14,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export function BottomSheet() {
   return (
@@ -24,31 +24,21 @@ export function BottomSheet() {
             <SlidersHorizontal />
           </Button>
         </SheetTrigger>
-        <SheetContent side="bottom" className="rounded-t-[20px] border-none bg-[#1B1B1B]">
+        <SheetContent side="bottom" className="min-w-[375px] rounded-t-[20px] border-none px-0">
           <SheetHeader>
             <SheetTitle className="text-center">필터</SheetTitle>
-            <SheetDescription>
-              <Tabs defaultValue="account" className="grid">
-                <TabsList className="grid grid-cols-3">
-                  <TabsTrigger value="grade">등급</TabsTrigger>
-                  <TabsTrigger value="genre">장르</TabsTrigger>
-                  <TabsTrigger value="status">매진여부</TabsTrigger>
-                </TabsList>
-                <TabsContent value="grade">Make changes to your account here.</TabsContent>
-                <TabsContent value="genre">Change your password here.</TabsContent>
-                <TabsContent value="status">Chaasdff.</TabsContent>
-              </Tabs>
-            </SheetDescription>
+            <SheetDescription aria-describedby={undefined}></SheetDescription>
+            <FilterTabs />
           </SheetHeader>
-          <SheetFooter className="place-items-center gap-3">
-            <div className="flex-[0.3]">
-              <Button variant="ghost" className="h-[55px] w-full">
-                dfa
+          <SheetFooter className="place-items-center gap-3 px-4">
+            <div className="h-[55px] w-[55px] place-content-center text-center">
+              <Button variant="ghost" className="h-full w-full">
+                <RefreshCw style={{ width: '1.5rem', height: '1.5rem' }} />
               </Button>
             </div>
-            <SheetClose className="flex-[0.7]" asChild>
-              <Button className="h-[55px]" type="submit">
-                Save changes
+            <SheetClose className="flex-1" asChild>
+              <Button className="h-[55px] text-base font-bold" type="submit">
+                개 포토보기
               </Button>
             </SheetClose>
           </SheetFooter>
