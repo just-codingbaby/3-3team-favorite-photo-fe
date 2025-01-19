@@ -23,17 +23,17 @@ const genreOptions = [
   { value: "OBJECT", label: "사물" },
 ];
 
-// 3. 판매방법: 판매 중, 교환 제시 대기 중
+// 판매방법: 판매 중, 교환 제시 대기 중
 const saleMethodOptions = [
   { value: "AVAILABLE", label: "판매 중" }, 
   { value: "IN_TRADE", label: "교환 제시 대기 중" }];
 
 // 4. 매진여부: 판매 중, 판매 완료
 const selloutOptions = [
-  { value: false, label: "판매 중" }, 
-  { value: true, label: "판매 완료" }];
+  { value: false, label: "매진 아님" }, 
+  { value: true, label: "매진됨" }];
 
-// 5. 정렬 옵션: 최신 순, 오래된 순, 높은 가격순, 낮은 가격순, default - 최신 순
+// 정렬 옵션: 최신 순, 오래된 순, 높은 가격순, 낮은 가격순, default - 최신 순
 const sortOptions = [
   { value: "recent", label: "최신 순" },
   { value: "old", label: "오래된 순" },
@@ -63,7 +63,7 @@ export default function MySalesCard() {
   });
 
   useEffect(() => {
-    if (user) {
+    if (user?.id) {
       setParams((prev) => ({ ...prev, ownerId: user.id }));
       if (process.env.NODE_ENV === "development") {
         console.log("현재 params:", params);
@@ -71,7 +71,7 @@ export default function MySalesCard() {
     }
   }, [user]);
   
-  const [cards, setCards] = useState("");
+    const [cards, setCards] = useState([]); // 카드 데이터를 저장
   const [hasNextPage, setHasNextPage] = useState(false); // 다음 페이지 존재 여부
   const observerTarget = useRef(null); // 무한 스크롤 관찰 대상
 
@@ -80,12 +80,12 @@ export default function MySalesCard() {
   });
 
   useEffect(() => {
-    if (data?.data?.shops) {
-      setCards(data.data.shops);
-      setHasNextPage(data.data.shops.length >= params.pageSize);
+    if (user && data?.data?.cards) {
+      setCards(data.data.cards);
+      setHasNextPage(data.data.cards.length >= params.pageSize);
 
       if (process.env.NODE_ENV === "development") {
-        console.log(data.data.shops); 
+        console.log(data.data.cards); 
       }      
     }
   }, [data]);
@@ -118,8 +118,8 @@ export default function MySalesCard() {
     if (e.key === "Enter") {
       setParams((prev) => ({
         ...prev,
-        keyword: inputValue, // 입력된 검색어로 params.keyword 업데이트
-        pageNum: 1, // 페이지를 초기화
+        keyword: inputValue,
+        pageNum: 1,
       }));
     }
   };
@@ -127,8 +127,8 @@ export default function MySalesCard() {
   const handleClick = () => {
     setParams((prev) => ({
       ...prev,
-      keyword: inputValue, // 입력된 검색어로 params.keyword 업데이트
-      pageNum: 1, // 페이지를 초기화
+      keyword: inputValue,
+      pageNum: 1,
     }));
   };
 

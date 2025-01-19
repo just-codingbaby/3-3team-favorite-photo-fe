@@ -90,12 +90,10 @@ export default function MakePhotoCard() {
       label: "장르를 선택해 주세요",
       category: "genre",
       options: [
+        { value: "TRAVEL", label: "여행" },
         { value: "LANDSCAPE", label: "풍경" },
-        { value: "PORTRAIT", label: "인물" },
-        { value: "ANIMAL", label: "동물" },
-        { value: "STILL_LIFE", label: "정물" },
-        { value: "ABSTRACT", label: "추상" },
-      ],
+        { value: "PORTRAIT", label: "인물" },  
+        { value: "OBJECT", label: "사물" },      ],
     },
   ];
 

@@ -11,6 +11,12 @@ const nextConfig = {
       },
       {
         protocol: 'http',
+        hostname: 'localhost',
+        port: '9000',
+        pathname: '/uploads/**',
+      },
+      {
+        protocol: 'http',
         hostname: 'three-3team-favorite-photo-be.onrender.com',
         port: '',
         pathname: '/uploads/**',
