@@ -98,11 +98,11 @@ function CardSeller({cardDetailData, cardExchangeDataList}) {
       </div>
       <div>
         {cardExchangeDataList.length > 0 ? cardExchangeDataList?.map((row) => (
-          <ProductCard cardProps={row}/>
+          <ProductCard key={row.id} cardProps={row}/>
         )) : <></>}
       </div>
     </div>
   );
-};
+}
 
 export default CardSeller;

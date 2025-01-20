@@ -1,41 +1,40 @@
 import { Fragment, useEffect, useState } from 'react';
 
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-  useInfiniteQuery,
-} from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
-import Link from "next/link";
+import { dehydrate, HydrationBoundary, QueryClient, useInfiniteQuery } from '@tanstack/react-query';
+import { Loader2 } from 'lucide-react';
+import Link from 'next/link';
 
-import PageHeader from "@/components/market/PageHeader";
-import { ProductCard } from "@/components/market/ProductCard";
-import { Button } from "@/components/ui/button";
+import { SORT_OPTS } from '@/constants/market';
+
+import PageHeader from '@/components/market/PageHeader';
+import { ProductCard } from '@/components/market/ProductCard';
+import { Button } from '@/components/ui/button';
 
 const PAGE_LIMIT = 6;
 
 async function fetchCards(pageParam, sortOptionKey = 'LATEST') {
-  const query = new URLSearchParams({ page: pageParam, limit: PAGE_LIMIT});
+  const query = new URLSearchParams({ page: pageParam, limit: PAGE_LIMIT });
   const sortQuery = SORT_OPTS.get(sortOptionKey).value;
   try {
     const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/api/v1/shop/cards?" + query.toString()
+      process.env.NEXT_PUBLIC_API_URL + '/api/v1/shop/cards?' + query.toString(),
     );
     if (!response.ok) {
-      throw new Error(response.statusText);
+      console.error(response.status)
     }
     return response.json();
   } catch (e) {
-    console.error(e);
-    return [];
+    if (e instanceof TypeError) {
+      console.error('네트워크 오류 발생:', e);
+      throw new Error('네트워크 오류가 발생했습니다. 인터넷 연결을 확인하세요.');
+    }
   }
 }
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ["cards"],
+    queryKey: ['cards'],
     queryFn: ({ pageParam = 1 }) => fetchCards(pageParam),
     initialPageParam: 1,
   });
@@ -47,9 +46,9 @@ export async function getStaticProps() {
 }
 
 export default function MarketPage({ dehydratedState }) {
-  const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("");
-  const [sortOptionKey, setSortOptionKey] = useState("LATEST");
+  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState('');
+  const [sortOptionKey, setSortOptionKey] = useState('LATEST');
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery({
     queryKey: ['cards', sortOptionKey],
@@ -62,8 +61,8 @@ export default function MarketPage({ dehydratedState }) {
   });
 
   useEffect(() => {
-    console.log(sortOptionKey)
-  }, [sortOptionKey])
+    console.log(sortOptionKey);
+  }, [sortOptionKey]);
 
   if (status === 'pending') {
     return (
@@ -76,7 +75,7 @@ export default function MarketPage({ dehydratedState }) {
     );
   }
 
-  if (status === "error") return <div>Error fetching posts</div>;
+  if (status === 'error') return <div>Error fetching posts</div>;
 
   return (
     <HydrationBoundary state={dehydratedState}>
