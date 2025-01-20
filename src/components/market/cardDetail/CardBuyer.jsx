@@ -9,7 +9,8 @@ import DetailGradeTitle from '@/components/market/cardDetail/DetailGradeTitle';
 import DetailPrice from '@/components/market/cardDetail/DetailPrice';
 import DetailQuantityBtn from '@/components/market/cardDetail/DetailQunatityBtn';
 import DetailRemaining from '@/components/market/cardDetail/DetailRemaining';
-import * as DetailPheader from '@/components/market/PageHeader';
+import DetailPheader from '@/components/market/PageHeader';
+
 import { Title } from '@/components/shared/Title';
 
 import ModalStandard, { Ex, ExchangeDetail, ExchangeList, ModalExchange } from '../../modal';
