@@ -91,7 +91,7 @@ const closeSellModal = () => {
               {cardData?.genre || "장르 없음"}
             </span>
               <span className="text-xl font-semibold">
-                {user?.nickName}
+                {cardData.creator.nickName}
               </span>
             </div>
 

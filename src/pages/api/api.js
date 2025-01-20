@@ -1,10 +1,10 @@
 import axios from "@/lib/axios";
 
 // 보유한 카드목록 불러오기  
-  export async function getUsersMyCardList({sort, genre, sellout, grade, ownerId, pageNum, pageSize, keyword,}) {
+  export async function getUsersMyCardList({sort, genre, grade, ownerId, pageNum, pageSize, keyword,}) {
     try {      
       const response = await axios.get("/api/v1/users/my-cards", {
-        params: { sort, genre, sellout, grade, ownerId, pageNum, pageSize, keyword},
+        params: { sort, genre, grade, ownerId, pageNum, pageSize, keyword},
       });
       return response.data;
     } catch (error) {

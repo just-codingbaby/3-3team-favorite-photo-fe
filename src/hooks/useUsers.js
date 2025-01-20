@@ -3,13 +3,12 @@ import {getUsersMyCardList, getUsersMyCards, getUsersSalesCards} from "@/pages/a
 import { QUERY_KEYS } from "@/lib/queryKeys";
 
 // 보유한 카드목록
-  export function useUsersMyCardListQuery({sort, genre, sellout, grade, ownerId, pageNum, pageSize, keyword,  user, }) {
+  export function useUsersMyCardListQuery({sort, genre, grade, ownerId, pageNum, pageSize, keyword,  user, }) {
     return useQuery({
       queryKey: [
         QUERY_KEYS.USERS_MY_CARD_LIST,
         sort,
-        genre,
-        sellout,
+        genre,        
         grade,        
         ownerId,
         pageNum,
@@ -17,8 +16,8 @@ import { QUERY_KEYS } from "@/lib/queryKeys";
         keyword || "",
       ],
       queryFn: () =>
-        getUsersMyCardList({ sort, genre, sellout, grade,ownerId, pageNum, pageSize, keyword, }),
-      enabled: !!user, // user가 존재할 때만 쿼리 실행
+        getUsersMyCardList({ sort, genre, grade,ownerId, pageNum, pageSize, keyword, }),
+      enabled: Boolean(user && ownerId), // 조건이 충족될 때만 실행
       keepPreviousData: true,
     });
   }
@@ -55,7 +54,7 @@ export function useUsersSalesCardsQuery({ sort, genre, sellout, grade, ownerId, 
     queryFn: () =>
       getUsersSalesCards({ sort, genre, sellout, grade,ownerId, pageNum, pageSize, keyword, cardStatus, }),
     keepPreviousData: true,
-    // enabled: !!params.ownerId, // ownerId가 있을 때만 실행
+    enabled: !!ownerId, // ownerId가 있을 때만 실행
     retry: 1,
     onError: (error) => {
       console.error("상점에 등록한 나의 카드 목록 조회 실패:", error.message);
