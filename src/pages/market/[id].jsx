@@ -1,74 +1,67 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { useAuth } from '@/contexts/AuthProvider';
-import instance from '@/lib/axios';
-import { useQuery } from '@tanstack/react-query';
-// import axios from 'axios';
-import { useRouter } from 'next/router';
+import { useAuth } from "@/contexts/AuthProvider";
+import instance from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 
-import CardBuyer from '@/components/market/cardDetail/CardBuyer';
-import CardSeller from '@/components/market/cardDetail/CardSeller';
-
-const initModal = {
-  standard: false,
-  exchange: false,
-  cancel: false,
-};
-
-async function detailApi(id) {
-  if (!id) return;
-  try {
-    const response = await instance.get(`/api/v1/cards/detail/${id}`);
-    return await response.data;
-  } catch (e) {
-    console.error('error', e);
-  }
-}
-
-async function myCardApi(userId) {
-  if (!userId) return;
-
-  try {
-    const response = await instance.get(`/api/v1/cards/detail/mycard/${userId}`);
-    return await response.data;
-  } catch (e) {
-    console.error('error', e);
-  }
-}
+import CardBuyer from "@/components/market/cardDetail/CardBuyer";
+import CardSeller from "@/components/market/cardDetail/CardSeller";
 
 export default function Page({}) {
   const router = useRouter();
   const { user } = useAuth();
   const { id } = router.query;
 
-  const [myCard, setMc] = useState([]);
+  const [myCardList, setMyCardList] = useState([]);
   const { data: card, isLoading } = useQuery({
-    queryKey: ['card', id],
-    queryFn: () => detailApi(id),
+    queryKey: ["card", id],
+    queryFn: () => getCardDetail(id),
   });
+
+  const getCardDetail = async (id) => {
+    if (!id) return;
+    try {
+      const response = await instance.get(`/api/v1/cards/detail/${id}`);
+      return await response.data;
+    } catch (e) {
+      console.error("error", e);
+    }
+  };
+
+  const getMyCardList = async (userId) => {
+    if (!userId) return;
+
+    try {
+      const response = await instance
+        .get(`/api/v1/cards/detail/mycard/${userId}`)
+        .then((res) => {
+          console.log(res);
+          setMyCardList(res.data);
+        });
+    } catch (e) {
+      console.error("error", e);
+    }
+  };
 
   useEffect(() => {
-    myCardApi(user?.id).then((res) => {
-      setMc(res);
-    });
+    getMyCardList(user?.id);
   }, [user]);
 
-  const cardExchangeDataList = [];
   if (!user) return null;
 
-  card?.exchangesTarget.map((v, i) => {
-    cardExchangeDataList.push({ ...v.offeredCard, owner: card.exchangerNickName[i] });
-  });
   if (isLoading) {
     return <div>로딩중...</div>;
   }
 
+  console.log(card);
+
   return (
     <>
       {user?.id === card.ownerId ? (
-        <CardSeller cardDetailData={card} cardExchangeDataList={cardExchangeDataList} />
+        <CardSeller cardDetail={card} />
       ) : (
-        <CardBuyer cardDetailData={card} myCardList={myCard} owner={user} />
+        <CardBuyer cardDetail={card} myCardList={myCardList} />
       )}
     </>
   );

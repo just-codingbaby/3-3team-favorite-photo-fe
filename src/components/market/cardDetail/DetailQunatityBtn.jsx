@@ -1,9 +1,13 @@
 // 구매수량 부분
-import tail from '@/styles/tailwindcss';
+import tail from "@/styles/tailwindcss";
 
-export default function DetailQuantityBtn({ buyphoto, ClickBuyphoto, totalQuantity }) {
+export default function DetailQunatityBtn({
+  buyphoto,
+  clickBuyPhoto,
+  totalQuantity,
+}) {
   const { flexstanderd, flexcenter } = tail;
-  const plusicon = 'absolute inset-0 bg-black m-auto bg-white';
+  const plusicon = "absolute inset-0 bg-black m-auto bg-white";
   console.log(buyphoto);
 
   return (
@@ -13,17 +17,15 @@ export default function DetailQuantityBtn({ buyphoto, ClickBuyphoto, totalQuanti
         <div className={` ${flexstanderd} mx-[12px] gap-[46px]`}>
           <button
             className={`h-[1px] w-[12px] bg-white`}
-            // onClick={() => setNum((prev) => Math.max(0, prev - 1))}
-            onClick={() => ClickBuyphoto((prev) => Math.max(0, prev - 1))}
+            onClick={() => clickBuyPhoto((prev) => Math.max(0, prev - 1))}
           ></button>
           <span className={`text-xl font-normal text-white`}>{buyphoto}</span>
           <button
             className={`relative h-[12px] w-[12px]`}
-            // onClick={() => setNum((prev) => prev + 1)}
             onClick={() => {
-              ClickBuyphoto((prev) => {
+              clickBuyPhoto((prev) => {
                 if (totalQuantity === prev) {
-                  alert('최대치입니다.');
+                  alert("최대치입니다.");
                   return prev;
                 }
                 return prev + 1;
