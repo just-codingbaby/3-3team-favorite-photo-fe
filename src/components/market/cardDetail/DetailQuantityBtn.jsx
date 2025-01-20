@@ -1,7 +1,7 @@
 // 구매수량 부분
 import tail from '@/styles/tailwindcss';
 
-export default function DetailQunatityBtn({ buyphoto, ClickBuyphoto, totalQuantity }) {
+export default function DetailQuantityBtn({ buyphoto, ClickBuyphoto, totalQuantity }) {
   const { flexstanderd, flexcenter } = tail;
   const plusicon = 'absolute inset-0 bg-black m-auto bg-white';
   console.log(buyphoto);
