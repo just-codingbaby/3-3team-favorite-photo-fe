@@ -1,22 +1,23 @@
 import React, { useState } from 'react';
+
+import { useAuth } from '@/contexts/AuthProvider'; // AuthProvider에서 context 가져오기
 import Image from 'next/image';
 import Link from 'next/link';
-import axios from "@/lib/axios"; // axios 가져오기
-import { useRouter } from "next/router";
-import EmailInput from "@/components/shared/EmailInput";
-import PasswordInput from "@/components/shared/PasswordInput";
-import PrimaryButton from "@/components/shared/PrimaryButton";
-import { useAuth } from "@/contexts/AuthProvider"; // AuthProvider에서 context 가져오기
+import { useRouter } from 'next/router';
+
+import EmailInput from '@/components/shared/EmailInput';
+import PasswordInput from '@/components/shared/PasswordInput';
+import PrimaryButton from '@/components/shared/PrimaryButton';
 
 export default function Login() {
   const router = useRouter();
   const { login } = useAuth(); // login 함수 가져오기
 
-  const [email, setEmail] = useState(""); // 이메일 상태
-  const [password, setPassword] = useState(""); // 비밀번호 상태
+  const [email, setEmail] = useState(''); // 이메일 상태
+  const [password, setPassword] = useState(''); // 비밀번호 상태
   const [emailError, setEmailError] = useState(false); // 이메일 유효성 에러 상태
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState(""); // 메시지 상태
+  const [message, setMessage] = useState(''); // 메시지 상태
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // 이메일 유효성 검사 정규식
@@ -29,7 +30,7 @@ export default function Login() {
     // 이메일 유효성 검사
     if (!validateEmail(email)) {
       setEmailError(true);
-      setMessage("올바른 이메일을 입력해 주세요.");
+      setMessage('올바른 이메일을 입력해 주세요.');
       return;
     }
 
@@ -39,12 +40,12 @@ export default function Login() {
     try {
       // login 함수 호출
       await login({ email, password }); // AuthProvider에서 제공한 로그인 함수 사용
-      setMessage("로그인 성공! 환영합니다.");
+      setMessage('로그인 성공! 환영합니다.');
 
       // 로그인 상태가 업데이트된 뒤 페이지 이동
       router.push('/market');
     } catch (error) {
-      const errorMessage = error.message || "로그인 실패";
+      const errorMessage = error.message || '로그인 실패';
       setMessage(errorMessage); // 실패 메시지 설정
     } finally {
       setLoading(false);
@@ -52,7 +53,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center mt-4">
+    <div className="mt-4 flex min-h-screen flex-col items-center justify-center bg-black">
       {/* 로고 */}
       <Image
         src="/images/main_logo.png"
@@ -62,7 +63,7 @@ export default function Login() {
         className="mb-12"
       />
 
-      <form className="flex flex-col w-auto gap-[10px]" onSubmit={handleLogin}>
+      <form className="flex w-auto flex-col gap-[10px]" onSubmit={handleLogin}>
         {/* 이메일 입력 */}
         <EmailInput
           size="L"
@@ -72,7 +73,7 @@ export default function Login() {
         />
         {/* 이메일 에러 메시지 */}
         {emailError && (
-          <p className="text-customRed text-sm leading-6 font-light mt-1">
+          <p className="mt-1 text-sm font-light leading-6 text-customRed">
             올바른 이메일을 입력해 주세요.
           </p>
         )}
@@ -87,7 +88,7 @@ export default function Login() {
 
         {/* 로그인 버튼 */}
         <PrimaryButton
-          label={loading ? "로그인 중..." : "로그인"}
+          label={loading ? '로그인 중...' : '로그인'}
           type="submit"
           textSize="lg"
           width="520px"
@@ -96,13 +97,11 @@ export default function Login() {
       </form>
 
       {/* 메시지 출력 */}
-      {message && (
-        <p className="mt-4 text-yellow-400 text-sm text-center">{message}</p>
-      )}
+      {message && <p className="mt-4 text-center text-sm text-yellow-400">{message}</p>}
 
       {/* 회원가입 링크 */}
-      <p className="mt-6 text-center text-white font-normal text-base">
-        최애의 포토가 처음이신가요?{" "}
+      <p className="mt-6 text-center text-base font-normal text-white">
+        최애의 포토가 처음이신가요?{' '}
         <Link href="/signup" className="text-customMain underline hover:no-underline">
           회원가입하기
         </Link>

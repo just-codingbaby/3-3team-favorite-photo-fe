@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 export default function PrimaryButton({
   label,
@@ -6,27 +6,27 @@ export default function PrimaryButton({
   height,
   handleClick,
   textSize,
-  type = "button",
+  type = 'button',
   className,
   ...props
 }) {
   const textSizeClass =
-    textSize === "xs"
-      ? "text-xs"
-      : textSize === "sm"
-      ? "text-sm"
-      : textSize === "base"
-      ? "text-base"
-      : textSize === "lg"
-      ? "text-lg"
-      : "text-xl";
+    textSize === 'xs'
+      ? 'text-xs'
+      : textSize === 'sm'
+        ? 'text-sm'
+        : textSize === 'base'
+          ? 'text-base'
+          : textSize === 'lg'
+            ? 'text-lg'
+            : 'text-xl';
 
   return (
     <button
       style={{ width, height }}
       className={cn(
-        `disabled:bg-black disabled:text-white disabled:border disabled:border-white text-black bg-customMain rounded-sm font-bold leading-7 flex justify-center items-center ${textSizeClass} hover:bg-customMain/80 transition`,
-        className
+        `flex items-center justify-center rounded-sm bg-customMain font-bold leading-7 text-black disabled:border disabled:border-white disabled:bg-black disabled:text-white ${textSizeClass} transition hover:bg-customMain/80`,
+        className,
       )}
       onClick={handleClick}
       type={type}

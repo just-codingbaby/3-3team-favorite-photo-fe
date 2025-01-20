@@ -1,10 +1,10 @@
-import { useAuth } from "@/contexts/AuthProvider"
+import { useAuth } from '@/contexts/AuthProvider';
 
 export default function Me() {
   const { user, isLoading } = useAuth();
 
-  if(isLoading) {
-    return <p>로딩 중입니다</p>
+  if (isLoading) {
+    return <p>로딩 중입니다</p>;
   }
 
   if (!user) {
@@ -16,5 +16,5 @@ export default function Me() {
       <h1>환영합니다, {user.nickName}님!</h1>
       <p>이메일: {user.email}</p>
     </div>
-  );  
+  );
 }
