@@ -19,20 +19,20 @@ export function FilterTabs() {
       </TabsList>
       {filterKeys.map((key) => (
         <TabsContent key={key} value={key} className="pb-18">
-          <TabContentTable tab={key} options={FILTER_LIST.get(key).options} />
+          <TabContentTable options={FILTER_LIST.get(key).options} />
         </TabsContent>
       ))}
     </Tabs>
   );
 }
 
-function TabContentTable({ options, tab }) {
+function TabContentTable({ options }) {
   return (
     <Table>
       <TableBody>
         {options.map(({ value, label }) => (
           <TableRow key={value}>
-            <TableCell className={cn('flex-1 pl-8 text-left', GRADE_STYLES[label])}>
+            <TableCell className={cn('flex-1 pl-8 text-left', GRADE_STYLES[label] || null)}>
               {label.replace('_', ' ')}
             </TableCell>
             <TableCell className="flex-none pr-8 text-right tabular-nums">- 개</TableCell>
