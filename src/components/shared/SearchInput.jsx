@@ -9,7 +9,6 @@ export default function SearchInput({
   onChange = () => {}, // 기본 입력값 변경 핸들러 (빈 함수)
   onClick = () => {}, // 기본 클릭 핸들러 (빈 함수),
   value,
-  setValue,
 }) {
   return (
     <div className="flex w-full gap-1 border">
@@ -29,7 +28,6 @@ export default function SearchInput({
         variant="ghost"
         size="icon"
         onClick={onClick}
-        onSubmit={setValue}
       >
         <Search size="24" />
       </Button>
