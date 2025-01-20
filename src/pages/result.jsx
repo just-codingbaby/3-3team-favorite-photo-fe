@@ -6,11 +6,16 @@ import { useRouter } from 'next/router';
 import { BorderBtn, CloseBtn, ExchangeDetail } from '@/components/modal';
 import SecondaryButton from '@/components/shared/SecondaryButton';
 
+const typeObj = {
+  purchase: '구매',
+  exchange: '교환 제시',
+};
+
 // 구매/교환제시 성공,실패
-export default function ModalPage({ onClose, text, state, children }) {
+export default function Result({ onClose, text, state, children }) {
   //실험
   const router = useRouter();
-  const { type, rating, title, quantity, id } = router.query; // 쿼리에서 데이터 가져오기
+  const { type, rating, title, quantity } = router.query; // 쿼리에서 데이터 가져오기
   const { dimbg, flexcenter } = tail;
 
   // 단일 상태로 성공/실패 및 타입 관리
@@ -21,11 +26,11 @@ export default function ModalPage({ onClose, text, state, children }) {
 
   // 메시지 생성 함수
   const getMessage = () => {
-    if (modalState.type === '구매') {
+    if (modalState.type === 'purchase') {
       return modalState.success
         ? `[ ${rating} | ${title} ] ${quantity}장 구매에 성공했습니다!`
         : `[ ${rating} | ${title} ] ${quantity}장 구매에 실패했습니다!`;
-    } else if (modalState.type === '교환 제시') {
+    } else if (modalState.type === 'exchange') {
       return modalState.success
         ? `포토카드 교환 제시에 성공했습니다!`
         : `포토카드 교환 제시에 실패했습니다!`;
@@ -35,24 +40,34 @@ export default function ModalPage({ onClose, text, state, children }) {
 
   // 버튼 텍스트 생성 함수
   const getButtonText = () => {
-    if (modalState.type === '구매' && modalState.success) {
-      return '마이갤러리에서 확인하기';
-    } else if (modalState.type === '구매' || modalState.success) {
-      return '마켓플레이스로 돌아가기';
-    } else if (modalState.type === '교환 제시' && modalState.success) {
-      return '나의 판매 포토카드에서 확인하기';
-    } else if (modalState.type === '교환 제시' && modalState.success) {
-      return '마켓플레이스로 돌아가기';
+    switch (modalState.type) {
+      case 'purchase':
+        return modalState.success ? '마이갤러리에서 확인하기' : '마켓플레이스로 돌아가기';
+      case 'exchange':
+        return modalState.success ? '나의 판매 포토카드에서 확인하기' : '마켓플레이스로 돌아가기';
+      default:
+        return '';
     }
   };
 
   // 닫기 버튼 핸들러
   const handleClose = () => {
-    if (modalState.success) {
-      router.push(`/market/${id}`); // 성공 시 마이갤러리로 이동
-      // router.back();
-    } else {
-      router.push(modalState.type === '구매' ? '/buyphoto' : '/buyphoto'); // 실패 시 마켓플레이스 또는 교환 페이지로 이동
+    switch (modalState.type) {
+      case 'purchase':
+        if (modalState.success) {
+          router.push(`/mygallery`); // 성공 시 마이갤러리로 이동
+        } else {
+          router.push('/market'); // 실패 시 마켓플레이스로 이동
+        }
+        break;
+      case 'exchange':
+        if (modalState.success) {
+          router.push(`/mysalescard`); // 성공 시 마이갤러리로 이동
+        } else {
+          router.push('/market'); // 실패 시 마켓플레이스로 이동
+        }
+        break;
+      default:
     }
   };
 
@@ -64,7 +79,9 @@ export default function ModalPage({ onClose, text, state, children }) {
 
         {/* 성공/실패 제목 */}
         <h3 className={`mt-[80px] font-baskin text-xl font-bold text-white`}>
-          <span className="mr-[10px] text-[46px] font-bold text-white">{modalState.type}</span>
+          <span className="mr-[10px] text-[46px] font-bold text-white">
+            {typeObj[modalState.type]}
+          </span>
           <span
             className={`${
               modalState.success ? 'text-customMain' : 'text-customGrey01'
@@ -84,6 +101,7 @@ export default function ModalPage({ onClose, text, state, children }) {
           height="60px"
           textSize="lg"
           className="mt-[60px]"
+          handleClick={handleClose}
         />
       </div>
     </div>

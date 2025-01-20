@@ -1,24 +1,23 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import instance from "@/lib/axios";
-import tail from "@/styles/tailwindcss";
-import { useRouter } from "next/router";
+import { useAuth } from '@/contexts/AuthProvider';
+import instance from '@/lib/axios';
+import fallbackImg from '@/public/images/card/img_default-temp.webp';
+import soldOutImg from '@/public/images/type=soldout.png';
+import tail from '@/styles/tailwindcss';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
-import fallbackImg from "@/public/images/card/img_default-temp.webp";
-import soldOutImg from "@/public/images/type=soldout.png";
+import DetailGradeTitle from '@/components/market/cardDetail/DetailGradeTitle';
+import DetailPrice from '@/components/market/cardDetail/DetailPrice';
+import DetailQunatityBtn from '@/components/market/cardDetail/DetailQunatityBtn';
+import DetailRemaining from '@/components/market/cardDetail/DetailRemaining';
+import ModalExchange from '@/components/market/cardDetail/ModalExchange';
+import { Title } from '@/components/shared/Title';
 
-import DetailGradeTitle from "@/components/market/cardDetail/DetailGradeTitle";
-import DetailPrice from "@/components/market/cardDetail/DetailPrice";
-import DetailQunatityBtn from "@/components/market/cardDetail/DetailQunatityBtn";
-import DetailRemaining from "@/components/market/cardDetail/DetailRemaining";
-import { Title } from "@/components/shared/Title";
-
-import { ModalStandard } from "../../modal";
-import PrimaryButton from "../../shared/PrimaryButton";
-import { ProductCard } from "../ProductCard";
-import { useAuth } from "@/contexts/AuthProvider";
-import ModalExchange from "@/components/market/cardDetail/ModalExchange";
-import Image from "next/image";
+import { ModalStandard } from '../../modal';
+import PrimaryButton from '../../shared/PrimaryButton';
+import { ProductCard } from '../ProductCard';
 
 const initModal = {
   purchase: false,
@@ -50,12 +49,12 @@ export default function CardBuyer({ cardDetail, myCardList }) {
         userId: owner.id,
       };
 
-      await instance.post("/api/v1/cards/detail/purchase", body).then((res) => {
+      await instance.post('/api/v1/cards/detail/purchase', body).then((res) => {
         console.log(res);
         router.replace({
-          pathname: "/result",
+          pathname: '/result',
           query: {
-            type: "purchase",
+            type: 'purchase',
             rating: cardDetail.grade,
             title: cardDetail.name,
             quantity: buyCardQuantity,
@@ -69,19 +68,17 @@ export default function CardBuyer({ cardDetail, myCardList }) {
 
   const handleExchangeButtonClick = async (body) => {
     try {
-      const res = await instance
-        .post("/api/v1/cards/detail/exchange", body)
-        .then((res) => {
-          router.replace({
-            pathname: "/result",
-            query: {
-              type: "exchange",
-              rating: cardDetail.grade,
-              title: cardDetail.name,
-              quantity: cardDetail.remainingQuantity,
-            },
-          });
+      const res = await instance.post('/api/v1/cards/detail/exchange', body).then((res) => {
+        router.replace({
+          pathname: '/result',
+          query: {
+            type: 'exchange',
+            rating: cardDetail.grade,
+            title: cardDetail.name,
+            quantity: cardDetail.remainingQuantity,
+          },
         });
+      });
 
       // return await res.data;
     } catch (e) {
@@ -89,12 +86,10 @@ export default function CardBuyer({ cardDetail, myCardList }) {
     }
   };
 
-  console.log("cardDetail", cardDetail);
+  console.log('cardDetail', cardDetail);
 
   return (
-    <div
-      className={`mx-auto mb-[180px] w-full max-w-[1480px] tablet:max-w-[704px]`}
-    >
+    <div className={`mx-auto mb-[180px] w-full max-w-[1480px] tablet:max-w-[704px]`}>
       <Title location="마켓플레이스" title={cardDetail?.name} />
       <div className={`flex justify-between tablet:mt-[40px]`}>
         <div
@@ -102,7 +97,7 @@ export default function CardBuyer({ cardDetail, myCardList }) {
         >
           <Image
             src={isValidImgUrl ? cardDetail.imgUrl : fallbackImg}
-            alt={"cardImg"}
+            alt={'cardImg'}
             onError={() => setIsValidImgUrl(false)}
             fill
             className={`absolute h-[720px] w-[960px] object-cover tablet:h-[256px] tablet:w-[342px]`}
@@ -118,10 +113,9 @@ export default function CardBuyer({ cardDetail, myCardList }) {
             />
           )}
         </div>
-        <div
-          className={`flex w-full max-w-[440px] flex-col gap-[30px] tablet:max-w-[342px]`}
-        >
+        <div className={`flex w-full max-w-[440px] flex-col gap-[30px] tablet:max-w-[342px]`}>
           <div className={`${flexstanderd} justify-between`}>
+            {console.log('cardDetail', cardDetail)}
             <DetailGradeTitle
               rating={cardDetail.grade}
               type={cardDetail.genre}
@@ -151,9 +145,7 @@ export default function CardBuyer({ cardDetail, myCardList }) {
           <div className={`flex flex-col gap-[20px]`}>
             <DetailQunatityBtn
               buyphoto={buyCardQuantity}
-              clickBuyPhoto={(updateFn) =>
-                setBuyCardQuantity((prevState) => updateFn(prevState))
-              }
+              clickBuyPhoto={(updateFn) => setBuyCardQuantity((prevState) => updateFn(prevState))}
               totalQuantity={cardDetail.totalQuantity}
             />
             <DetailPrice price={cardDetail.price * buyCardQuantity}>
@@ -180,7 +172,7 @@ export default function CardBuyer({ cardDetail, myCardList }) {
         <ModalStandard
           modalbox="w-[560px] h-[352px] bg-[#161616]"
           modaltitle="경고!"
-          modaltext={"0장 이상으로 선택해주세요"}
+          modaltext={'0장 이상으로 선택해주세요'}
           onClose={handleCloseModal}
         >
           <PrimaryButton
@@ -236,9 +228,7 @@ export default function CardBuyer({ cardDetail, myCardList }) {
       <DetailGradeTitle
         rating={cardDetail.grade}
         type={cardDetail.genre}
-        className={`mt-[20px] ${
-          cardDetail?.exchangesTarget.length > 0 ? "mb-[120px]" : null
-        }`}
+        className={`mt-[20px] ${cardDetail?.exchangesTarget.length > 0 ? 'mb-[120px]' : null}`}
       />
       {openModal.cancel && (
         <ModalStandard
@@ -258,12 +248,20 @@ export default function CardBuyer({ cardDetail, myCardList }) {
         </ModalStandard>
       )}
 
-      {cardDetail?.exchangesTarget.length > 0 ? (
+      {/* {cardDetail?.exchangesTarget.length > 0 ? (
         <div>
           <Title title="내가 제시한 교환 목록" className="mt-[120px] w-full" />
           {cardDetail?.exchangesTarget.map((v) => (
-            <ProductCard cardProps={{ ...v.offeredCard, owner: owner }} />
+            <ProductCard key={v.name} cardProps={{ ...v.offeredCard, owner: owner }} />
           ))}
+        </div>
+      ) : null} */}
+      {cardDetail?.exchangesTarget.length > 0 ? (
+        <div>
+          <Title title="내가 제시한 교환 목록" className="mt-[120px] w-full" />
+          {cardDetail?.exchangesTarget.map((v) => {
+            return <ProductCard key={v.name} cardProps={{ ...v, owner: owner }} />;
+          })}
         </div>
       ) : null}
     </div>

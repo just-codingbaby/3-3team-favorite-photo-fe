@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import Image from 'next/image';
+
 export default function RandomPointModal() {
   const [isOpen, setIsOpen] = useState(false); // 모달 열림 상태
   const [points, setPoints] = useState(null); // 랜덤 포인트
@@ -83,28 +85,46 @@ export default function RandomPointModal() {
             <div className="flex justify-center space-x-8">
               {/* 상자 1 */}
               <button onClick={() => handleRandomPoint(1)} className="h-[191px] w-[246px]">
-                <img
-                  src="/images/pointbox/bluepointbox.png"
+                {/* <img
+                  src="/images/bluepointbox.png"
                   alt="선물 상자 1"
                   className="h-full w-full object-contain"
+                /> */}
+                <Image
+                  src="/images/bluepointbox.png"
+                  alt="선물 상자 1"
+                  className="object-contain"
+                  fill
                 />
               </button>
 
               {/* 상자 2 */}
               <button onClick={() => handleRandomPoint(2)} className="h-[191px] w-[246px]">
-                <img
-                  src="/images/pointbox/purplepointbox.png"
+                {/* <img
+                  src="/images/purplepointbox.png"
                   alt="선물 상자 2"
                   className="h-full w-full object-contain"
+                /> */}
+                <Image
+                  src="/images/purplepointbox.png"
+                  alt="선물 상자 2"
+                  className="object-contain"
+                  fill
                 />
               </button>
 
               {/* 상자 3 */}
               <button onClick={() => handleRandomPoint(3)} className="h-[191px] w-[246px]">
-                <img
-                  src="/images/pointbox/redpointbox.png"
+                {/* <img
+                  src="/images/redpointbox.png"
                   alt="선물 상자 3"
                   className="h-full w-full object-contain"
+                /> */}
+                <Image
+                  src="/images/redpointbox.png"
+                  alt="선물 상자 3"
+                  className="object-contain"
+                  fill
                 />
               </button>
             </div>
