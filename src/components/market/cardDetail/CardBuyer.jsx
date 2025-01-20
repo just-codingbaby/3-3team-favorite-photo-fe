@@ -47,7 +47,7 @@ export default function CardBuyer({ cardDetailData, myCardList, owner }) {
   const { pointtext, flexstanderd, contentborder } = tail;
   const router = useRouter();
   const [info, setInfo] = useState({
-    remaining: 5, // 잔여, 구매수량 / 이것도 나중에 수정해야할 듯
+    // remaining: 5, // 잔여, 구매수량 / 이것도 나중에 수정해야할 듯
     buy: 0, // 사는거
   });
   const [dc, setDc] = useState({
@@ -100,10 +100,9 @@ export default function CardBuyer({ cardDetailData, myCardList, owner }) {
       console.log('동작 없음');
     }
   };
-  console.log(exchanges);
+  console.log('cardDetailData', cardDetailData);
   return (
     <div className={`mx-auto mb-[180px] w-full max-w-[1480px] tablet:max-w-[704px]`}>
-      <p>CardId: {router.query.id}</p>
       <Title location="마켓플레이스" title={cardDetailData?.name} />
       <div className={`flex justify-between tablet:mt-[40px]`}>
         <div
@@ -114,7 +113,7 @@ export default function CardBuyer({ cardDetailData, myCardList, owner }) {
             className={`absolute h-[720px] w-[960px] object-cover tablet:h-[256px] tablet:w-[342px]`}
           />
         </div>
-        <div className={`flex max-w-[440px] flex-col gap-[30px] tablet:max-w-[342px]`}>
+        <div className={`flex w-full max-w-[440px] flex-col gap-[30px] tablet:max-w-[342px]`}>
           <div className={`${flexstanderd} justify-between`}>
             <DetailGradeTitle
               rating={cardDetailData.grade}
@@ -125,7 +124,7 @@ export default function CardBuyer({ cardDetailData, myCardList, owner }) {
             />
           </div>
           <div className={`${contentborder}`}></div>
-          <p className={`text-white`}>{cardDetailData.content}</p>
+          <p className={`text-white`}>{cardDetailData.description}</p>
           <div className={`${contentborder}`}></div>
           <div className={`flex flex-col gap-[10px]`}>
             <DetailPrice
@@ -256,11 +255,18 @@ export default function CardBuyer({ cardDetailData, myCardList, owner }) {
         </>
       )}
       <p className={`text-white ${pointtext}`}>{cardDetailData.description}</p>
-      <DetailGradeTitle
-        rating={cardDetailData.grade}
-        type={cardDetailData.genre}
-        className={`mt-[20px] ${!!exchanges ? 'mb-[120px]' : null}`}
-      />
+      {console.log('myCardList', myCardList)}
+      {myCardList?.map((v) => {
+        console.log('v', v);
+        return (
+          <DetailGradeTitle
+            cardData={v}
+            rating={myCardList.grade}
+            type={myCardList.genre}
+            className={`mt-[20px] ${!!exchanges ? 'mb-[120px]' : null}`}
+          />
+        );
+      })}
       {openModal.cancel && (
         <ModalStandard
           modalbox="w-[560px] h-[352px] bg-[#161616]"

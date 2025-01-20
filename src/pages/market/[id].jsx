@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthProvider';
 import instance from '@/lib/axios';
 import { useQuery } from '@tanstack/react-query';
+// import axios from 'axios';
 import { useRouter } from 'next/router';
 
 import CardBuyer from '@/components/market/cardDetail/CardBuyer';
