@@ -65,7 +65,7 @@ export default function CardBuyer({ cardDetailData, myCardList, owner }) {
     exchangeListApi({ requesterId: owner.id, targetCardId: cardDetailData.id }).then((res) => {
       setEx(res);
     });
-  }, []);
+  }, [cardDetailData.id, owner.id]);
   const ClickBuyphoto = (updateFn) => {
     setInfo((prev) => ({
       ...prev, // 이전 상태 복사
@@ -109,6 +109,7 @@ export default function CardBuyer({ cardDetailData, myCardList, owner }) {
           className={`relative h-[720px] w-full max-w-[960px] overflow-hidden tablet:h-[256px] tablet:max-w-[342px]`}
         >
           <img
+            alt={cardDetailData?.name ?? ''}
             src={cardDetailData.imgUrl}
             className={`absolute h-[720px] w-[960px] object-cover tablet:h-[256px] tablet:w-[342px]`}
           />
@@ -282,7 +283,7 @@ export default function CardBuyer({ cardDetailData, myCardList, owner }) {
         <div>
           {exchanges?.offeredCards?.map((v) => {
             console.log(v);
-            return <ProductCard cardProps={v} />;
+            return <ProductCard key={v.id} cardProps={v} />;
           })}
         </div>
       ) : null}
