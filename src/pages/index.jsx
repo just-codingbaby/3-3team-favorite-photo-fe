@@ -9,8 +9,10 @@ export default function Home() {
 
   return (
     <div className="pt-20 flex justify-center">
-      <button className="relative top-60 border border-customMain p-5 rounded-xl"
-        onClick={handleLogin}>
+      <button
+        className="relative top-60 border border-customMain p-5 rounded-xl"
+        onClick={handleLogin}
+      >
         로그인
       </button>
     </div>

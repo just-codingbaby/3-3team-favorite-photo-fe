@@ -42,7 +42,7 @@ export default function Header() {
   if (error) return <p>{error.message}</p>;
 
   return (
-    <div className="sticky top-0 z-50 w-full bg-background whitespace-nowrap">
+    <div className="sticky top-0 z-10 w-full bg-background whitespace-nowrap">
       <header className="hidden tb:flex items-center justify-between h-20 w-full px-20 py-6 lt:px-55 lt:py-7">
         <Link href="/market" className="min-w-[111px] h-5 lt:w-[138.9px] lt:h-[25.2px]">
           <Image src="/images/main_logo.png" alt="최애의 포토 로고" width={138} height={25} />
