@@ -7,9 +7,9 @@ import { useRouter } from 'next/router';
 
 import DetailGradeTitle from '@/components/market/cardDetail/DetailGradeTitle';
 import DetailPrice from '@/components/market/cardDetail/DetailPrice';
-import DetailQunatityBtn from '@/components/market/cardDetail/DetailQunatityBtn';
+import DetailQuantityBtn from '@/components/market/cardDetail/DetailQunatityBtn';
 import DetailRemaining from '@/components/market/cardDetail/DetailRemaining';
-import { DetailPheader } from '@/components/market/PageHeader';
+import * as DetailPheader from '@/components/market/PageHeader';
 import { Title } from '@/components/shared/Title';
 
 import ModalStandard, { Ex, ExchangeDetail, ExchangeList, ModalExchange } from '../../modal';
@@ -143,7 +143,7 @@ export default function CardBuyer({ cardDetailData, myCardList, owner }) {
           </div>
           <div className={`${contentborder}`}></div>
           <div className={`flex flex-col gap-[20px]`}>
-            <DetailQunatityBtn
+            <DetailQuantityBtn
               buyphoto={info.buy}
               ClickBuyphoto={ClickBuyphoto}
               totalQuantity={cardDetailData.totalQuantity}
