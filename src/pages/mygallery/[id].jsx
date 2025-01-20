@@ -92,8 +92,8 @@ export default function MyCardDetail() {
                 {cardData?.genre || '장르 없음'}
               </span>
               <span className="text-xl font-semibold">
-                {/* {cardData.creator.nickName} */}
-                {user.nickName}
+                {cardData.creator.nickName}
+                {/* {user.nickName} */}
               </span>
             </div>
 
