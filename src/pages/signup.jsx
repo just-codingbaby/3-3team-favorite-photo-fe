@@ -1,16 +1,16 @@
-import { useState } from 'react';
-
-import axios from '@/lib/axios';
-import Image from 'next/image';
-import Link from 'next/link';
-
-import EmailInput from '@/components/shared/EmailInput';
-import PasswordInput from '@/components/shared/PasswordInput';
-import PrimaryButton from '@/components/shared/PrimaryButton';
-import NickNameInput from '@/components/signUp/NickNameInput';
-import SignUpModal from '@/components/signUp/SignUpModal';
+import { useState } from "react";
+import { useRouter } from "next/router"; // useRouter 추가
+import Link from "next/link";
+import Image from "next/image";
+import axios from "@/lib/axios";
+import EmailInput from "@/components/shared/EmailInput";
+import NickNameInput from "@/components/signUp/NickNameInput";
+import PasswordInput from "@/components/shared/PasswordInput";
+import PrimaryButton from "@/components/shared/PrimaryButton";
+import SignUpModal from "@/components/signUp/SignUpModal";
 
 export default function Signup() {
+  const router = useRouter(); // useRouter 사용
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -20,7 +20,12 @@ export default function Signup() {
   });
   const [result, setResult] = useState('');
 
-  const handleOpen = () => setIsOpen((prev) => !prev);
+  const handleOpen = () => {
+    setIsOpen((prev) => !prev);
+    if (isOpen) {
+      router.push("/market"); // 모달 클릭 시 /market으로 이동
+    }
+  };
 
   const handleFormData = (e) => {
     const { name, value } = e.target;

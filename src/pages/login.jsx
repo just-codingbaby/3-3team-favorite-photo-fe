@@ -43,7 +43,7 @@ export default function Login() {
       setMessage('로그인 성공! 환영합니다.');
 
       // 로그인 상태가 업데이트된 뒤 페이지 이동
-      router.push('/me');
+      router.push('/market');
     } catch (error) {
       const errorMessage = error.message || '로그인 실패';
       setMessage(errorMessage); // 실패 메시지 설정

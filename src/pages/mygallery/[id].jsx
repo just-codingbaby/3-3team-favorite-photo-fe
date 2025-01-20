@@ -91,6 +91,10 @@ export default function MyCardDetail() {
               <span className="rounded bg-gray-700 px-3 py-1 text-gray-300">
                 {cardData?.genre || '장르 없음'}
               </span>
+              <span className="text-xl font-semibold">
+                {cardData.creator.nickName}
+                {/* {user.nickName} */}
+              </span>
               <span className="text-xl font-semibold">{cardData.creator.nickName}</span>
             </div>
 
