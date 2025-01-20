@@ -40,49 +40,46 @@ export default function PageHeader({ sortOptionKey, setSortOptionKey, search, se
           <h1 className="font-baskin text-5xl lt:text-[62px]">마켓플레이스</h1>
           <SellPhotoCardButton />
         </div>
-
-        <div className="grid grid-flow-col gap-1 py-5">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="grid grid-flow-col gap-1">
-                <FormField
-                  control={form.control}
-                  name="search"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <SearchInput {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                ></FormField>
-                <div className="flex items-center gap-2">
-                  {useMemo(
-                    () =>
-                      filterListKeys.map((key) => (
-                        <Select key={key}>
-                          <SelectTrigger className="w-[120px] border-none">
-                            <SelectValue placeholder={FILTER_LIST.get(key).label} />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {FILTER_LIST.get(key).options.map((option) => (
-                              <SelectItem key={option.value} value={option.value}>
-                                {option.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      )),
-                    [filterListKeys],
-                  )}
-                </div>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-flow-col gap-1 py-5">
+            <div className="grid grid-flow-col gap-1">
+              <FormField
+                control={form.control}
+                name="search"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <SearchInput {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              ></FormField>
+              <div className="flex items-center gap-2">
+                {useMemo(
+                  () =>
+                    filterListKeys.map((key) => (
+                      <Select key={key}>
+                        <SelectTrigger className="w-[120px] border-none">
+                          <SelectValue placeholder={FILTER_LIST.get(key).label} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {FILTER_LIST.get(key).options.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )),
+                  [filterListKeys],
+                )}
               </div>
-              <div className="ml-auto">
-                <SelectButton sortOptionKey={sortOptionKey} setSortOptionKey={setSortOptionKey} />
-              </div>
-            </form>
-          </Form>
-        </div>
+            </div>
+            <div className="ml-auto">
+              <SelectButton sortOptionKey={sortOptionKey} setSortOptionKey={setSortOptionKey} />
+            </div>
+          </form>
+        </Form>
       </div>
 
       {/* 모바일일떄 */}

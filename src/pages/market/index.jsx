@@ -17,7 +17,7 @@ async function fetchCards(pageParam, sortOptionKey = 'LATEST') {
   const sortQuery = SORT_OPTS.get(sortOptionKey).value;
   try {
     const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + '/api/v1/shop/cards?' + query.toString(),
+      process.env.NEXT_PUBLIC_API_URL + '/api/v1/shop/cards?' + query.toString()+`&${sortQuery}`,
     );
     if (!response.ok) {
       console.error(response.status)
