@@ -37,7 +37,7 @@ export default function MyGallery() {
   });
 
   useEffect(() => {
-    if (user) {
+    if (user?.id) {
       setParams((prev) => ({ ...prev, ownerId: user.id }));
       if (process.env.NODE_ENV === "development") {
         console.log("MyGallery 현재 params:", params);
@@ -55,10 +55,10 @@ export default function MyGallery() {
     ...params,
     user,
   });
-
+  
   // 데이터가 변경되면 카드 목록과 페이지 상태 업데이트
   useEffect(() => {
-    if (data?.data?.cards) {
+    if (user && data?.data?.cards) {
       setCards(data.data.cards); // 카드 데이터 업데이트
       setHasNextPage(data.data.cards.length >= params.pageSize); // 다음 페이지 여부 설정
 
@@ -66,7 +66,7 @@ export default function MyGallery() {
         console.log(data.data.cards); 
       }      
     }
-  }, [data]);
+  }, [data, user]);
 
   const loadMoreCards = () => {
     if (!isLoading && hasNextPage) {
