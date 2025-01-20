@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import { dehydrate, HydrationBoundary, QueryClient, useInfiniteQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
@@ -7,14 +7,16 @@ import Link from 'next/link';
 import PageHeader from '@/components/market/PageHeader';
 import { ProductCard } from '@/components/market/ProductCard';
 import { Button } from '@/components/ui/button';
+import { SORT_OPTS } from "@/constants/market";
 
 const PAGE_LIMIT = 6;
 
-async function fetchCards(pageParam) {
-  const query = new URLSearchParams({ page: pageParam, limit: PAGE_LIMIT });
+async function fetchCards(pageParam, sortOptionKey = 'LATEST') {
+  const query = new URLSearchParams({ page: pageParam, limit: PAGE_LIMIT});
+  const sortQuery = SORT_OPTS.get(sortOptionKey).value;
   try {
     const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + '/api/v1/shop/cards?' + query.toString(),
+      process.env.NEXT_PUBLIC_API_URL + '/api/v1/shop/cards?' + query.toString() + `&${sortQuery}`,
     );
     if (!response.ok) {
       throw new Error(response.statusText);
@@ -46,8 +48,8 @@ export default function MarketPage({ dehydratedState }) {
   const [sortOptionKey, setSortOptionKey] = useState('LATEST');
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery({
-    queryKey: ['cards'],
-    queryFn: ({ pageParam = 1 }) => fetchCards(pageParam),
+    queryKey: ['cards', sortOptionKey],
+    queryFn: ({ pageParam = 1 }) => fetchCards(pageParam, sortOptionKey),
     getNextPageParam: (lastPage, allPages) => {
       const nextPage = allPages.length + 1;
       return lastPage.length === PAGE_LIMIT ? nextPage : undefined;
@@ -55,14 +57,34 @@ export default function MarketPage({ dehydratedState }) {
     initialPageParam: 1,
   });
 
-  if (status === 'pending') return <div>Loading...</div>;
+  useEffect(() => {
+    console.log(sortOptionKey)
+  }, [sortOptionKey])
+
+  if (status === 'pending') {
+    return (
+      <div className="grid h-dvh w-full place-items-center">
+        <div className="container grid place-items-center gap-2 text-center">
+          <Loader2 className="animate-spin" />
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (status === 'error') return <div>Error fetching posts</div>;
 
   return (
     <HydrationBoundary state={dehydratedState}>
       <article className="mx-auto px-[15px] pb-20 tb:container tb:px-5">
-        <PageHeader {...{ sortOptionKey, setSortOptionKey }} />
+        <PageHeader
+          setSortOptionKey={setSortOptionKey}
+          sortOptionKey={sortOptionKey}
+          setSearch={setSearch}
+          search={search}
+          setFilter={setFilter}
+          filter={filter}
+        />
         <section>
           {
             <div className="grid grid-cols-2 gap-[5px] tb:gap-5 lt:grid-cols-3 lt:gap-20">
