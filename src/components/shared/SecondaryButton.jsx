@@ -23,7 +23,7 @@ export default function SecondaryButton({
     <button
       style={{ width, height }}
       className={cn(
-        `flex items-center justify-center rounded-sm border bg-black font-bold leading-7 text-white ${textSizeClass}`,
+        `flex items-center justify-center rounded-sm border bg-transparent font-bold leading-7 text-white ${textSizeClass}`,
         className,
       )}
       onClick={handleClick}

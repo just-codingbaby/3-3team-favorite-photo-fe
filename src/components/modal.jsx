@@ -1,20 +1,22 @@
-import { useState } from 'react';
+import { useMemo, useState } from "react";
 
-import tail from '@/styles/tailwindcss';
-import { useRouter } from 'next/router';
+import tail from "@/styles/tailwindcss";
+import { useRouter } from "next/router";
 
-import { Title } from '@/components/shared/Title';
+import { Title } from "@/components/shared/Title";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
-import PrimaryButton from './shared/PrimaryButton';
-import SearchInput from './shared/SearchInput';
-import SecondaryButton from './shared/SecondaryButton';
+import PrimaryButton from "./shared/PrimaryButton";
+import SearchInput from "./shared/SearchInput";
+import SecondaryButton from "./shared/SecondaryButton";
+import { FILTER_LIST } from "@/constants/market";
+import SelectButton from "@/components/shared/SelectButton";
 
 export function CloseBtn({ position, onClose }) {
   const closeBtn = `absolute top-1/2 left-1/2 w-6 h-[2px] bg-customGrey01 transform -translate-x-1/2 -translate-y-1/2`;
@@ -44,7 +46,7 @@ export function CloseBtn({ position, onClose }) {
 // }
 
 // 포토카드 구매 모달, 교환 제시 취소 (처음 나오는 기본 모달)
-export default function ModalStandard({
+export function ModalStandard({
   modalbox,
   modaltitle,
   modaltext,
@@ -58,24 +60,17 @@ export default function ModalStandard({
   return (
     <div className={`${dimbg} bg-opacity-80`}>
       <div className={`${modalbox} ${flexcenter} relative flex-col`}>
-        <h3 className={`${stitle} mt-[80px] font-sans text-white`}>{modaltitle}</h3>
-        <span className={`mt-[40px] text-[16px] font-normal text-white`}>{modaltext}</span>
-        <CloseBtn position={`${closeposition} top-[46px] right-[46px]`} onClose={onClose} />
+        <h3 className={`${stitle} mt-[80px] font-sans text-white`}>
+          {modaltitle}
+        </h3>
+        <span className={`mt-[40px] text-[16px] font-normal text-white`}>
+          {modaltext}
+        </span>
+        <CloseBtn
+          position={`${closeposition} top-[46px] right-[46px]`}
+          onClose={onClose}
+        />
         {children}
-      </div>
-    </div>
-  );
-}
-
-// 포토카드 교환하기 모달 창
-export function ModalExchange({ modalbox, children, onClick, onClose, className }) {
-  const { dimbg } = tail;
-
-  return (
-    <div className={`${dimbg} ${className} bg-opacity-80`} onClick={onClick}>
-      <div className={`${modalbox} relative mx-auto border border-white bg-[#161616]`}>
-        <CloseBtn position="top-[150px] right-[180px] absolute" onClose={onClose} />
-        <div className={`mx-auto max-w-[920px] bg-[#161616]`}>{children}</div>
       </div>
     </div>
   );
@@ -114,7 +109,10 @@ export function ExchangeList({ onClick, onClose }) {
 export function Ex({ className, handleClick, children }) {
   const { flexcenter } = tail;
   return (
-    <div className={`${className} ${flexcenter} flex-col`} onClick={handleClick}>
+    <div
+      className={`${className} ${flexcenter} flex-col`}
+      onClick={handleClick}
+    >
       <div>img</div>
       <div>text</div>
       {children}
@@ -122,95 +120,33 @@ export function Ex({ className, handleClick, children }) {
   );
 }
 
-// 지연님꺼 뜨ㄸ어서 살짝만 바꿔서 쓴거
-export const DetailPheader = () => {
+export const DetailPheader = ({ sortOptionKey, setSortOptionKey }) => {
+  const filterListKeys = Array.from(FILTER_LIST.keys()).filter(
+    (row) => row !== "status"
+  );
   return (
     <div className="grid grid-flow-col gap-1">
       <SearchInput />
       <div className="flex gap-2">
-        {FILTER_LIST.map((selectBox, index) => {
-          // console.log(selectBox);
-          if (index === FILTER_LIST.length - 1) return null;
-          return (
-            <Select key={selectBox.category}>
-              <SelectTrigger className="w-[120px] border-none">
-                <SelectValue placeholder={selectBox.label} />
-              </SelectTrigger>
-              <SelectContent>
-                {selectBox.options.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          );
-        })}
+        {useMemo(
+          () =>
+            filterListKeys.map((key) => (
+              <Select key={key}>
+                <SelectTrigger className="w-[120px] border-none">
+                  <SelectValue placeholder={FILTER_LIST.get(key).label} />
+                </SelectTrigger>
+                <SelectContent>
+                  {FILTER_LIST.get(key).options.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )),
+          [filterListKeys]
+        )}
       </div>
     </div>
   );
 };
-
-export function ExchangeDetail({ onClose, xBtn, children, title, onClick }) {
-  const router = useRouter();
-  const { flexstanderd } = tail;
-
-  // const handleButtonClick = (e) => {
-  //   if (e === '교환하기') {
-  //     console.log('눌리냐?');
-  //     router.push({
-  //       pathname: '/ModalPage',
-  //       query: {
-  //         type: '교환 제시',
-  //         rating: 'COMMON',
-  //         title: '스페인에서',
-  //         quantity: 4,
-  //       },
-  //     });
-  //   } else {
-  //     console.log('동작 없음');
-  //   }
-  // };
-
-  return (
-    <div>
-      <ModalExchange
-        className="!bg-opacity-0"
-        modalbox="max-w-[1160px] w-full h-[1000px] z-10000"
-        //  onClick={}
-        onClose={xBtn}
-      >
-        <Title location="포토카드 교환하기" title={title} className="mb-[20px]" />
-        <div className={`mt-[20px] flex justify-between`}>
-          {children}
-          {/* <Ex className={`h-[600px] w-[440px] border border-white`} /> */}
-          <div className={`flex w-full max-w-[440px] flex-col`}>
-            <h3 className="mb-[10px] text-xl font-bold">교환 제시 내용</h3>
-            <div>
-              <textarea
-                className="h-[120px] w-full border border-white bg-transparent px-5 py-5 text-[16px] font-light"
-                placeholder="내용을 입력해 주세요"
-              />
-            </div>
-            <div className={` ${flexstanderd} mt-[60px] justify-between`}>
-              <SecondaryButton
-                label="취소하기"
-                width="210px"
-                height="60px"
-                textSize="lg"
-                handleClick={onClose}
-              />
-              <PrimaryButton
-                label="교환하기"
-                width="210px"
-                height="60px"
-                textSize="lg"
-                handleClick={onClick}
-              />
-            </div>
-          </div>
-        </div>
-      </ModalExchange>
-    </div>
-  );
-}

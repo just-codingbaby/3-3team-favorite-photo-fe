@@ -1,18 +1,11 @@
 import tail from '@/styles/tailwindcss';
 
-export default function DetailGradeTitle({
-  className,
-
-  rating,
-  type,
-  nickname,
-  titleborder,
-}) {
+export default function DetailGradeTitle({ className, rating, type, nickname, titleborder }) {
   const { flexstanderd, pointtext } = tail;
 
   const ratingColors = {
     LEGENDARY: 'text-customPink',
-    'SUPER RARE': 'text-customPurple',
+    SUPER_RARE: 'text-customPurple',
     RARE: 'text-customBlue',
     COMMON: 'text-customMain',
   };
@@ -21,7 +14,7 @@ export default function DetailGradeTitle({
   return (
     <div className={`${className} ${pointtext} flex w-full justify-between`}>
       <div className={`${flexstanderd} relative`}>
-        <h3 className={` ${ratingClass}`}>{rating}</h3>
+        <h3 className={` ${ratingClass}`}>{rating.split('_').join(' ')}</h3>
         <div className={`${titleborder} mx-[15px] h-[30px] w-[2px] bg-customGrey03`}></div>
         <h3 className={`text-customGrey01`}>{type}</h3>
       </div>
