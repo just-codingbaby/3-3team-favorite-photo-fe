@@ -1,7 +1,5 @@
 'use client';
 
-import { useMemo } from 'react';
-
 import { FILTER_LIST } from '@/constants/market';
 
 import { BottomSheet } from '@/components/market/BottomSheet';
@@ -16,7 +14,14 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-export default function PageHeader({ sortOptionKey, setSortOptionKey, search, setSearch }) {
+export default function PageHeader({
+  sortOptionKey,
+  setSortOptionKey,
+  search,
+  setSearch,
+  filter,
+  setFilter,
+}) {
   const filterListKeys = Array.from(FILTER_LIST.keys());
   return (
     <section>
@@ -29,24 +34,29 @@ export default function PageHeader({ sortOptionKey, setSortOptionKey, search, se
           <div className="grid grid-flow-col gap-1">
             <SearchInput2 search={search} setSearch={setSearch} />
             <div className="flex items-center gap-2">
-              {useMemo(
-                () =>
-                  filterListKeys.map((key) => (
-                    <Select key={key}>
-                      <SelectTrigger className="w-[120px] border-none">
-                        <SelectValue placeholder={FILTER_LIST.get(key).label} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {FILTER_LIST.get(key).options.map((option) => (
-                          <SelectItem key={option.value} value={option.value}>
-                            {option.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  )),
-                [filterListKeys],
-              )}
+              {filterListKeys.map((filterName) => (
+                <Select
+                  key={filterName}
+                  value={filter.filterValue}
+                  onValueChange={(value) =>
+                    setFilter((prev) => ({ ...prev, filterName, filterValue: value }))
+                  }
+                >
+                  <SelectTrigger className="w-[120px] border-none">
+                    <SelectValue
+                      placeholder={FILTER_LIST.get(filterName).label}
+                      value={FILTER_LIST.get(filterName).value}
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {FILTER_LIST.get(filterName).options.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ))}
             </div>
           </div>
           <div className="ml-auto">

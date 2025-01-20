@@ -10,6 +10,7 @@ export const FILTER_LIST = new Map([
     'grade',
     {
       label: '등급',
+      value: '',
       options: [
         {
           value: 'common',
@@ -34,6 +35,7 @@ export const FILTER_LIST = new Map([
     'genre',
     {
       label: '장르',
+      value: '',
       options: [
         {
           value: 'travel',
@@ -44,7 +46,7 @@ export const FILTER_LIST = new Map([
           label: '풍경',
         },
         {
-          value: 'people',
+          value: 'portrait',
           label: '인물',
         },
         {
@@ -58,6 +60,7 @@ export const FILTER_LIST = new Map([
     'status',
     {
       label: '매진 여부',
+      value: '',
       options: [
         {
           value: 'onSale',
