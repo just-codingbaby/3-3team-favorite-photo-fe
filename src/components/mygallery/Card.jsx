@@ -64,6 +64,7 @@ export default function Card({ onClick, card, quantity }) {
         <p className="mt-5 text-xl font-bold">{card.name}</p>
         <div className="mt-2 flex items-center justify-between">
           <CardInfo style="small" grade={card.grade} genre={card.genre} />
+          {/* <p className="text-sm underline">낭만 고양이</p> */}
           <p className="text-sm underline">{card.creator.nickName}</p>
         </div>
       </div>
