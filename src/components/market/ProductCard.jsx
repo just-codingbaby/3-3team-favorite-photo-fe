@@ -6,7 +6,13 @@ import Image from 'next/image';
 
 import { GRADE_STYLES } from '@/constants/market';
 
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 
 const genreToKr = {
