@@ -105,7 +105,7 @@ function CardSeller({ cardDetail }) {
         cardDetail?.exchangesTarget.map((row) => (
           <div className={`${flexstanderd} relative`}>
             <Title title="교환 제시 목록" className="mt-[120px] w-full" />
-            <ProductCard key={v.id} cardProps={{ ...row.offeredCard, owner: '123' }} />
+            <ProductCard key={row.id} cardProps={{ ...row.offeredCard, owner: '123' }} />
           </div>
         ))
       ) : (
