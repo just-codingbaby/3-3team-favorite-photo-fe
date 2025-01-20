@@ -4,8 +4,16 @@ import tail from '@/styles/tailwindcss';
 import { useRouter } from 'next/router';
 
 import { Title } from '@/components/shared/Title';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 import PrimaryButton from './shared/PrimaryButton';
+import SearchInput from './shared/SearchInput';
 import SecondaryButton from './shared/SecondaryButton';
 
 export function CloseBtn({ position, onClose }) {
