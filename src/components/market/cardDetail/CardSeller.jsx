@@ -103,7 +103,7 @@ function CardSeller({ cardDetail }) {
       </div>
       {cardDetail?.exchangesTarget.length > 0 ? (
         cardDetail?.exchangesTarget.map((row) => (
-          <div className={`${flexstanderd} relative`}>
+          <div className={`${flexstanderd} relative`} key={row.id}>
             <Title key={row.id} title="교환 제시 목록" className="mt-[120px] w-full" />
             <ProductCard key={row.id} cardProps={{ ...row.offeredCard, owner: '123' }} />
           </div>
