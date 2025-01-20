@@ -1,9 +1,11 @@
-import Image from "next/image";
-import { Input } from "../ui/input";
-import { useState } from "react";
+import { useState } from 'react';
+
+import Image from 'next/image';
+
+import { Input } from '../ui/input';
 
 export default function PasswordInput({
-  label = "비밀번호",
+  label = '비밀번호',
   value,
   handleChange,
   size,
@@ -11,9 +13,9 @@ export default function PasswordInput({
   errorMessage,
 }) {
   const sizeClass = {
-    L: "w-[520px] h-[60px]",
-    M: "w-[440px] h-[55px]",
-    S: "w-[345px] h-[55px]",
+    L: 'w-[520px] h-[60px]',
+    M: 'w-[440px] h-[55px]',
+    S: 'w-[345px] h-[55px]',
   };
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -21,9 +23,9 @@ export default function PasswordInput({
     setPasswordVisible((prev) => !prev);
   };
 
-  const borderClass = isError ? "border-customRed" : "border-white";
+  const borderClass = isError ? 'border-customRed' : 'border-white';
 
-  const name = label === "비밀번호" ? "password" : "confirmPassword";
+  const name = label === '비밀번호' ? 'password' : 'confirmPassword';
 
   return (
     <div className="relative flex flex-col gap-[10px]">
@@ -32,14 +34,11 @@ export default function PasswordInput({
         name={name}
         onChange={handleChange}
         value={value}
-        type={passwordVisible ? "text" : "password"}
+        type={passwordVisible ? 'text' : 'password'}
         placeholder="비밀번호를 입력해 주세요"
-        className={`border ${borderClass} focus-visible:ring-0 focus-visible:ring-transparent bg-black
-        focus-visible:ring-offset-0  ${sizeClass[size]}`}
+        className={`border ${borderClass} bg-black focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 ${sizeClass[size]}`}
       />
-      {isError && (
-        <p className="text-customRed text-sm leading-6 font-light">{errorMessage}</p>
-      )}
+      {isError && <p className="text-sm font-light leading-6 text-customRed">{errorMessage}</p>}
       {passwordVisible ? (
         <button type="button" onClick={toggleVisible}>
           <Image
@@ -57,7 +56,7 @@ export default function PasswordInput({
             width={24}
             height={24}
             alt="invisible icon"
-            className="absolute top-[53px] right-5"
+            className="absolute right-5 top-[53px]"
           />
         </button>
       )}

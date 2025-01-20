@@ -7,20 +7,27 @@ import Link from 'next/link';
 import { SORT_OPTS } from '@/constants/market';
 
 import PageHeader from '@/components/market/PageHeader';
+import { PageResetButton } from '@/components/market/PageResetButton';
 import { ProductCard } from '@/components/market/ProductCard';
 import { Button } from '@/components/ui/button';
 
 const PAGE_LIMIT = 6;
 
-async function fetchCards(pageParam, sortOptionKey = 'LATEST') {
+async function fetchCards(pageParam, search, sortOptionKey = 'LATEST') {
   const query = new URLSearchParams({ page: pageParam, limit: PAGE_LIMIT });
+
+  if (search) {
+    query.append('keyword', search);
+  }
+
   const sortQuery = SORT_OPTS.get(sortOptionKey).value;
+
   try {
     const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + '/api/v1/shop/cards?' + query.toString()+`&${sortQuery}`,
+      process.env.NEXT_PUBLIC_API_URL + '/api/v1/shop/cards?' + query.toString() + `&${sortQuery}`,
     );
     if (!response.ok) {
-      console.error(response.status)
+      console.error(response.status);
     }
     return response.json();
   } catch (e) {
@@ -34,8 +41,8 @@ async function fetchCards(pageParam, sortOptionKey = 'LATEST') {
 export async function getStaticProps() {
   const queryClient = new QueryClient();
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ['cards'],
-    queryFn: ({ pageParam = 1 }) => fetchCards(pageParam),
+    queryKey: ['cards', 'LATEST'],
+    queryFn: ({ pageParam = 1 }) => fetchCards(pageParam, '', 'LATEST'),
     initialPageParam: 1,
   });
   return {
@@ -51,8 +58,8 @@ export default function MarketPage({ dehydratedState }) {
   const [sortOptionKey, setSortOptionKey] = useState('LATEST');
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery({
-    queryKey: ['cards', sortOptionKey],
-    queryFn: ({ pageParam = 1 }) => fetchCards(pageParam, sortOptionKey),
+    queryKey: ['cards', search, sortOptionKey],
+    queryFn: ({ pageParam = 1 }) => fetchCards(pageParam, search, sortOptionKey),
     getNextPageParam: (lastPage, allPages) => {
       const nextPage = allPages.length + 1;
       return lastPage.length === PAGE_LIMIT ? nextPage : undefined;
@@ -61,8 +68,8 @@ export default function MarketPage({ dehydratedState }) {
   });
 
   useEffect(() => {
-    console.log(sortOptionKey);
-  }, [sortOptionKey]);
+    console.log(search);
+  }, [search]);
 
   if (status === 'pending') {
     return (
@@ -75,7 +82,16 @@ export default function MarketPage({ dehydratedState }) {
     );
   }
 
-  if (status === 'error') return <div>Error fetching posts</div>;
+  if (status === 'error') {
+    return (
+      <div className="grid h-dvh w-full place-items-center">
+        <div className="container grid place-items-center gap-2 text-center">
+          <Loader2 className="animate-spin" />
+          return <div>Error fetching posts</div>;
+        </div>
+      </div>
+    );
+  }
 
   return (
     <HydrationBoundary state={dehydratedState}>
@@ -89,6 +105,14 @@ export default function MarketPage({ dehydratedState }) {
           filter={filter}
         />
         <section>
+          {data.pages[0].length === 0 && (
+            <div className="grid max-h-dvh min-h-[50dvh] place-content-center">
+              <p className="text-center">
+                &#34;{search.trim()}&#34;에 대한 검색결과가 존재하지 않습니다.
+              </p>
+              <PageResetButton />
+            </div>
+          )}
           {
             <div className="grid grid-cols-2 gap-[5px] tb:gap-5 lt:grid-cols-3 lt:gap-20">
               {data.pages.map((page, i) => (

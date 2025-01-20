@@ -1,12 +1,14 @@
-import { useState } from "react";
-import { useAuth } from "@/contexts/AuthProvider";
-import Image from "next/image";
-import Link from "next/link";
-import axios from "@/lib/axios";
-import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/router";
-import NotificationList from "../alarm/alarm";
-import ProfileDropDown from "./ProfileDropDown";
+import { useState } from 'react';
+
+import { useAuth } from '@/contexts/AuthProvider';
+import axios from '@/lib/axios';
+import { useQuery } from '@tanstack/react-query';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+import NotificationList from '../alarm/alarm';
+import ProfileDropDown from './ProfileDropDown';
 
 const getProfile = async (email) => {
   try {
@@ -20,8 +22,12 @@ const getProfile = async (email) => {
 export default function Header() {
   const router = useRouter();
   const { user, logout } = useAuth();
-  const { data: profile, isLoading, error } = useQuery({
-    queryKey: ["profile"],
+  const {
+    data: profile,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['profile'],
     queryFn: () => getProfile(user.email),
     enabled: !!user,
   });
@@ -42,14 +48,14 @@ export default function Header() {
   if (error) return <p>{error.message}</p>;
 
   return (
-    <div className="sticky top-0 z-10 w-full bg-background whitespace-nowrap">
-      <header className="hidden tb:flex items-center justify-between h-20 w-full px-20 py-6 lt:px-55 lt:py-7">
-        <Link href="/market" className="min-w-[111px] h-5 lt:w-[138.9px] lt:h-[25.2px]">
+    <div className="sticky top-0 z-10 w-full whitespace-nowrap bg-background">
+      <header className="hidden h-20 w-full items-center justify-between px-20 py-6 tb:flex lt:px-55 lt:py-7">
+        <Link href="/market" className="h-5 min-w-[111px] lt:h-[25.2px] lt:w-[138.9px]">
           <Image src="/images/main_logo.png" alt="최애의 포토 로고" width={138} height={25} />
         </Link>
         {user ? (
-          <div className="flex gap-7 items-center">
-            <p className="text-gray-200 font-bold leading-5 text-sm">{profile.points}</p>
+          <div className="flex items-center gap-7">
+            <p className="text-sm font-bold leading-5 text-gray-200">{profile.points}</p>
 
             {/* 알림 버튼 */}
             <button onClick={toggleNotificationList}>
@@ -65,17 +71,17 @@ export default function Header() {
 
             <ProfileDropDown nickName={profile.nickName} points={profile.points} />
 
-            <div className="text-gray-400 font-normal text-sm leading-5 gap-7 flex">
+            <div className="flex gap-7 text-sm font-normal leading-5 text-gray-400">
               <p>|</p>
               <button onClick={handleLogOut}>로그아웃</button>
             </div>
           </div>
         ) : (
-          <div className="flex gap-[30px] font-medium text-sm leading-5">
+          <div className="flex gap-[30px] text-sm font-medium leading-5">
             <button
               className="hover:text-customMain"
               onClick={() => {
-                router.push("/login");
+                router.push('/login');
               }}
             >
               로그인
@@ -83,7 +89,7 @@ export default function Header() {
             <button
               className="hover:text-customMain"
               onClick={() => {
-                router.push("/signup");
+                router.push('/signup');
               }}
             >
               회원가입
@@ -92,13 +98,20 @@ export default function Header() {
         )}
       </header>
 
-      <header className="sticky top-0 flex items-center justify-between bg-background h-20 w-full tb:hidden px-4 z-50">
+      <header className="sticky top-0 z-50 flex h-20 w-full items-center justify-between bg-background px-4 tb:hidden">
         <button>
           <Image src="/images/type=menu.png" alt="nav icon" width={24} height={24} />
         </button>
 
         <div>
-          <Image src="/images/main_logo.png" alt="최애의포토 로고" width={83} height={15} />
+          <button
+            type="button"
+            onClick={() =>
+              router.pathname === 'market' ? router.reload() : router.push('/market')
+            }
+          >
+            <Image src="/images/main_logo.png" alt="최애의포토 로고" width={83} height={15} />
+          </button>
         </div>
 
         <button>

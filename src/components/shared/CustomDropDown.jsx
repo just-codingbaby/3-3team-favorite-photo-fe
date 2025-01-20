@@ -1,5 +1,6 @@
-import { cn } from "@/lib/utils";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
+
+import { cn } from '@/lib/utils';
 
 export default function CustomDropDown({ label, options, value, onChange, className }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,9 +13,9 @@ export default function CustomDropDown({ label, options, value, onChange, classN
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutSide);
+    document.addEventListener('mousedown', handleClickOutSide);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutSide);
+      document.removeEventListener('mousedown', handleClickOutSide);
     };
   }, []);
 
@@ -22,25 +23,28 @@ export default function CustomDropDown({ label, options, value, onChange, classN
     <div className={`relative`} ref={dropDownRef}>
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className={cn("flex items-center w-32 px-4 py-2 text-white bg-black focus:outline-none",className)}
+        className={cn(
+          'flex w-32 items-center bg-black px-4 py-2 text-white focus:outline-none',
+          className,
+        )}
       >
         <span className="truncate font-bold">
           {value ? options.find((opt) => opt.value === value)?.label : label}
         </span>
         <span
-          className={`border-solid border-t-4 border-x-4 border-x-transparent border-t-white ml-5 transition-transform duration-200 ${
-            isOpen ? "transform rotate-180" : ""
+          className={`ml-5 border-x-4 border-t-4 border-solid border-x-transparent border-t-white transition-transform duration-200 ${
+            isOpen ? 'rotate-180 transform' : ''
           }`}
         />
       </button>
 
       {isOpen && (
-        <div className="absolute z-50 mt-1 bg-black border rounded shadow-lg">
+        <div className="absolute z-50 mt-1 rounded border bg-black shadow-lg">
           <div className="py-1">
             {options.map((option) => (
               <div
                 key={option.value}
-                className="px-4 py-2 text-white cursor-pointer"
+                className="cursor-pointer px-4 py-2 text-white"
                 onClick={() => {
                   onChange(option.value);
                   setIsOpen(false);

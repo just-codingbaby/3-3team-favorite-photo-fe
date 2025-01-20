@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export default function RealTimeNotifications({ userId }) {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    const socket = new WebSocket(process.env.NEXT_PUBLIC_SOCKET_URL || "ws://localhost:3000/api/socket");
+    const socket = new WebSocket(
+      process.env.NEXT_PUBLIC_SOCKET_URL || 'ws://localhost:3000/api/socket',
+    );
 
     socket.onmessage = (event) => {
       const newNotification = JSON.parse(event.data);

@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from 'react';
+
+import axios from 'axios';
 
 export default function NotificationList({ userId }) {
   const [notifications, setNotifications] = useState([]);
@@ -8,41 +9,38 @@ export default function NotificationList({ userId }) {
   useEffect(() => {
     async function fetchNotifications() {
       if (!userId) {
-        console.error("userId가 없습니다.");
+        console.error('userId가 없습니다.');
         return;
       }
 
       try {
-        console.log("userId:", userId);  // userId 확인
+        console.log('userId:', userId); // userId 확인
         const response = await axios.get(`/api/notifications?userId=${userId}`);
         setNotifications(response.data);
       } catch (error) {
-        console.error("API 호출 오류:", error.response || error);  // error.response로 세부 사항 출력
-        setError("알림을 불러오는 데 실패했습니다.");
+        console.error('API 호출 오류:', error.response || error); // error.response로 세부 사항 출력
+        setError('알림을 불러오는 데 실패했습니다.');
       }
     }
     fetchNotifications();
   }, [userId]);
 
   return (
-    <div className="absolute top-14 right-0 w-[300px] h-[535px] bg-gray-800 text-white shadow-lg rounded-lg overflow-y-auto">
-      {error && <p className="text-center text-red-500 p-4">{error}</p>}
+    <div className="absolute right-0 top-14 h-[535px] w-[300px] overflow-y-auto rounded-lg bg-gray-800 text-white shadow-lg">
+      {error && <p className="p-4 text-center text-red-500">{error}</p>}
       {notifications.length > 0 ? (
         notifications.map((notification) => (
-          <div
-            key={notification.id}
-            className="p-4 border-b border-gray-700 last:border-none"
-          >
-            <p className="text-sm font-normal leading-[20.27px] text-left">
+          <div key={notification.id} className="border-b border-gray-700 p-4 last:border-none">
+            <p className="text-left text-sm font-normal leading-[20.27px]">
               {notification.message}
             </p>
-            <small className="text-xs font-light leading-[17.38px] text-gray-400 mt-1 block">
+            <small className="mt-1 block text-xs font-light leading-[17.38px] text-gray-400">
               {timeAgo(notification.created_at)}
             </small>
           </div>
         ))
       ) : (
-        <p className="text-center text-gray-400 p-4">알림이 없습니다.</p>
+        <p className="p-4 text-center text-gray-400">알림이 없습니다.</p>
       )}
     </div>
   );
