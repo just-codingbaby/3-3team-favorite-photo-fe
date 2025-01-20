@@ -1,13 +1,26 @@
-import tail from "@/styles/tailwindcss";
-import { Btn } from "./buyer";
-import Link from "next/link";
-import { Title } from "@/pages/salesphotocard/detailsalesphotocard";
+import { useState } from 'react';
+
+import tail from '@/styles/tailwindcss';
+import { useRouter } from 'next/router';
+
+import { Title } from '@/components/shared/Title';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+
+import PrimaryButton from './shared/PrimaryButton';
+import SearchInput from './shared/SearchInput';
+import SecondaryButton from './shared/SecondaryButton';
 
 export function CloseBtn({ position, onClose }) {
   const closeBtn = `absolute top-1/2 left-1/2 w-6 h-[2px] bg-customGrey01 transform -translate-x-1/2 -translate-y-1/2`;
   return (
     <button
-      className={`absolute ${position} bg-transparent border-[1px] border-transparent cursor-pointer`}
+      className={`absolute ${position} cursor-pointer border-[1px] border-transparent bg-transparent`}
       onClick={onClose}
     >
       <span class={`${closeBtn} rotate-45`}></span>
@@ -16,115 +29,188 @@ export function CloseBtn({ position, onClose }) {
   );
 }
 
-export function BorderBtn({ children, ma, href, onClick }) {
-  const { flexcenter } = tail;
-  return (
-    <Link
-      href={href}
-      onClick={onClick}
-      className={`${flexcenter} ${ma} w-[440px] h-[60px] border border-white`}
-    >
-      <span className={`text-lg text-white font-medium`}>{children}</span>
-    </Link>
-  );
-}
+// export function BorderBtn({ children, btnstyle, href, onClick, onClose }) {
+//   const { flexcenter } = tail;
+//   return (
+//     <Link
+//       href={href}
+//       onClick={onClick}
+//       onClose={onClose}
+//       className={`${flexcenter} ${btnstyle} bg-transparent border border-white`}
+//     >
+//       <span className={`text-lg text-white font-medium`}>{children}</span>
+//     </Link>
+//   );
+// }
 
-// 구매/교환제시 성공,실패
-export function ModalContent({
-  modalbox,
-  onClose,
-  text = "",
-  state,
-  btnText = "",
-  children,
-  href = "#",
-}) {
-  const { dimbg, flexcenter } = tail;
-
-  return (
-    <div className={`${dimbg} bg-opacity-100`}>
-      <div className={`${modalbox}  ${flexcenter} flex-col relative`}>
-        <CloseBtn position={`top-0 right-0`} onClose={onClose} />
-        <h3 className={`text-xl font-baskin font-bold text-white mt-[80px]`}>
-          <span className="text-white  text-[46px] font-bold mr-[10px]">
-            {text}
-          </span>
-          <span
-            className={`${
-              state ? "text-customMain" : "text-customGrey01"
-            }  text-[46px] font-bold`}
-          >
-            {/* if (state) '성공' else '실패' */}
-            {state ? "성공" : "실패"}
-          </span>
-        </h3>
-        <span className={`text-white font-bold text-xl mt-[40px]`}>
-          {children}
-        </span>
-        <BorderBtn href={href} ma="mt-[60px]">
-          {btnText}
-        </BorderBtn>
-      </div>
-    </div>
-  );
-}
-
-// 포토카드 구매 모달, 교환 제시 취소
+// 포토카드 구매 모달, 교환 제시 취소 (처음 나오는 기본 모달)
 export default function ModalStandard({
-  className,
   modalbox,
   modaltitle,
   modaltext,
   closeposition,
   onClick,
   onClose,
+  children,
 }) {
   const { dimbg, flexcenter, stitle } = tail;
 
   return (
     <div className={`${dimbg} bg-opacity-80`}>
-      <div className={`${modalbox}  ${flexcenter} flex-col relative`}>
-        <h3 className={`${stitle} font-sans text-white mt-[80px]`}>
-          {modaltitle}
-        </h3>
-        <span className={`text-white text-[16px] font-normal mt-[40px]`}>
-          {modaltext}
-        </span>
-        <CloseBtn
-          position={`${closeposition} top-[46px] right-[46px]`}
-          onClose={onClose}
-        />
-        <Btn
-          btname="구매하기"
-          className="w-[170px] h-[60px] mt-[60px] mb-[60px] text-lg"
-          onClick={onClick}
-        />
+      <div className={`${modalbox} ${flexcenter} relative flex-col`}>
+        <h3 className={`${stitle} mt-[80px] font-sans text-white`}>{modaltitle}</h3>
+        <span className={`mt-[40px] text-[16px] font-normal text-white`}>{modaltext}</span>
+        <CloseBtn position={`${closeposition} top-[46px] right-[46px]`} onClose={onClose} />
+        {children}
       </div>
     </div>
   );
 }
 
-export function ModalExchange({ modalbox, children, onClose }) {
+// 포토카드 교환하기 모달 창
+export function ModalExchange({ modalbox, children, onClick, onClose, className }) {
   const { dimbg } = tail;
 
   return (
-    <div className={`${dimbg}  bg-opacity-80`}>
-      <div
-        className={`${modalbox} mx-auto bg-[#161616] relative border border-white`}
-      >
-        <CloseBtn
-          position="top-[150px] right-[180px] absolute"
-          onClose={onClose}
-        />
-        <div className={`max-w-[920px] mx-auto bg-[#161616] `}>
-          <Title
-            location="마이갤러리"
-            title="포토카드 교환하기"
-            className="mb-[20px]"
-          />
-          {children}
-        </div>
+    <div className={`${dimbg} ${className} bg-opacity-80`} onClick={onClick}>
+      <div className={`${modalbox} relative mx-auto border border-white bg-[#161616]`}>
+        <CloseBtn position="top-[150px] right-[180px] absolute" onClose={onClose} />
+        <div className={`mx-auto max-w-[920px] bg-[#161616]`}>{children}</div>
       </div>
+    </div>
+  );
+}
+
+// ㄷEx 빼고 넣고 하려고 만든건데 다시 한 번 생각해봐야 할 듯
+export function ExchangeList({ onClick, onClose }) {
+  const [isEx, setIsEx] = useState(true); // 상태 관리
+
+  return (
+    <div>
+      <Title title="내가 제시한 교환 목록" className="mt-[120px] w-full" />
+      {isEx && (
+        <Ex
+          className={`mt-[40px] h-[600px] w-[440px] border border-white`}
+          // onClose={onClose}
+          onClick={(e) => {
+            e.stopPropagation();
+            onClick();
+          }}
+        >
+          <SecondaryButton
+            label="취소하기"
+            width="210px"
+            height="60px"
+            textSize="lg"
+            handleClick={onClick}
+          />
+        </Ex>
+      )}
+    </div>
+  );
+}
+
+// 임시로 만든거 여기에 지연님 포토카드 컴포넌트 넣을꺼임
+export function Ex({ className, handleClick, children }) {
+  const { flexcenter } = tail;
+  return (
+    <div className={`${className} ${flexcenter} flex-col`} onClick={handleClick}>
+      <div>img</div>
+      <div>text</div>
+      {children}
+    </div>
+  );
+}
+
+// 지연님꺼 뜨ㄸ어서 살짝만 바꿔서 쓴거
+export const DetailPheader = () => {
+  return (
+    <div className="grid grid-flow-col gap-1">
+      <SearchInput />
+      <div className="flex gap-2">
+        {FILTER_LIST.map((selectBox, index) => {
+          // console.log(selectBox);
+          if (index === FILTER_LIST.length - 1) return null;
+          return (
+            <Select key={selectBox.category}>
+              <SelectTrigger className="w-[120px] border-none">
+                <SelectValue placeholder={selectBox.label} />
+              </SelectTrigger>
+              <SelectContent>
+                {selectBox.options.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+export function ExchangeDetail({ onClose, xBtn, children, title, onClick }) {
+  const router = useRouter();
+  const { flexstanderd } = tail;
+
+  // const handleButtonClick = (e) => {
+  //   if (e === '교환하기') {
+  //     console.log('눌리냐?');
+  //     router.push({
+  //       pathname: '/ModalPage',
+  //       query: {
+  //         type: '교환 제시',
+  //         rating: 'COMMON',
+  //         title: '스페인에서',
+  //         quantity: 4,
+  //       },
+  //     });
+  //   } else {
+  //     console.log('동작 없음');
+  //   }
+  // };
+
+  return (
+    <div>
+      <ModalExchange
+        className="!bg-opacity-0"
+        modalbox="max-w-[1160px] w-full h-[1000px] z-10000"
+        //  onClick={}
+        onClose={xBtn}
+      >
+        <Title location="포토카드 교환하기" title={title} className="mb-[20px]" />
+        <div className={`mt-[20px] flex justify-between`}>
+          {children}
+          {/* <Ex className={`h-[600px] w-[440px] border border-white`} /> */}
+          <div className={`flex w-full max-w-[440px] flex-col`}>
+            <h3 className="mb-[10px] text-xl font-bold">교환 제시 내용</h3>
+            <div>
+              <textarea
+                className="h-[120px] w-full border border-white bg-transparent px-5 py-5 text-[16px] font-light"
+                placeholder="내용을 입력해 주세요"
+              />
+            </div>
+            <div className={` ${flexstanderd} mt-[60px] justify-between`}>
+              <SecondaryButton
+                label="취소하기"
+                width="210px"
+                height="60px"
+                textSize="lg"
+                handleClick={onClose}
+              />
+              <PrimaryButton
+                label="교환하기"
+                width="210px"
+                height="60px"
+                textSize="lg"
+                handleClick={onClick}
+              />
+            </div>
+          </div>
+        </div>
+      </ModalExchange>
     </div>
   );
 }
