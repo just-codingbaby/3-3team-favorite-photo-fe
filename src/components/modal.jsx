@@ -114,6 +114,35 @@ export function Ex({ className, handleClick, children }) {
   );
 }
 
+// 지연님꺼 뜨ㄸ어서 살짝만 바꿔서 쓴거
+export const DetailPheader = () => {
+  return (
+    <div className="grid grid-flow-col gap-1">
+      <SearchInput />
+      <div className="flex gap-2">
+        {FILTER_LIST.map((selectBox, index) => {
+          // console.log(selectBox);
+          if (index === FILTER_LIST.length - 1) return null;
+          return (
+            <Select key={selectBox.category}>
+              <SelectTrigger className="w-[120px] border-none">
+                <SelectValue placeholder={selectBox.label} />
+              </SelectTrigger>
+              <SelectContent>
+                {selectBox.options.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
 export function ExchangeDetail({ onClose, xBtn, children, title, onClick }) {
   const router = useRouter();
   const { flexstanderd } = tail;

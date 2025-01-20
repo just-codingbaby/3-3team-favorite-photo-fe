@@ -4,15 +4,10 @@ import fallbackImg from '@/public/images/card/img_default-temp.webp';
 import soldOutImg from '@/public/images/type=soldout.png';
 import Image from 'next/image';
 
+import { GRADE_STYLES } from '@/constants/market';
+
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-
-const GRADE_STYLES = {
-  COMMON: 'text-grade-common',
-  RARE: 'text-grade-rare',
-  SUPER_RARE: 'text-grade-super-rare',
-  LEGENDARY: 'text-grade-legendary',
-};
 
 const genreToKr = {
   TRAVEL: '여행',

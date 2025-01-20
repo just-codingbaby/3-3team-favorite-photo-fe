@@ -11,6 +11,9 @@ const config = {
     '@ianvs/prettier-plugin-sort-imports',
     'prettier-plugin-tailwindcss'
   ],
+  tailwindAttributes: ['classNames'],
+  tailwindStylesheet: './tailwind.config.mjs',
+  tailwindFunctions: ['cn'],
   importOrder: [
     "^react$",
     "^react-dom$",

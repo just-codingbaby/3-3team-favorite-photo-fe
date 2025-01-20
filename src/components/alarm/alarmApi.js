@@ -3,7 +3,7 @@ import axios from "axios";
 // 알림 목록 가져오기
 const fetchAlarms = async (userId) => {
   try {
-    const response = await axios.get(`/api/alarms?userId=${userId}`);
+    const response = await axios.get(`/api/notifications?userId=${userId}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching alarms:", error.response?.data?.message || error.message);

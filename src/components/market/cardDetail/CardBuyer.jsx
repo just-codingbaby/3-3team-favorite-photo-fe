@@ -9,10 +9,16 @@ import DetailGradeTitle from '@/components/market/cardDetail/DetailGradeTitle';
 import DetailPrice from '@/components/market/cardDetail/DetailPrice';
 import DetailQunatityBtn from '@/components/market/cardDetail/DetailQunatityBtn';
 import DetailRemaining from '@/components/market/cardDetail/DetailRemaining';
-import { DetailPheader } from '@/components/market/PageHeader';
+// import { DetailPheader } from '@/components/market/PageHeader';
 import { Title } from '@/components/shared/Title';
 
-import ModalStandard, { Ex, ExchangeDetail, ExchangeList, ModalExchange } from '../../modal';
+import ModalStandard, {
+  DetailPheader,
+  Ex,
+  ExchangeDetail,
+  ExchangeList,
+  ModalExchange,
+} from '../../modal';
 import PrimaryButton from '../../shared/PrimaryButton';
 import { ProductCard } from '../ProductCard';
 
@@ -256,17 +262,17 @@ export default function CardBuyer({ cardDetailData, myCardList, owner }) {
       )}
       <p className={`text-white ${pointtext}`}>{cardDetailData.description}</p>
       {console.log('myCardList', myCardList)}
-      {myCardList?.map((v) => {
-        console.log('v', v);
+      {/* {myCardList?.map((v) => {
+        console.log('myCardList', v);
         return (
           <DetailGradeTitle
-            cardData={v}
+            // cardData={v}
             rating={myCardList.grade}
             type={myCardList.genre}
             className={`mt-[20px] ${!!exchanges ? 'mb-[120px]' : null}`}
           />
         );
-      })}
+      })} */}
       {openModal.cancel && (
         <ModalStandard
           modalbox="w-[560px] h-[352px] bg-[#161616]"
@@ -287,7 +293,7 @@ export default function CardBuyer({ cardDetailData, myCardList, owner }) {
       {!!exchanges?.offeredCards?.length ? (
         <div>
           {exchanges?.offeredCards?.map((v) => {
-            console.log(v);
+            console.log('offeredCards', v);
             return <ProductCard cardProps={v} />;
           })}
         </div>
