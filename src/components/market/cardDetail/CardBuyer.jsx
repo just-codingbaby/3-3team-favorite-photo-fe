@@ -10,7 +10,6 @@ import DetailPrice from '@/components/market/cardDetail/DetailPrice';
 import DetailQuantityBtn from '@/components/market/cardDetail/DetailQuantityBtn';
 import DetailRemaining from '@/components/market/cardDetail/DetailRemaining';
 import DetailPheader from '@/components/market/PageHeader';
-
 import { Title } from '@/components/shared/Title';
 
 import ModalStandard, { Ex, ExchangeDetail, ExchangeList, ModalExchange } from '../../modal';

@@ -1,4 +1,4 @@
-import tail from "@/styles/tailwindcss";
+import tail from '@/styles/tailwindcss';
 
 export function Title({ location, title, className, children }) {
   const { marketlogo, titles, afborder } = tail;

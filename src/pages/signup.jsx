@@ -13,12 +13,12 @@ export default function Signup() {
   const router = useRouter(); // useRouter 사용
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    nickName: "",
-    confirmPassword: "",
+    email: '',
+    password: '',
+    nickName: '',
+    confirmPassword: '',
   });
-  const [result, setResult] = useState("");
+  const [result, setResult] = useState('');
 
   const handleOpen = () => {
     setIsOpen((prev) => !prev);
@@ -40,44 +40,40 @@ export default function Signup() {
     const { email, nickName, password } = formData;
 
     try {
-      const res = await axios.post("/api/v1/auth/signup", {
+      const res = await axios.post('/api/v1/auth/signup', {
         email,
         nickName,
         password,
       });
-      setResult("회원가입이 완료되었습니다.");
+      setResult('회원가입이 완료되었습니다.');
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "회원가입 중 오류가 발생했습니다.";
+      const errorMessage = error.response?.data?.message || '회원가입 중 오류가 발생했습니다.';
       setResult(errorMessage);
     } finally {
       handleOpen();
     }
   };
 
-  const isEmailError =
-    formData.email !== "" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+  const isEmailError = formData.email !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
 
-  const isPasswordError =
-    formData.password !== "" && formData.password.length < 8;
+  const isPasswordError = formData.password !== '' && formData.password.length < 8;
 
   const isConfirmPasswordError =
-    formData.confirmPassword !== "" &&
-    formData.password !== formData.confirmPassword;
+    formData.confirmPassword !== '' && formData.password !== formData.confirmPassword;
 
   const disabled =
-    formData.email === "" ||
-    formData.nickName === "" ||
-    formData.password === "" ||
-    formData.confirmPassword === "" ||
+    formData.email === '' ||
+    formData.nickName === '' ||
+    formData.password === '' ||
+    formData.confirmPassword === '' ||
     isEmailError ||
     isPasswordError ||
     isConfirmPasswordError;
 
-  const errorFontClass = "text-customRed text-sm leading-6 font-light";
+  const errorFontClass = 'text-customRed text-sm leading-6 font-light';
 
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center mt-4">
+    <div className="mt-4 flex min-h-screen flex-col items-center justify-center bg-black">
       {/* 로고 */}
       <Image
         src="/images/main_logo.png"
@@ -87,7 +83,7 @@ export default function Signup() {
         className="mb-12"
       />
 
-      <form className="flex flex-col w-auto gap-[10px]" onSubmit={handleSubmit}>
+      <form className="flex w-auto flex-col gap-[10px]" onSubmit={handleSubmit}>
         {/* 이메일 입력 */}
         <EmailInput
           size="L"
@@ -95,16 +91,10 @@ export default function Signup() {
           handleChange={handleFormData}
           isError={isEmailError}
         />
-        {isEmailError && (
-          <p className={errorFontClass}>이메일 형식이 올바르지 않습니다.</p>
-        )}
+        {isEmailError && <p className={errorFontClass}>이메일 형식이 올바르지 않습니다.</p>}
 
         {/* 닉네임 입력 */}
-        <NickNameInput
-          size="L"
-          value={formData.nickName}
-          handleChange={handleFormData}
-        />
+        <NickNameInput size="L" value={formData.nickName} handleChange={handleFormData} />
 
         {/* 비밀번호 입력 */}
         <PasswordInput
@@ -137,12 +127,9 @@ export default function Signup() {
       </form>
 
       {/* 로그인 안내문 */}
-      <p className="mt-6 text-center text-white font-normal text-base">
-        이미 최애의포토 회원이신가요?{" "}
-        <Link
-          href="/login"
-          className="text-customMain underline hover:no-underline"
-        >
+      <p className="mt-6 text-center text-base font-normal text-white">
+        이미 최애의포토 회원이신가요?{' '}
+        <Link href="/login" className="text-customMain underline hover:no-underline">
           로그인하기
         </Link>
       </p>

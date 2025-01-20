@@ -1,16 +1,16 @@
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
 export default function Home() {
   const router = useRouter();
 
   const handleLogin = () => {
-    router.push("/login");
+    router.push('/login');
   };
 
   return (
-    <div className="pt-20 flex justify-center">
+    <div className="flex justify-center pt-20">
       <button
-        className="relative top-60 border border-customMain p-5 rounded-xl"
+        className="relative top-60 rounded-xl border border-customMain p-5"
         onClick={handleLogin}
       >
         로그인

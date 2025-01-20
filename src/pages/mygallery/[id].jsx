@@ -95,6 +95,7 @@ export default function MyCardDetail() {
                 {cardData.creator.nickName}
                 {/* {user.nickName} */}
               </span>
+              <span className="text-xl font-semibold">{cardData.creator.nickName}</span>
             </div>
 
             {/* 카드 설명 */}
