@@ -2,15 +2,13 @@ import tail from '@/styles/tailwindcss';
 
 export default function DetailGradeTitle({
   className,
-  cardData,
+
   rating,
   type,
   nickname,
   titleborder,
 }) {
   const { flexstanderd, pointtext } = tail;
-
-  // const { grade, type, nickname } = cardData;
 
   const ratingColors = {
     LEGENDARY: 'text-customPink',
