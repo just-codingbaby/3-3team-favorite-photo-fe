@@ -1,6 +1,11 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 
-import { dehydrate, HydrationBoundary, QueryClient, useInfiniteQuery } from '@tanstack/react-query';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+  useInfiniteQuery
+} from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -13,14 +18,21 @@ import { Button } from '@/components/ui/button';
 
 const PAGE_LIMIT = 6;
 
-async function fetchCards(pageParam, search, sortOptionKey = 'LATEST') {
+async function fetchCards(pageParam, search, filter, sortOptionKey = 'LATEST') {
   const query = new URLSearchParams({ page: pageParam, limit: PAGE_LIMIT });
 
   if (search) {
     query.append('keyword', search);
   }
 
+  if (filter.filterName && filter.filterValue) {
+    query.append('filterName', filter.filterName);
+    query.append('filterValue', filter.filterValue);
+  }
+
   const sortQuery = SORT_OPTS.get(sortOptionKey).value;
+
+  console.log(query.toString());
 
   try {
     const response = await fetch(
@@ -54,22 +66,18 @@ export async function getStaticProps() {
 
 export default function MarketPage({ dehydratedState }) {
   const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState({ filterName: '', filterValue: '' });
   const [sortOptionKey, setSortOptionKey] = useState('LATEST');
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery({
-    queryKey: ['cards', search, sortOptionKey],
-    queryFn: ({ pageParam = 1 }) => fetchCards(pageParam, search, sortOptionKey),
+    queryKey: ['cards', search, filter, sortOptionKey],
+    queryFn: ({ pageParam = 1 }) => fetchCards(pageParam, search, filter, sortOptionKey),
     getNextPageParam: (lastPage, allPages) => {
       const nextPage = allPages.length + 1;
       return lastPage.length === PAGE_LIMIT ? nextPage : undefined;
     },
     initialPageParam: 1,
   });
-
-  useEffect(() => {
-    console.log(search);
-  }, [search]);
 
   if (status === 'pending') {
     return (
@@ -87,7 +95,7 @@ export default function MarketPage({ dehydratedState }) {
       <div className="grid h-dvh w-full place-items-center">
         <div className="container grid place-items-center gap-2 text-center">
           <Loader2 className="animate-spin" />
-          return <div>Error fetching posts</div>;
+          return <div>Error fetching Cards</div>;
         </div>
       </div>
     );
@@ -108,7 +116,11 @@ export default function MarketPage({ dehydratedState }) {
           {data.pages[0].length === 0 && (
             <div className="grid max-h-dvh min-h-[50dvh] place-content-center">
               <p className="text-center">
-                &#34;{search.trim()}&#34;에 대한 검색결과가 존재하지 않습니다.
+                {search && `검색어: "${search.trim()}"\n`}
+                {filter.filterName &&
+                  filter.filterValue &&
+                  `적용된 필터: "${filter.filterName}-${filter.filterValue}" `}
+                에 대한 검색결과가 존재하지 않습니다.
               </p>
               <PageResetButton />
             </div>
