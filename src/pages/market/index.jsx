@@ -9,7 +9,7 @@ import {
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 
-import PageHeader from '@/components/market/PageHeader';
+import PageHeader from "@/components/market/PageHeader";
 import { SORT_OPTS } from "@/constants/market";
 import { ProductCard } from "@/components/market/ProductCard";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,7 @@ async function fetchCards(pageParam, sortOptionKey = 'LATEST') {
   const sortQuery = SORT_OPTS.get(sortOptionKey).value;
   try {
     const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + '/api/v1/shop/cards?' + query.toString() + `&${sortQuery}`,
+      process.env.NEXT_PUBLIC_API_URL + "/api/v1/shop/cards?" + query.toString()
     );
     if (!response.ok) {
       throw new Error(response.statusText);
