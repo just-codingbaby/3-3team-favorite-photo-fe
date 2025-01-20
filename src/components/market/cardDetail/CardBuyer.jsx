@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 
 import DetailGradeTitle from '@/components/market/cardDetail/DetailGradeTitle';
 import DetailPrice from '@/components/market/cardDetail/DetailPrice';
-import DetailQuantityBtn from '@/components/market/cardDetail/DetailQunatityBtn';
+import DetailQuantityBtn from '@/components/market/cardDetail/DetailQuantityBtn';
 import DetailRemaining from '@/components/market/cardDetail/DetailRemaining';
 import DetailPheader from '@/components/market/PageHeader';
 
