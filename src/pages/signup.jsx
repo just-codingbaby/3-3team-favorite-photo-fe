@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useRouter } from "next/router"; // useRouter 추가
 import Link from "next/link";
 import Image from "next/image";
 import axios from "@/lib/axios";
@@ -10,7 +9,6 @@ import PrimaryButton from "@/components/shared/PrimaryButton";
 import SignUpModal from "@/components/signUp/SignUpModal";
 
 export default function Signup() {
-  const router = useRouter(); // useRouter 사용
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -20,12 +18,7 @@ export default function Signup() {
   });
   const [result, setResult] = useState("");
 
-  const handleOpen = () => {
-    setIsOpen((prev) => !prev);
-    if (isOpen) {
-      router.push("/market"); // 모달 클릭 시 /market으로 이동
-    }
-  };
+  const handleOpen = () => setIsOpen((prev) => !prev);
 
   const handleFormData = (e) => {
     const { name, value } = e.target;
