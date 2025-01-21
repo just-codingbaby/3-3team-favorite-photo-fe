@@ -84,9 +84,9 @@ export default function RandomPointModal() {
             {/* 선물 상자 버튼 */}
             <div className="flex justify-center space-x-8">
               {/* 상자 1 */}
-              <button onClick={() => handleRandomPoint(1)} className="h-[191px] w-[246px]">
-                {/* <img
-                  src="/images/bluepointbox.png"
+              <button onClick={() => handleRandomPoint(1)} className="w-[246px] h-[191px]">
+                <img
+                  src="/images/pointbox/bluepointbox.png"
                   alt="선물 상자 1"
                   className="h-full w-full object-contain"
                 /> */}
@@ -99,9 +99,9 @@ export default function RandomPointModal() {
               </button>
 
               {/* 상자 2 */}
-              <button onClick={() => handleRandomPoint(2)} className="h-[191px] w-[246px]">
-                {/* <img
-                  src="/images/purplepointbox.png"
+              <button onClick={() => handleRandomPoint(2)} className="w-[246px] h-[191px]">
+                <img
+                  src="/images/pointbox/purplepointbox.png"
                   alt="선물 상자 2"
                   className="h-full w-full object-contain"
                 /> */}
@@ -114,9 +114,9 @@ export default function RandomPointModal() {
               </button>
 
               {/* 상자 3 */}
-              <button onClick={() => handleRandomPoint(3)} className="h-[191px] w-[246px]">
-                {/* <img
-                  src="/images/redpointbox.png"
+              <button onClick={() => handleRandomPoint(3)} className="w-[246px] h-[191px]">
+                <img
+                  src="/images/pointbox/redpointbox.png"
                   alt="선물 상자 3"
                   className="h-full w-full object-contain"
                 /> */}
