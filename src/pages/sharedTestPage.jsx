@@ -1,3 +1,4 @@
+import RandomPointModal from "@/components/randompoint/random";
 import CustomDropDown from "@/components/shared/CustomDropDown";
 import EmailInput from "@/components/shared/EmailInput";
 import GradeCard from "@/components/shared/GradeCard";
@@ -142,6 +143,10 @@ export default function SharedTestPage() {
         </div>
         <div className="flex flex-col gap-5 border-dashed border-purple-400 border-[1px] px-5 py-5 w-auto">
           <ProfileDropDown nickName="testName" points="1000" />
+        </div>
+
+        <div className="flex flex-col gap-5 border-dashed border-purple-400 border-[1px] px-5 py-5 w-auto">
+          <RandomPointModal />
         </div>
       </div>
     </div>

@@ -81,7 +81,7 @@ export default function RandomPointModal() {
               {/* 상자 1 */}
               <button onClick={() => handleRandomPoint(1)} className="w-[246px] h-[191px]">
                 <img
-                  src="/images/bluepointbox.png"
+                  src="/images/pointbox/bluepointbox.png"
                   alt="선물 상자 1"
                   className="w-full h-full object-contain"
                 />
@@ -90,7 +90,7 @@ export default function RandomPointModal() {
               {/* 상자 2 */}
               <button onClick={() => handleRandomPoint(2)} className="w-[246px] h-[191px]">
                 <img
-                  src="/images/purplepointbox.png"
+                  src="/images/pointbox/purplepointbox.png"
                   alt="선물 상자 2"
                   className="w-full h-full object-contain"
                 />
@@ -99,7 +99,7 @@ export default function RandomPointModal() {
               {/* 상자 3 */}
               <button onClick={() => handleRandomPoint(3)} className="w-[246px] h-[191px]">
                 <img
-                  src="/images/redpointbox.png"
+                  src="/images/pointbox/redpointbox.png"
                   alt="선물 상자 3"
                   className="w-full h-full object-contain"
                 />
