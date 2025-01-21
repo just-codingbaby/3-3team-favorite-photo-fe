@@ -90,12 +90,6 @@ export default function RandomPointModal() {
                   alt="선물 상자 1"
                   className="h-full w-full object-contain"
                 /> 
-                <Image
-                  src="/images/bluepointbox.png"
-                  alt="선물 상자 1"
-                  className="object-contain"
-                  fill
-                />
               </button>
 
               {/* 상자 2 */}
@@ -105,12 +99,6 @@ export default function RandomPointModal() {
                   alt="선물 상자 2"
                   className="h-full w-full object-contain"
                 /> 
-                <Image
-                  src="/images/purplepointbox.png"
-                  alt="선물 상자 2"
-                  className="object-contain"
-                  fill
-                />
               </button>
 
               {/* 상자 3 */}
@@ -120,12 +108,6 @@ export default function RandomPointModal() {
                   alt="선물 상자 3"
                   className="h-full w-full object-contain"
                 /> 
-                <Image
-                  src="/images/redpointbox.png"
-                  alt="선물 상자 3"
-                  className="object-contain"
-                  fill
-                />
               </button>
             </div>
 
